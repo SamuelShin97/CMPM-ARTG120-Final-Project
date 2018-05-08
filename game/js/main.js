@@ -32,16 +32,20 @@ GamePlay.prototype = {
 
 	create: function()
 	{
-		player = new Player(game, 'atlas', 'playerBlue_walk2', 100, 100, 1)
+		player = new Player(game, 'atlas', 'playerBlue_walk2', 100, 620, 1)
 		game.add.existing(player);
 
 		monster1 = new Monster(game, 'atlas', 'enemySpikey_3', 500, 500, 1);
 		game.add.existing(monster1);
 
 		waterFairy = new Fairy(game, 'atlas', 'flatDark23', 300, 300, 1, 'water');
-		earthFairy = new Fairy(game, 'atlas', 'flatDark24', 350, 300, 1, 'earth');
-		fireFairy = new Fairy(game, 'atlas', 'flatDark25', 400, 300, 1, 'fire');
-		airFairy = new Fairy(game, 'atlas', 'flatDark26', 450, 300, 1, 'air');
+		game.add.existing(waterFairy);
+		earthFairy = new Fairy(game, 'atlas', 'flatDark24', 400, 300, 1, 'earth');
+		game.add.existing(earthFairy);
+		fireFairy = new Fairy(game, 'atlas', 'flatDark25', 500, 300, 1, 'fire');
+		game.add.existing(fireFairy);
+		airFairy = new Fairy(game, 'atlas', 'flatDark26', 600, 300, 1, 'air');
+		game.add.existing(airFairy);
 
 	},
 
