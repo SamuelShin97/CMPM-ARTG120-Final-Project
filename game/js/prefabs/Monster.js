@@ -1,10 +1,9 @@
-function Monster (game, key, frame, scale, rotation)
+function Monster (game, key, frame, scale)
 {
 	Phaser.Sprite.call(this, game, 500, 500, key, frame);
 	this.anchor.set(0.5);
 	this.scale.x = scale;
 	this.scale.y = scale;
-	this.rotation = rotation;
 
 	game.physics.enable(this);
 	this.body.collideWorldBounds = true;

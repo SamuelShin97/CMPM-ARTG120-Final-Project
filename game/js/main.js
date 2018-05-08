@@ -32,7 +32,7 @@ GamePlay.prototype = {
 
 	create: function()
 	{
-		monster1 = new Monster(game, 'atlas', 'enemySpikey_3', 1, 0);
+		monster1 = new Monster(game, 'atlas', 'enemySpikey_3', 500, 500, 1);
 		game.add.existing(monster1);
 	},
 
