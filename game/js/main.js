@@ -23,7 +23,7 @@ menu.prototype = {
 	}
 }
 
-var GamePlay = function(game) {};
+var GamePlay = function(game) {}; //this will change to a different game state in separate js files
 GamePlay.prototype = {
 	preload: function() 
 	{
@@ -32,13 +32,41 @@ GamePlay.prototype = {
 
 	create: function()
 	{
+		player = new Player(game, 'atlas', 'playerBlue_walk2', 100, 100, 1)
+		game.add.existing(player);
+
 		monster1 = new Monster(game, 'atlas', 'enemySpikey_3', 500, 500, 1);
 		game.add.existing(monster1);
+
+		waterFairy = new Fairy(game, 'atlas', 'flatDark23', 300, 300, 1, 'water');
+		earthFairy = new Fairy(game, 'atlas', 'flatDark24', 350, 300, 1, 'earth');
+		fireFairy = new Fairy(game, 'atlas', 'flatDark25', 400, 300, 1, 'fire');
+		airFairy = new Fairy(game, 'atlas', 'flatDark26', 450, 300, 1, 'air');
+
 	},
 
 	update: function()
 	{
-		
+		if (game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR))
+		{
+			if (player.water == true)
+			{
+
+			}
+			else if (player.earth == true)
+			{
+
+			}
+			else if (player.fire == true)
+			{
+
+			}
+			else 
+			{
+
+			}
+		}
+
 	}
 }
 
@@ -62,6 +90,6 @@ EndGame.prototype ={
 
 //add states to state manager
 game.state.add('menu', menu);
-game.state.add('GamePlay', GamePlay);
+game.state.add('GamePlay', GamePlay); //this will change to the first game state instead of just gameplay
 game.state.add('EndGame', EndGame)
 game.state.start('menu'); //start with the menu screen
