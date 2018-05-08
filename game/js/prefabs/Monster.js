@@ -1,6 +1,6 @@
-function Monster (game, key, frame, scale)
+function Monster (game, key, frame, xpos, ypos, scale)
 {
-	Phaser.Sprite.call(this, game, 500, 500, key, frame);
+	Phaser.Sprite.call(this, game, xpos, ypos, key, frame);
 	this.anchor.set(0.5);
 	this.scale.x = scale;
 	this.scale.y = scale;
