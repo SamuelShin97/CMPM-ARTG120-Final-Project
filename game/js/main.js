@@ -23,6 +23,7 @@ menu.prototype = {
 	}
 }
 
+var fairies = [];
 var GamePlay = function(game) {}; //this will change to a different game state in separate js files
 GamePlay.prototype = {
 	preload: function() 
@@ -32,30 +33,40 @@ GamePlay.prototype = {
 
 	create: function()
 	{
+		// enables the Arcade Physics system
+    	game.physics.startSystem(Phaser.Physics.ARCADE);
+    	game.stage.backgroundColor = "#228b22";
+		//everything is place holder art 
 		player = new Player(game, 'atlas', 'playerBlue_walk2', 100, 620, 1)
 		game.add.existing(player);
 
 		monster1 = new Monster(game, 'atlas', 'enemySpikey_3', 500, 500, 1);
 		game.add.existing(monster1);
 
-		waterFairy = new Fairy(game, 'atlas', 'flatDark23', 300, 300, 1, 'water');
+		//left arrow is water fairy
+		waterFairy = new Fairy(game, 'atlas', 'flatDark23', 300, 300, 1, 'water'); 
 		game.add.existing(waterFairy);
+		//right arrow is earth
 		earthFairy = new Fairy(game, 'atlas', 'flatDark24', 400, 300, 1, 'earth');
 		game.add.existing(earthFairy);
+		//up arrow is fire
 		fireFairy = new Fairy(game, 'atlas', 'flatDark25', 500, 300, 1, 'fire');
 		game.add.existing(fireFairy);
+		//down arrow is air
 		airFairy = new Fairy(game, 'atlas', 'flatDark26', 600, 300, 1, 'air');
 		game.add.existing(airFairy);
-
 	},
 
 	update: function()
 	{
+		game.physics.arcade.collide(player, Fairy, addFairy, null, this);
+
+
 		if (game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR))
 		{
 			if (player.water == true)
 			{
-
+				//spawn water bullet/projectile
 			}
 			else if (player.earth == true)
 			{
@@ -69,6 +80,11 @@ GamePlay.prototype = {
 			{
 
 			}
+		}
+
+		function addFairy(player, Fairy)
+		{
+			fairies.add(Fairy);
 		}
 
 	}
