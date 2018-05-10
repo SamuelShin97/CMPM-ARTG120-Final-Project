@@ -13,6 +13,7 @@ function Player (game, key, frame, xpos, ypos, scale)
 	this.scale.y = scale;
 
 	game.physics.enable(this);
+	game.physics.arcade.enable(this);
 	this.body.gravity.y = 400; //gravity value on player (how fast player falls)
 	this.body.collideWorldBounds = true;
 }
@@ -22,6 +23,12 @@ Player.prototype.constructor = Player;
 
 Player.prototype.update = function()
 {
+	game.physics.arcade.collide(Monster, this, takeDamage, null, this);
+	function takeDamage()
+	{
+		this.kill();
+	}
+
 	equipped = false;
 	this.body.velocity.x = 0;
 	if (right == true)
