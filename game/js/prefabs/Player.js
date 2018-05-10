@@ -131,11 +131,11 @@ Player.prototype.update = function()
 	{
 		if (this.facingRight == true)
 		{
-			game.add.existing(new RightProjectile(game, 'atlas', 'lineDark21', this.body.position.x + 50, this.body.position.y, 0.4));
+			game.add.existing(new RightProjectile(game, 'atlas', 'lineDark22', this.body.position.x + 50, this.body.position.y, 0.4));
 		}
 		else if (this.facingLeft == true)
 		{
-			game.add.existing(new LeftProjectile(game, 'atlas', 'lineDark21', this.body.position.x, this.body.position.y, 0.4));
+			game.add.existing(new LeftProjectile(game, 'atlas', 'lineDark22', this.body.position.x, this.body.position.y, 0.4));
 		}
 	}
 
