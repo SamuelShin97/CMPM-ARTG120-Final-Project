@@ -8,6 +8,7 @@ var addAir = false;
 var switchNext = false;
 var switchPrev = false;
 var attack = false;
+var levelState;
 
 //state structure and state switching came from Nathan Altice's code from fourth lecture slide
 var menu = function(game){};
@@ -19,13 +20,13 @@ menu.prototype = {
 
 	create: function()
 	{
-		var startLabel = game.add.text(80, game.world.height - 100, 'Press the spacebar to start...', 
+		var startLabel = game.add.text(80, game.world.height - 100, 'Press M to start...', 
 			{font: '25px', fill: '#FFFFFF'} );
 	},
 
 	update: function()
 	{
-		if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR))
+		if (game.input.keyboard.isDown(Phaser.Keyboard.M))
 		{
 			game.state.start('GamePlay'); //play the game once space is pressed
 		}
@@ -38,6 +39,8 @@ GamePlay.prototype = {
 	{
 		game.load.atlas('atlas', 'assets/img/roughsheet.png', 'assets/img/roughsheet.JSON');
 		game.load.audio('main_music', 'assets/audio/main_music.mp3'); //made by Whitesand on Youtube
+
+		game.state.add('level1', levelState);
 	},
 
 	create: function()
@@ -71,10 +74,16 @@ GamePlay.prototype = {
 		//down arrow is air
 		airFairy = new Fairy(game, 'atlas', 'afairy', 600, game.world.height - 250, 1, 'air');
 		game.add.existing(airFairy);
+
+		game.add.text(16, 16, 'Press M to go to the next level', { fontSize: '32px', fill: '#FFFFFF'});
 	},
 
 	update: function()
 	{
+		if(game.input.keyboard.justPressed(Phaser.Keyboard.M)) {
+			game.state.start('level1');
+		}
+
 		game.physics.arcade.collide(player, ground);
 		game.physics.arcade.collide(player, waterFairy, addWaterFairy, null, this);
 		game.physics.arcade.collide(player, earthFairy, addEarthFairy, null, this);
@@ -153,7 +162,12 @@ GamePlay.prototype = {
 		game.debug.body(player);
 		game.debug.body(RightProjectile);
 		game.debug.body(monster1);
+	},
+
+	start: function() {
+		game.state.start('level1');
 	}
+
 }
 
 var EndGame = function(game) {};
