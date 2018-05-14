@@ -105,44 +105,44 @@ Player.prototype.update = function()
 	{
 		if (this.facingRight == true)
 		{
-			game.add.existing(new RightProjectile(game, 'atlas', 'lineDark19', this.body.position.x + 50, this.body.position.y, 0.4));
+			game.add.existing(new RightProjectile(game, 'atlas', 'wproj', this.body.position.x + 50, this.body.position.y, 1));
 		}
 		else if (this.facingLeft == true)
 		{
-			game.add.existing(new LeftProjectile(game, 'atlas', 'lineDark19', this.body.position.x, this.body.position.y, 0.4));
+			game.add.existing(new LeftProjectile(game, 'atlas', 'wproj', this.body.position.x, this.body.position.y, 1));
 		}
 	}
 	else if (attack == true && this.equippedElement[1] == true)
 	{
 		if (this.facingRight == true)
 		{
-			game.add.existing(new RightProjectile(game, 'atlas', 'lineDark20', this.body.position.x + 50, this.body.position.y, 0.4));
+			game.add.existing(new RightProjectile(game, 'atlas', 'eproj', this.body.position.x + 50, this.body.position.y, 1));
 		}
 		else if (this.facingLeft == true)
 		{
-			game.add.existing(new LeftProjectile(game, 'atlas', 'lineDark20', this.body.position.x, this.body.position.y, 0.4));
+			game.add.existing(new LeftProjectile(game, 'atlas', 'eproj', this.body.position.x, this.body.position.y, 1));
 		}
 	}
 	else if (attack == true && this.equippedElement[2] == true)
 	{
 		if (this.facingRight == true)
 		{
-			game.add.existing(new RightProjectile(game, 'atlas', 'lineDark21', this.body.position.x + 50, this.body.position.y, 0.4));
+			game.add.existing(new RightProjectile(game, 'atlas', 'fproj', this.body.position.x + 50, this.body.position.y, 1));
 		}
 		else if (this.facingLeft == true)
 		{
-			game.add.existing(new LeftProjectile(game, 'atlas', 'lineDark21', this.body.position.x, this.body.position.y, 0.4));
+			game.add.existing(new LeftProjectile(game, 'atlas', 'fproj', this.body.position.x, this.body.position.y, 1));
 		}
 	}
 	else if (attack == true && this.equippedElement[3] == true)
 	{
 		if (this.facingRight == true)
 		{
-			game.add.existing(new RightProjectile(game, 'atlas', 'lineDark22', this.body.position.x + 50, this.body.position.y, 0.4));
+			game.add.existing(new RightProjectile(game, 'atlas', 'aproj', this.body.position.x + 50, this.body.position.y, 1));
 		}
 		else if (this.facingLeft == true)
 		{
-			game.add.existing(new LeftProjectile(game, 'atlas', 'lineDark22', this.body.position.x, this.body.position.y, 0.4));
+			game.add.existing(new LeftProjectile(game, 'atlas', 'aproj', this.body.position.x, this.body.position.y, 1));
 		}
 	}
 

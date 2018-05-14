@@ -36,11 +36,14 @@ var GamePlay = function(game) {}; //this will change to a different game state i
 GamePlay.prototype = {
 	preload: function() 
 	{
-		game.load.atlas('atlas', 'assets/img/spritesheet.png', 'assets/img/sprites.JSON');
+		game.load.atlas('atlas', 'assets/img/roughsheet.png', 'assets/img/roughsheet.JSON');
+		game.load.audio('main_music', 'assets/audio/main_music.mp3'); //made by Whitesand on Youtube
 	},
 
 	create: function()
 	{
+		gamePlayMusic = game.add.audio('main_music');
+		gamePlayMusic.play('', 0, 1, true);
 		// enables the Arcade Physics system
     	game.physics.startSystem(Phaser.Physics.ARCADE);
     	game.stage.backgroundColor = "#228b22";
@@ -50,23 +53,23 @@ GamePlay.prototype = {
     	game.physics.arcade.enable(ground); // Enable physics for the ground
     	ground.body.immovable = true; // Make the ground immovable (so the player can jump on it)
 
-		player = new Player(game, 'atlas', 'playerBlue_walk2', 100, ground.height + 200, 1)
+		player = new Player(game, 'atlas', 'playerrough', 100, ground.height + 200, 1)
 		game.add.existing(player);
 
-		monster1 = new Monster(game, 'atlas', 'enemySpikey_3', 800, 500, 1);
+		monster1 = new Monster(game, 'atlas', 'enemySpikey_3', 800, 450, 1);
 		game.add.existing(monster1);
 
 		//left arrow is water fairy
-		waterFairy = new Fairy(game, 'atlas', 'flatDark23', 300, game.world.height - 250, 1, 'water'); 
+		waterFairy = new Fairy(game, 'atlas', 'wfairy', 300, game.world.height - 250, 1, 'water'); 
 		game.add.existing(waterFairy);
  	    //right arrow is earth
-		earthFairy = new Fairy(game, 'atlas', 'flatDark24', 400, game.world.height - 250, 1, 'earth');
+		earthFairy = new Fairy(game, 'atlas', 'efairy', 400, game.world.height - 250, 1, 'earth');
 		game.add.existing(earthFairy);
 		//up arrow is fire
-		fireFairy = new Fairy(game, 'atlas', 'flatDark25', 500, game.world.height - 250, 1, 'fire');
+		fireFairy = new Fairy(game, 'atlas', 'ffairy', 500, game.world.height - 250, 1, 'fire');
 		game.add.existing(fireFairy);
 		//down arrow is air
-		airFairy = new Fairy(game, 'atlas', 'flatDark26', 600, game.world.height - 250, 1, 'air');
+		airFairy = new Fairy(game, 'atlas', 'afairy', 600, game.world.height - 250, 1, 'air');
 		game.add.existing(airFairy);
 	},
 
@@ -77,6 +80,13 @@ GamePlay.prototype = {
 		game.physics.arcade.collide(player, earthFairy, addEarthFairy, null, this);
 		game.physics.arcade.collide(player, fireFairy, addFireFairy, null, this);
 		game.physics.arcade.collide(player, airFairy, addAirFairy, null, this);
+		game.physics.arcade.collide(RightProjectile, monster1, takeDamage, null, this);
+
+		function takeDamage()
+		{
+			console.log('ouch');
+		}
+
 
 		right = false;
 		left = false;
@@ -95,7 +105,6 @@ GamePlay.prototype = {
 		{
 			left = true;
 		}
-
 	    
 		if (game.input.keyboard.justPressed(Phaser.Keyboard.E))
     	{
@@ -138,7 +147,12 @@ GamePlay.prototype = {
 			fairy.kill();
 			console.log('collected air fairy');
 		}
-
+	},
+	render: function()
+	{
+		game.debug.body(player);
+		game.debug.body(RightProjectile);
+		game.debug.body(monster1);
 	}
 }
 
