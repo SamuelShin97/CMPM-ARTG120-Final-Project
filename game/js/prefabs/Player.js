@@ -16,6 +16,13 @@ function Player (game, key, frame, xpos, ypos, scale)
 	game.physics.arcade.enable(this);
 	this.body.gravity.y = 400; //gravity value on player (how fast player falls)
 	this.body.collideWorldBounds = true;
+
+	this.bullets = game.add.group();
+	this.bullets.create(100000, 100000, 'atlas', 'wproj');
+	this.bullets.create(100000, 100000, 'atlas', 'eproj');
+	this.bullets.create(100000, 100000, 'atlas', 'fproj');
+	this.bullets.create(100000, 100000, 'atlas', 'aproj');
+	this.bullets.enableBody = true;
 }
 
 Player.prototype = Object.create(Phaser.Sprite.prototype);
@@ -105,44 +112,52 @@ Player.prototype.update = function()
 	{
 		if (this.facingRight == true)
 		{
-			game.add.existing(new RightProjectile(game, 'atlas', 'wproj', this.body.position.x + 50, this.body.position.y, 1));
+			//game.add.existing(new RightProjectile(game, 'atlas', 'wproj', this.body.position.x + 50, this.body.position.y, 1));
+			var waterBullet = this.bullets.add(new RightProjectile(game, 'atlas', 'wproj', this.body.position.x + 50, this.body.position.y, 1));
 		}
 		else if (this.facingLeft == true)
 		{
-			game.add.existing(new LeftProjectile(game, 'atlas', 'wproj', this.body.position.x, this.body.position.y, 1));
+			//game.add.existing(new LeftProjectile(game, 'atlas', 'wproj', this.body.position.x, this.body.position.y, 1));
+			var waterBullet = this.bullets.add(new LeftProjectile(game, 'atlas', 'wproj', this.body.position.x + 50, this.body.position.y, 1));
 		}
 	}
 	else if (attack == true && this.equippedElement[1] == true)
 	{
 		if (this.facingRight == true)
 		{
-			game.add.existing(new RightProjectile(game, 'atlas', 'eproj', this.body.position.x + 50, this.body.position.y, 1));
+			//game.add.existing(new RightProjectile(game, 'atlas', 'eproj', this.body.position.x + 50, this.body.position.y, 1));
+			var earthBullet = this.bullets.add(new RightProjectile(game, 'atlas', 'eproj', this.body.position.x + 50, this.body.position.y, 1));
 		}
 		else if (this.facingLeft == true)
 		{
-			game.add.existing(new LeftProjectile(game, 'atlas', 'eproj', this.body.position.x, this.body.position.y, 1));
+			//game.add.existing(new LeftProjectile(game, 'atlas', 'eproj', this.body.position.x, this.body.position.y, 1));
+			var earthBullet = this.bullets.add(new LeftProjectile(game, 'atlas', 'eproj', this.body.position.x + 50, this.body.position.y, 1));
 		}
 	}
 	else if (attack == true && this.equippedElement[2] == true)
 	{
 		if (this.facingRight == true)
 		{
-			game.add.existing(new RightProjectile(game, 'atlas', 'fproj', this.body.position.x + 50, this.body.position.y, 1));
+			//game.add.existing(new RightProjectile(game, 'atlas', 'fproj', this.body.position.x + 50, this.body.position.y, 1));
+			var fireBullet = this.bullets.add(new RightProjectile(game, 'atlas', 'fproj', this.body.position.x + 50, this.body.position.y, 1));
 		}
 		else if (this.facingLeft == true)
 		{
-			game.add.existing(new LeftProjectile(game, 'atlas', 'fproj', this.body.position.x, this.body.position.y, 1));
+			//game.add.existing(new LeftProjectile(game, 'atlas', 'fproj', this.body.position.x, this.body.position.y, 1));
+			var fireBullet = this.bullets.add(new LeftProjectile(game, 'atlas', 'fproj', this.body.position.x + 50, this.body.position.y, 1));
 		}
 	}
 	else if (attack == true && this.equippedElement[3] == true)
 	{
 		if (this.facingRight == true)
 		{
-			game.add.existing(new RightProjectile(game, 'atlas', 'aproj', this.body.position.x + 50, this.body.position.y, 1));
+			//game.add.existing(new RightProjectile(game, 'atlas', 'aproj', this.body.position.x + 50, this.body.position.y, 1));
+			var airBullet = this.bullets.add(new RightProjectile(game, 'atlas', 'aproj', this.body.position.x + 50, this.body.position.y, 1));
 		}
 		else if (this.facingLeft == true)
 		{
-			game.add.existing(new LeftProjectile(game, 'atlas', 'aproj', this.body.position.x, this.body.position.y, 1));
+			//game.add.existing(new LeftProjectile(game, 'atlas', 'aproj', this.body.position.x, this.body.position.y, 1));
+			var airBullet = this.bullets.add(new LeftProjectile(game, 'atlas', 'aproj', this.body.position.x + 50, this.body. position.y, 1));
 		}
 	}
 

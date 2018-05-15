@@ -9,7 +9,6 @@ function RightProjectile (game, key, frame, xpos, ypos, scale)
 	game.physics.arcade.enable(this);
 	this.enableBody = true;
 	this.body.velocity.x = 400;
-
 	this.outOfBoundsKill = true;
 }
 
