@@ -1,6 +1,7 @@
 var game = new Phaser.Game(1280, 720, Phaser.CANVAS);
 var right = false;
 var left = false;
+var jump = false;
 var addWater = false;
 var addEarth = false;
 var addFire = false;
@@ -99,6 +100,7 @@ GamePlay.prototype = {
 
 		right = false;
 		left = false;
+		jump = false;
 		//addWater = false;
 		//addEarth = false;
 		//addFire = false;
@@ -106,6 +108,10 @@ GamePlay.prototype = {
 		switchNext = false;
 		switchPrev = false;
 		attack = false;
+		if (game.input.keyboard.isDown(Phaser.Keyboard.W) && player.body.touching.down)
+		{
+			jump = true;
+		}
 		if (game.input.keyboard.isDown(Phaser.Keyboard.D))
 		{
 			right = true;
