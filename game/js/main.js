@@ -89,7 +89,7 @@ GamePlay.prototype = {
 		game.physics.arcade.collide(player, earthFairy, addEarthFairy, null, this);
 		game.physics.arcade.collide(player, fireFairy, addFireFairy, null, this);
 		game.physics.arcade.collide(player, airFairy, addAirFairy, null, this);
-		game.physics.arcade.collide(RightProjectile, monster1, takeDamage, null, this);
+		game.physics.arcade.collide(player.bullets, monster1, takeDamage, null, this);
 
 		function takeDamage()
 		{
