@@ -31,6 +31,10 @@ Player.prototype.update = function()
 
 	equipped = false;
 	this.body.velocity.x = 0;
+	if (jump == true)
+	{
+		this.body.velocity.y = -400;
+	}
 	if (right == true)
 	{
 		this.facingRight = true;
