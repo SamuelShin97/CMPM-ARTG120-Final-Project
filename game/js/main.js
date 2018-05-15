@@ -6,7 +6,7 @@ var addEarth = false;
 var addFire = false;
 var addAir = false;
 var switchNext = false;
-var switchPrev = false;
+var switchPrev = false; //Testing git push
 var attack = false;
 var levelState;
 
