@@ -117,51 +117,51 @@ Player.prototype.update = function()
 		if (this.facingRight == true)
 		{
 			//game.add.existing(new RightProjectile(game, 'atlas', 'wproj', this.body.position.x + 50, this.body.position.y, 1));
-			var waterBullet = this.bullets.add(new RightProjectile(game, 'atlas', 'wproj', this.body.position.x + 50, this.body.position.y, 1));
+			var waterBullet = this.bullets.add(new RightProjectile(game, 'atlas', 'wproj', this.body.position.x + 50, this.body.position.y, 1, 'water'));
 		}
 		else if (this.facingLeft == true)
 		{
-			//game.add.existing(new LeftProjectile(game, 'atlas', 'wproj', this.body.position.x, this.body.position.y, 1));
-			var waterBullet = this.bullets.add(new LeftProjectile(game, 'atlas', 'wproj', this.body.position.x + 50, this.body.position.y, 1));
+			//game.add.existing(new LeftProjectile(game, 'atlas', 'wproj', this.body.position.x, this.body.position.y, 'water'));
+			var waterBullet = this.bullets.add(new LeftProjectile(game, 'atlas', 'wproj', this.body.position.x + 50, this.body.position.y, 1, 'water'));
 		}
 	}
 	else if (attack == true && this.equippedElement[1] == true)
 	{
 		if (this.facingRight == true)
 		{
-			//game.add.existing(new RightProjectile(game, 'atlas', 'eproj', this.body.position.x + 50, this.body.position.y, 1));
-			var earthBullet = this.bullets.add(new RightProjectile(game, 'atlas', 'eproj', this.body.position.x + 50, this.body.position.y, 1));
+			//game.add.existing(new RightProjectile(game, 'atlas', 'eproj', this.body.position.x + 50, this.body.position.y, 'water'));
+			var earthBullet = this.bullets.add(new RightProjectile(game, 'atlas', 'eproj', this.body.position.x + 50, this.body.position.y, 1, 'earth'));
 		}
 		else if (this.facingLeft == true)
 		{
-			//game.add.existing(new LeftProjectile(game, 'atlas', 'eproj', this.body.position.x, this.body.position.y, 1));
-			var earthBullet = this.bullets.add(new LeftProjectile(game, 'atlas', 'eproj', this.body.position.x + 50, this.body.position.y, 1));
+			//game.add.existing(new LeftProjectile(game, 'atlas', 'eproj', this.body.position.x, this.body.position.y, 'earth'));
+			var earthBullet = this.bullets.add(new LeftProjectile(game, 'atlas', 'eproj', this.body.position.x + 50, this.body.position.y, 1, 'earth'));
 		}
 	}
 	else if (attack == true && this.equippedElement[2] == true)
 	{
 		if (this.facingRight == true)
 		{
-			//game.add.existing(new RightProjectile(game, 'atlas', 'fproj', this.body.position.x + 50, this.body.position.y, 1));
-			var fireBullet = this.bullets.add(new RightProjectile(game, 'atlas', 'fproj', this.body.position.x + 50, this.body.position.y, 1));
+			//game.add.existing(new RightProjectile(game, 'atlas', 'fproj', this.body.position.x + 50, this.body.position.y, 'water'));
+			var fireBullet = this.bullets.add(new RightProjectile(game, 'atlas', 'fproj', this.body.position.x + 50, this.body.position.y, 1, 'fire'));
 		}
 		else if (this.facingLeft == true)
 		{
-			//game.add.existing(new LeftProjectile(game, 'atlas', 'fproj', this.body.position.x, this.body.position.y, 1));
-			var fireBullet = this.bullets.add(new LeftProjectile(game, 'atlas', 'fproj', this.body.position.x + 50, this.body.position.y, 1));
+			//game.add.existing(new LeftProjectile(game, 'atlas', 'fproj', this.body.position.x, this.body.position.y, 'fire'));
+			var fireBullet = this.bullets.add(new LeftProjectile(game, 'atlas', 'fproj', this.body.position.x + 50, this.body.position.y, 1, 'fire'));
 		}
 	}
 	else if (attack == true && this.equippedElement[3] == true)
 	{
 		if (this.facingRight == true)
 		{
-			//game.add.existing(new RightProjectile(game, 'atlas', 'aproj', this.body.position.x + 50, this.body.position.y, 1));
-			var airBullet = this.bullets.add(new RightProjectile(game, 'atlas', 'aproj', this.body.position.x + 50, this.body.position.y, 1));
+			//game.add.existing(new RightProjectile(game, 'atlas', 'aproj', this.body.position.x + 50, this.body.position.y, 'water'));
+			var airBullet = this.bullets.add(new RightProjectile(game, 'atlas', 'aproj', this.body.position.x + 50, this.body.position.y, 1, 'air'));
 		}
 		else if (this.facingLeft == true)
 		{
-			//game.add.existing(new LeftProjectile(game, 'atlas', 'aproj', this.body.position.x, this.body.position.y, 1));
-			var airBullet = this.bullets.add(new LeftProjectile(game, 'atlas', 'aproj', this.body.position.x + 50, this.body. position.y, 1));
+			//game.add.existing(new LeftProjectile(game, 'atlas', 'aproj', this.body.position.x, this.body.position.y, 'air'));
+			var airBullet = this.bullets.add(new LeftProjectile(game, 'atlas', 'aproj', this.body.position.x + 50, this.body. position.y, 1, 'air'));
 		}
 	}
 
@@ -180,7 +180,7 @@ Player.prototype.update = function()
 
 	if (addEarth == true && this.noneEquipped == true)
 	{
-		this.hasElement[1] = true;
+		this.hasElement['water'] = true;
 		this.equippedElement[1] = true;
 		this.noneEquipped = false;
 	}

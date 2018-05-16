@@ -10,6 +10,10 @@ var switchNext = false;
 var switchPrev = false; //Testing git push
 var attack = false;
 var levelState;
+var heal = 1;
+var bad_dmg  =1;
+var reg_dmg = 3;
+var super_dmg = 6;
 
 //state structure and state switching came from Nathan Altice's code from fourth lecture slide
 var menu = function(game){};
@@ -60,8 +64,11 @@ GamePlay.prototype = {
 		player = new Player(game, 'atlas', 'playerrough', 100, ground.height + 200, 1)
 		game.add.existing(player);
 
-		monster1 = new Monster(game, 'atlas', 'enemySpikey_3', 800, 450, 1);
-		game.add.existing(monster1);
+		monsters = game.add.group();
+		monsters.enableBody = true;
+
+		var waterMonster = monsters.add(new Monster(game, 'atlas', 'enemySpikey_3', 800, 450, 1, 'water'));
+	    
 
 		//left arrow is water fairy
 		waterFairy = new Fairy(game, 'atlas', 'wfairy', 300, game.world.height - 250, 1, 'water'); 
@@ -90,11 +97,104 @@ GamePlay.prototype = {
 		game.physics.arcade.collide(player, earthFairy, addEarthFairy, null, this);
 		game.physics.arcade.collide(player, fireFairy, addFireFairy, null, this);
 		game.physics.arcade.collide(player, airFairy, addAirFairy, null, this);
-		game.physics.arcade.collide(player.bullets, monster1, takeDamage, null, this);
+		game.physics.arcade.collide(player.bullets, monsters, calcDmg, null, this);
 
-		function takeDamage()
+		function calcDmg(bullet, monster)
 		{
-			console.log('ouch');
+			console.log(bullet.element);
+			console.log(monster.element);
+			console.log(bullet);
+			if (bullet.element == 'water')
+			{
+				if (monster.element == 'water')
+				{
+					if (monster.health < 10)
+					{
+						monster.health += heal;
+					}
+				}
+				else if (monster.element == 'earth')
+				{
+					monster.health -= reg_dmg;
+				}
+				else if (monster.element == 'fire')
+				{
+					monster.health -= super_dmg;
+				}
+				else 
+				{
+					monster.health -= bad_dmg;
+				}
+			}
+			else if (bullet.element == 'earth')
+			{
+				if (monster.element == 'water')
+				{
+					monster.health -= reg_dmg;
+				}
+				else if (monster.element == 'earth')
+				{
+					if (monster.health < 10)
+					{
+						monster.health += heal;
+					}
+				}
+				else if (monster.element == 'fire')
+				{
+					monster.health -= bad_dmg;
+				}
+				else 
+				{
+					monster.health -= super_dmg;
+				}
+			}
+			else if (bullet.element == 'fire')
+			{
+				if (monster.element == 'water')
+				{
+					monster.health -= bad_dmg;
+				}
+				else if (monster.element == 'earth')
+				{
+					monster.health -= super_dmg;
+				}
+				else if (monster.element == 'fire')
+				{
+					if (monster.health < 10)
+					{
+						monster.health += heal;
+					}
+				}
+				else 
+				{
+					monster.health -= reg_dmg;
+				}
+			}
+			else 
+			{
+				if (monster.element == 'water')
+				{
+					monster.health -= super_dmg;
+				}
+				else if (monster.element == 'earth')
+				{
+					monster.health -= bad_dmg;
+				}
+				else if (monster.element == 'fire')
+				{
+					monster.health -= reg_dmg;
+				}
+				else 
+				{
+					if (monster.health < 10)
+					{
+						monster.health += heal;
+					}
+				}
+
+			}
+			console.log(monster.health);
+			bullet.kill();
 		}
 
 
@@ -167,7 +267,7 @@ GamePlay.prototype = {
 	{
 		game.debug.body(player);
 		game.debug.body(RightProjectile);
-		game.debug.body(monster1);
+		game.debug.body(monsters);
 	},
 
 	start: function() {
