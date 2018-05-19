@@ -111,4 +111,13 @@ Monster.prototype.update = function()
 	{
 		this.body.velocity.x = 60;
 	}
+
+	game.physics.arcade.collide(player, this.bullets, takeDmg, null, this);
+
+	function takeDmg(player, bullet)
+	{
+		console.log('hit');
+		bullet.kill();
+		player.health -= 3;
+	}
 }

@@ -103,9 +103,9 @@ GamePlay.prototype = {
 
 		function calcDmg(bullet, monster)
 		{
-			console.log(bullet.element);
-			console.log(monster.element);
-			console.log(bullet);
+			//console.log(bullet.element);
+			//console.log(monster.element);
+			//console.log(bullet);
 			if (bullet.element == 'water')
 			{
 				if (monster.element == 'water')
@@ -236,29 +236,37 @@ GamePlay.prototype = {
 		function addWaterFairy(player, fairy)
 		{
 			addWater = true;
+			player.notCollectedYet = false;
+			player.fairyCount += 1;
+			player.health = 20;
 			fairy.kill();
-			console.log('collected water fairy');
 		}
 
 		function addEarthFairy(player, fairy)
 		{
 			addEarth = true;
+			player.notCollectedYet = false;
+			player.fairyCount += 1;
+			player.health = 20;
 			fairy.kill();
-			console.log('collected earth fairy');
 		}
 
 		function addFireFairy(player, fairy)
 		{
 			addFire = true;
+			player.notCollectedYet = false;
+			player.fairyCount += 1;
+			player.health = 20;
 			fairy.kill();
-			console.log('collected fire fairy');
 		}
 
 		function addAirFairy(player, fairy)
 		{
 			addAir = true;
+			player.notCollectedYet = false;
+			player.fairyCount += 1;
+			player.health = 20;
 			fairy.kill();
-			console.log('collected air fairy');
 		}
 	},
 	render: function()

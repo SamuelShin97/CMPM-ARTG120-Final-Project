@@ -8,6 +8,8 @@ function Player (game, key, frame, xpos, ypos, scale)
 	this.facingRight = true;
 	this.facingLeft = false;
 	this.health = 20;
+	this.notCollectedYet = true;
+	this.fairyCount = 0;
 
 	//this.anchor.set(0.5);
 	this.scale.x = scale;
@@ -203,6 +205,49 @@ Player.prototype.update = function()
 	{
 		this.hasElement[3] = true;
 	}
-	//console.log(this.currentIndex);
+	
+	if (this.health <= 0)
+	{
+		if (this.equippedElement[0] == true)
+		{
+			this.equippedElement[0] = false;
+			this.hasElement[0] = false;
+			this.fairyCount -= 1;
+			this.health = 20;
+		}
+		else if (this.equippedElement[1] == true)
+		{
+			this.equippedElement[1] == false;
+			this.hasElement[1] == false;
+			this.fairyCount -= 1;
+			this.health = 20;
+		}
+		else if (this.equippedElement[2] == true)
+		{
+			this.equippedElement[2] = false;
+			this.hasElement[2] = false;
+			this.fairyCount -= 1;
+			this.health = 20;
+		}
+		else if (this.equippedElement[3] == true)
+		{
+			this.equippedElement[3] = false;
+			this.hasElement[3] = false;
+			this.fairyCount -= 1;
+			this.health = 20;
+		}
+	}
+
+	if (this.notCollectedYet == true && this.health <= 0)
+	{
+		this.kill();
+		game.state.start('EndGame');
+	}
+
+	if (this.fairyCount == 0 && this.notCollectedYet == false)
+	{
+		this.kill();
+		game.state.start('EndGame');
+	}
 
 }
