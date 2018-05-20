@@ -239,6 +239,7 @@ GamePlay.prototype = {
 			player.notCollectedYet = false;
 			player.fairyCount += 1;
 			player.health = 20;
+			console.log(player.fairyCount);
 			fairy.kill();
 		}
 
@@ -248,6 +249,7 @@ GamePlay.prototype = {
 			player.notCollectedYet = false;
 			player.fairyCount += 1;
 			player.health = 20;
+			console.log(player.fairyCount);
 			fairy.kill();
 		}
 
@@ -257,6 +259,7 @@ GamePlay.prototype = {
 			player.notCollectedYet = false;
 			player.fairyCount += 1;
 			player.health = 20;
+			console.log(player.fairyCount);
 			fairy.kill();
 		}
 
@@ -266,6 +269,7 @@ GamePlay.prototype = {
 			player.notCollectedYet = false;
 			player.fairyCount += 1;
 			player.health = 20;
+			console.log(player.fairyCount);
 			fairy.kill();
 		}
 	},

@@ -90,6 +90,35 @@ Monster.prototype.update = function()
 	{
 		this.kill();
 		game.time.events.stop();
+		if (player.equippedElement[0] == true)
+		{
+			player.equippedElement[0] = false;
+			player.hasElement[0] = false;
+			player.fairyCount -= 1;
+			//player.health = 20;
+		}
+		else if (player.equippedElement[1] == true)
+		{
+			player.equippedElement[1] == false;
+			player.hasElement[1] == false;
+			player.fairyCount -= 1;
+			//player.health = 20;
+		}
+		else if (player.equippedElement[2] == true)
+		{
+			player.equippedElement[2] = false;
+			player.hasElement[2] = false;
+			player.fairyCount -= 1;
+			//player.health = 20;
+		}
+		else if (player.equippedElement[3] == true)
+		{
+			player.equippedElement[3] = false;
+			player.hasElement[3] = false;
+			player.fairyCount -= 1;
+			//player.health = 20;
+		}
+		this.health = 9999;
 	}
 
 	if (this.body.position.x - player.body.position.x > 0)
@@ -117,7 +146,10 @@ Monster.prototype.update = function()
 	function takeDmg(player, bullet)
 	{
 		console.log('hit');
+		console.log('player health: ', player.health);
+		console.log('player fairyCount', player.fairyCount);
 		bullet.kill();
 		player.health -= 3;
 	}
+	
 }

@@ -236,17 +236,46 @@ Player.prototype.update = function()
 			this.fairyCount -= 1;
 			this.health = 20;
 		}
+		else
+		{
+			if (this.hasElement[0] == true)
+			{
+				this.hasElement[0] == false;
+				this.fairyCount -= 1;
+				this.health = 20;
+			}
+			else if (this.hasElement[1] == true)
+			{
+				this.hasElement[1] == false;
+				this.fairyCount -= 1;
+				this.health = 20;
+			}
+			else if (this.hasElement[2] == true)
+			{
+				this.hasElement[2] == false;
+				this.fairyCount -= 1;
+				this.health = 20;
+			}
+			else if (this.hasElement[3] == true)
+			{
+				this.hasElement[3] == false;
+				this.fairyCount -= 1;
+				this.health = 20;
+			}
+		}
 	}
 
 	if (this.notCollectedYet == true && this.health <= 0)
 	{
 		this.kill();
+		console.log('first lose');
 		game.state.start('EndGame');
 	}
 
 	if (this.fairyCount == 0 && this.notCollectedYet == false)
 	{
 		this.kill();
+		console.log('second lose');
 		game.state.start('EndGame');
 	}
 
