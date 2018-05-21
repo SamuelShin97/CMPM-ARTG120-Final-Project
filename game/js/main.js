@@ -269,11 +269,6 @@ GamePlay.prototype = {
 		game.debug.body(RightProjectile);
 		game.debug.body(monsters);
 	},
-
-	start: function() {
-		game.state.start('level1');
-	}
-
 }
 
 var EndGame = function(game) {};
