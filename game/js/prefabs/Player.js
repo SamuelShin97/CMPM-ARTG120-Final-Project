@@ -7,8 +7,11 @@ function Player (game, key, frame, xpos, ypos, scale)
 	this.currentIndex = 0;
 	this.facingRight = true;
 	this.facingLeft = false;
+	this.health = 20;
+	this.notCollectedYet = true;
+	this.fairyCount = 0;
 
-	this.anchor.set(0.5);
+	//this.anchor.set(0.5);
 	this.scale.x = scale;
 	this.scale.y = scale;
 
@@ -116,12 +119,10 @@ Player.prototype.update = function()
 	{
 		if (this.facingRight == true)
 		{
-			//game.add.existing(new RightProjectile(game, 'atlas', 'wproj', this.body.position.x + 50, this.body.position.y, 1));
 			var waterBullet = this.bullets.add(new RightProjectile(game, 'atlas', 'wproj', this.body.position.x + 50, this.body.position.y, 1, 'water'));
 		}
 		else if (this.facingLeft == true)
 		{
-			//game.add.existing(new LeftProjectile(game, 'atlas', 'wproj', this.body.position.x, this.body.position.y, 'water'));
 			var waterBullet = this.bullets.add(new LeftProjectile(game, 'atlas', 'wproj', this.body.position.x + 50, this.body.position.y, 1, 'water'));
 		}
 	}
@@ -129,12 +130,10 @@ Player.prototype.update = function()
 	{
 		if (this.facingRight == true)
 		{
-			//game.add.existing(new RightProjectile(game, 'atlas', 'eproj', this.body.position.x + 50, this.body.position.y, 'water'));
 			var earthBullet = this.bullets.add(new RightProjectile(game, 'atlas', 'eproj', this.body.position.x + 50, this.body.position.y, 1, 'earth'));
 		}
 		else if (this.facingLeft == true)
 		{
-			//game.add.existing(new LeftProjectile(game, 'atlas', 'eproj', this.body.position.x, this.body.position.y, 'earth'));
 			var earthBullet = this.bullets.add(new LeftProjectile(game, 'atlas', 'eproj', this.body.position.x + 50, this.body.position.y, 1, 'earth'));
 		}
 	}
@@ -142,12 +141,10 @@ Player.prototype.update = function()
 	{
 		if (this.facingRight == true)
 		{
-			//game.add.existing(new RightProjectile(game, 'atlas', 'fproj', this.body.position.x + 50, this.body.position.y, 'water'));
 			var fireBullet = this.bullets.add(new RightProjectile(game, 'atlas', 'fproj', this.body.position.x + 50, this.body.position.y, 1, 'fire'));
 		}
 		else if (this.facingLeft == true)
 		{
-			//game.add.existing(new LeftProjectile(game, 'atlas', 'fproj', this.body.position.x, this.body.position.y, 'fire'));
 			var fireBullet = this.bullets.add(new LeftProjectile(game, 'atlas', 'fproj', this.body.position.x + 50, this.body.position.y, 1, 'fire'));
 		}
 	}
@@ -155,12 +152,10 @@ Player.prototype.update = function()
 	{
 		if (this.facingRight == true)
 		{
-			//game.add.existing(new RightProjectile(game, 'atlas', 'aproj', this.body.position.x + 50, this.body.position.y, 'water'));
 			var airBullet = this.bullets.add(new RightProjectile(game, 'atlas', 'aproj', this.body.position.x + 50, this.body.position.y, 1, 'air'));
 		}
 		else if (this.facingLeft == true)
 		{
-			//game.add.existing(new LeftProjectile(game, 'atlas', 'aproj', this.body.position.x, this.body.position.y, 'air'));
 			var airBullet = this.bullets.add(new LeftProjectile(game, 'atlas', 'aproj', this.body.position.x + 50, this.body. position.y, 1, 'air'));
 		}
 	}
@@ -210,6 +205,78 @@ Player.prototype.update = function()
 	{
 		this.hasElement[3] = true;
 	}
-	//console.log(this.currentIndex);
+	
+	if (this.health <= 0)
+	{
+		if (this.equippedElement[0] == true)
+		{
+			this.equippedElement[0] = false;
+			this.hasElement[0] = false;
+			this.fairyCount -= 1;
+			this.health = 20;
+		}
+		else if (this.equippedElement[1] == true)
+		{
+			this.equippedElement[1] == false;
+			this.hasElement[1] == false;
+			this.fairyCount -= 1;
+			this.health = 20;
+		}
+		else if (this.equippedElement[2] == true)
+		{
+			this.equippedElement[2] = false;
+			this.hasElement[2] = false;
+			this.fairyCount -= 1;
+			this.health = 20;
+		}
+		else if (this.equippedElement[3] == true)
+		{
+			this.equippedElement[3] = false;
+			this.hasElement[3] = false;
+			this.fairyCount -= 1;
+			this.health = 20;
+		}
+		else
+		{
+			if (this.hasElement[0] == true)
+			{
+				this.hasElement[0] == false;
+				this.fairyCount -= 1;
+				this.health = 20;
+			}
+			else if (this.hasElement[1] == true)
+			{
+				this.hasElement[1] == false;
+				this.fairyCount -= 1;
+				this.health = 20;
+			}
+			else if (this.hasElement[2] == true)
+			{
+				this.hasElement[2] == false;
+				this.fairyCount -= 1;
+				this.health = 20;
+			}
+			else if (this.hasElement[3] == true)
+			{
+				this.hasElement[3] == false;
+				this.fairyCount -= 1;
+				this.health = 20;
+			}
+		}
+	}
+
+	if (this.notCollectedYet == true && this.health <= 0)
+	{
+		this.kill();
+		console.log('first lose');
+		game.state.start('EndGame');
+	}
+
+	if (this.fairyCount == 0 && this.notCollectedYet == false)
+	{
+		this.kill();
+		console.log('second lose');
+		game.state.start('EndGame');
+	}
 
 }

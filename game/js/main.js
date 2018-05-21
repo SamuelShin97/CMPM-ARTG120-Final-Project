@@ -13,7 +13,7 @@ var levelState;
 var heal = 1;
 var bad_dmg  =1;
 var reg_dmg = 3;
-var super_dmg = 6;
+var super_dmg = 5;
 
 //state structure and state switching came from Nathan Altice's code from fourth lecture slide
 var menu = function(game){};
@@ -57,17 +57,18 @@ GamePlay.prototype = {
     	game.stage.backgroundColor = "#228b22";
 		//everything is place holder art 
 
-		ground = game.add.tileSprite(0, game.world.height - 200, game.world.width, 64, 'atlas', 'tileBlue_22');
+		ground = game.add.tileSprite(0, game.world.height - 64, game.world.width, 64, 'atlas', 'tileBlue_22');
     	game.physics.arcade.enable(ground); // Enable physics for the ground
     	ground.body.immovable = true; // Make the ground immovable (so the player can jump on it)
 
-		player = new Player(game, 'atlas', 'playerrough', 100, ground.height + 200, 1)
+		player = new Player(game, 'atlas', 'playerrough', 100, game.world.height - 160, 1)
 		game.add.existing(player);
+		player.body.setSize(30, 52, 17, 8);
 
 		monsters = game.add.group();
 		monsters.enableBody = true;
 
-		var waterMonster = monsters.add(new Monster(game, 'atlas', 'enemySpikey_3', 800, 450, 1, 'water'));
+		var waterMonster = monsters.add(new Monster(game, 'atlas', 'wmonster', 800, game.world.height - 100, 1, 'water', player));
 	    
 
 		//left arrow is water fairy
@@ -98,12 +99,13 @@ GamePlay.prototype = {
 		game.physics.arcade.collide(player, fireFairy, addFireFairy, null, this);
 		game.physics.arcade.collide(player, airFairy, addAirFairy, null, this);
 		game.physics.arcade.collide(player.bullets, monsters, calcDmg, null, this);
+		game.physics.arcade.collide(player, monsters);
 
 		function calcDmg(bullet, monster)
 		{
-			console.log(bullet.element);
-			console.log(monster.element);
-			console.log(bullet);
+			//console.log(bullet.element);
+			//console.log(monster.element);
+			//console.log(bullet);
 			if (bullet.element == 'water')
 			{
 				if (monster.element == 'water')
@@ -201,10 +203,6 @@ GamePlay.prototype = {
 		right = false;
 		left = false;
 		jump = false;
-		//addWater = false;
-		//addEarth = false;
-		//addFire = false;
-		//addAir = false;
 		switchNext = false;
 		switchPrev = false;
 		attack = false;
@@ -238,29 +236,41 @@ GamePlay.prototype = {
 		function addWaterFairy(player, fairy)
 		{
 			addWater = true;
+			player.notCollectedYet = false;
+			player.fairyCount += 1;
+			player.health = 20;
+			console.log(player.fairyCount);
 			fairy.kill();
-			console.log('collected water fairy');
 		}
 
 		function addEarthFairy(player, fairy)
 		{
 			addEarth = true;
+			player.notCollectedYet = false;
+			player.fairyCount += 1;
+			player.health = 20;
+			console.log(player.fairyCount);
 			fairy.kill();
-			console.log('collected earth fairy');
 		}
 
 		function addFireFairy(player, fairy)
 		{
 			addFire = true;
+			player.notCollectedYet = false;
+			player.fairyCount += 1;
+			player.health = 20;
+			console.log(player.fairyCount);
 			fairy.kill();
-			console.log('collected fire fairy');
 		}
 
 		function addAirFairy(player, fairy)
 		{
 			addAir = true;
+			player.notCollectedYet = false;
+			player.fairyCount += 1;
+			player.health = 20;
+			console.log(player.fairyCount);
 			fairy.kill();
-			console.log('collected air fairy');
 		}
 	},
 	render: function()
