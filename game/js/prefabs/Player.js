@@ -63,6 +63,7 @@ Player.prototype.update = function() //player's update function
 	if (switchNext == true && this.noneEquipped == false) 
 	{
 		console.log('in switch');
+		console.log(this.hasElement);
 		originalIndex = this.currentIndex; //save the original index of where you are in the hasElement array 
 		if (this.currentIndex != 3) //if the current index is not at the end of the array
 		{
@@ -215,6 +216,7 @@ Player.prototype.update = function() //player's update function
 	{
 		if (this.equippedElement[0] == true) //if you have water equipped
 		{
+			this.currentIndex = 0;
 			this.equippedElement[0] = false; //unequip water
 			this.hasElement[0] = false; //lose custody of water
 			this.fairyCount -= 1; //fairycount decrements by one
@@ -222,13 +224,15 @@ Player.prototype.update = function() //player's update function
 		}
 		else if (this.equippedElement[1] == true) //same if you have earth equipped
 		{
-			this.equippedElement[1] == false;
-			this.hasElement[1] == false;
+			this.currentIndex = 1;
+			this.equippedElement[1] = false;
+			this.hasElement[1] = false;
 			this.fairyCount -= 1;
 			this.health = 20;
 		}
 		else if (this.equippedElement[2] == true) //same if you have fire equipped
 		{
+			this.currentIndex = 2;
 			this.equippedElement[2] = false;
 			this.hasElement[2] = false;
 			this.fairyCount -= 1;
@@ -236,6 +240,7 @@ Player.prototype.update = function() //player's update function
 		}
 		else if (this.equippedElement[3] == true) //same if you have air equipped
 		{
+			this.currentIndex = 3;
 			this.equippedElement[3] = false;
 			this.hasElement[3] = false;
 			this.fairyCount -= 1;
@@ -246,29 +251,34 @@ Player.prototype.update = function() //player's update function
 			//then it will get rid of the first element it sees starting from water 
 			if (this.hasElement[0] == true) //if you have a water elemental then you lose this one
 			{
+				this.currentIndex = 0;
 				this.hasElement[0] == false;
 				this.fairyCount -= 1;
 				this.health = 20;
 			}
 			else if (this.hasElement[1] == true) //if you have a earth elemental, but not a water, then you lose this one
 			{
+				this.currentIndex = 1;
 				this.hasElement[1] == false;
 				this.fairyCount -= 1;
 				this.health = 20;
 			}
 			else if (this.hasElement[2] == true) //if you have a fire elemental, but not a water or earth, then you lose this one
 			{
+				this.currentIndex = 2;
 				this.hasElement[2] == false;
 				this.fairyCount -= 1;
 				this.health = 20;
 			}
 			else if (this.hasElement[3] == true) //if you have an air elemental, but none of above, then you lose this one
 			{
+				this.currentIndex = 3;
 				this.hasElement[3] == false;
 				this.fairyCount -= 1;
 				this.health = 20;
 			}
 		}
+		console.log(player.hasElement);
 	}
 
 	//lose condition one, if you haven't collected a fairy yet, and your health depletes less than equal to 0 then you lose

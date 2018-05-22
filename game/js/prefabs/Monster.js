@@ -9,6 +9,8 @@ function Monster (game, key, frame, xpos, ypos, scale, element, player)
 	this.element = element; //what elemental type is this monster
 	this.facing_right = false; //variable to check if monster is facing right, initially set to false
 	this.facing_left = false; //variable to check if monster is facing left, initially set to false
+	this.idol = false;
+	this.enableCollision = true;
 
 	game.physics.enable(this);
 	game.physics.arcade.enable(this);
@@ -82,10 +84,14 @@ Monster.prototype.constructor = Monster;
 
 Monster.prototype.update = function() //monster's update function
 {
+	this.body.velocity.x = 0;
 	//this will be where the damaged/idol state happens with the monster. Right now it's set between 1 and 2 health.
 	if (this.health > 0 && this.health < 3)
 	{
 		console.log('in damaged state');
+		game.time.events.stop();
+		this.idol = true;
+		this.rotation = -60;
 	}
 	else if (this.health <= 0) //if health reaches 0 or below
 	{
@@ -93,29 +99,36 @@ Monster.prototype.update = function() //monster's update function
 		game.time.events.stop(); //stop spawning projectiles off the timer
 		//this is where the player loses fairy for killing, but gets damage buff (dmg buff still needs implementation)
 		if (player.equippedElement[0] == true) //if the player has the water fairy equipped
-		{
+		{	
+			player.currentIndex = 0;
 			player.equippedElement[0] = false; //unequip the water fairy
 			player.hasElement[0] = false; //set having the water fairy to false
 			player.fairyCount -= 1; //decrement fairy count
 		}
 		else if (player.equippedElement[1] == true) //if the player has the earth fairy equipped
 		{
-			player.equippedElement[1] == false;
-			player.hasElement[1] == false;
+			player.currentIndex = 1;
+			player.equippedElement[1] = false;
+			player.hasElement[1] = false;
 			player.fairyCount -= 1;
 		}
 		else if (player.equippedElement[2] == true) //if the player has the fire fairy equipped
 		{
+			player.currentIndex = 2;
 			player.equippedElement[2] = false;
 			player.hasElement[2] = false;
 			player.fairyCount -= 1;
 		}
 		else if (player.equippedElement[3] == true) //if the player has the air fairy equipped
 		{
+			player.currentIndex = 3;
 			player.equippedElement[3] = false;
 			player.hasElement[3] = false;
 			player.fairyCount -= 1;
 		}
+		console.log(player.fairyCount);
+		console.log(player.equippedElement);
+		console.log(player.hasElement);
 		this.health = 9999; //set the health to something thats greater than 0 so it will never enter this if chunck again. 
 	}
 
@@ -130,13 +143,23 @@ Monster.prototype.update = function() //monster's update function
 		this.facingRight = true;
 	}
 
-	if (this.facingLeft == true) //if the monster is facing left, move to the left at speed -60 units
+	if (this.facingLeft == true && this.idol == false) //if the monster is facing left, move to the left at speed -60 units
 	{
 		this.body.velocity.x = -60;
 	}
-	else if (this.facingRight == true) //if the monster is facing right, move to the right at speed 60 units
+	else if (this.facingRight == true && this.idol == false) //if the monster is facing right, move to the right at speed 60 units
 	{
 		this.body.velocity.x = 60;
+	}
+
+	if (this.idol == true && this.health > 2)
+	{
+		this.rotation = 0;
+		this.facingLeft = true;
+		this.body.velocity.x = -60;
+		this.body.collideWorldBounds = false;
+		this.enableCollision = false;
+		this.outOfBoundsKill = true; //kill once reaches out of bounds
 	}
 
 	//if the player and monster's bullets collide, then the player takes 3 damage.

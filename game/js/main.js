@@ -40,13 +40,13 @@ menu.prototype = {
 		//play the game once m is pressed, loading in state 'GamePlay' but we will start with level1 in the actual making of the game
 		if (game.input.keyboard.isDown(Phaser.Keyboard.M))
 		{
-			game.state.start('GamePlay'); 
+			game.state.start('Tutorial'); 
 		}
 	}
 }
 
-var GamePlay = function(game) {}; //this will change to a different game state in separate js files
-GamePlay.prototype = {
+var Tutorial = function(game) {}; //this will change to a different game state in separate js files
+Tutorial.prototype = {
 	preload: function() 
 	{
 		game.load.atlas('atlas', 'assets/img/roughsheet.png', 'assets/img/roughsheet.JSON');
@@ -97,6 +97,18 @@ GamePlay.prototype = {
 
 	update: function()
 	{
+
+		right = false;
+		left = false;
+		jump = false;
+		addWater = false; 
+		addEarth = false; 
+		addFire = false; 
+		addAir = false; 
+		switchNext = false;
+		switchPrev = false;
+		attack = false;
+
 		//advances screen to level 1, this will eventually be the first screen that is loaded instead of the 'gameplay' screen
 		if(game.input.keyboard.justPressed(Phaser.Keyboard.M)) {
 			game.state.start('level1');
@@ -114,110 +126,107 @@ GamePlay.prototype = {
 
 		function calcDmg(bullet, monster) //calculates what kind of damage the monster takes depending on type of bullet collided with type of monster.
 		{
-			//if the bullet is of type water 
-			if (bullet.element == 'water')
+			if (monster.enableCollision == true)
 			{
-				if (monster.element == 'water') //if the monster's type is also water
+				//if the bullet is of type water 
+				if (bullet.element == 'water')
 				{
-					if (monster.health < 10) //if the monster health isn't full
+					if (monster.element == 'water') //if the monster's type is also water
 					{
-						monster.health += heal; //add the heal value to its health pool
+						if (monster.health < 10) //if the monster health isn't full
+						{
+							monster.health += heal; //add the heal value to its health pool
+						}
+					}
+					else if (monster.element == 'earth') // if the monster's type is earth
+					{
+						monster.health -= reg_dmg; //the monster takes regular damage
+					}
+					else if (monster.element == 'fire') //if the monster's type is fire
+					{
+						monster.health -= super_dmg; //the monster takes super effective damage
+					}
+					else //then the monster's type must be air
+					{
+						monster.health -= bad_dmg; //monster takes not very effective damage
 					}
 				}
-				else if (monster.element == 'earth') // if the monster's type is earth
+				//if the bullet's element is earth
+				else if (bullet.element == 'earth')
 				{
-					monster.health -= reg_dmg; //the monster takes regular damage
-				}
-				else if (monster.element == 'fire') //if the monster's type is fire
-				{
-					monster.health -= super_dmg; //the monster takes super effective damage
-				}
-				else //then the monster's type must be air
-				{
-					monster.health -= bad_dmg; //monster takes not very effective damage
-				}
-			}
-			//if the bullet's element is earth
-			else if (bullet.element == 'earth')
-			{
-				if (monster.element == 'water')
-				{
-					monster.health -= reg_dmg;
-				}
-				else if (monster.element == 'earth')
-				{
-					if (monster.health < 10)
+					if (monster.element == 'water')
 					{
-						monster.health += heal;
+						monster.health -= reg_dmg;
+					}
+					else if (monster.element == 'earth')
+					{
+						if (monster.health < 10)
+						{
+							monster.health += heal;
+						}
+					}
+					else if (monster.element == 'fire')
+					{
+						monster.health -= bad_dmg;
+					}
+					else 
+					{
+						monster.health -= super_dmg;
 					}
 				}
-				else if (monster.element == 'fire')
+				//if the bullets element is fire
+				else if (bullet.element == 'fire')
 				{
-					monster.health -= bad_dmg;
+					if (monster.element == 'water')
+					{
+						monster.health -= bad_dmg;
+					}
+					else if (monster.element == 'earth')
+					{
+						monster.health -= super_dmg;
+					}
+					else if (monster.element == 'fire')
+					{
+						if (monster.health < 10)
+						{
+							monster.health += heal;
+						}
+					}
+					else 
+					{
+						monster.health -= reg_dmg;
+					}
 				}
+				//bullet's element is air
 				else 
 				{
-					monster.health -= super_dmg;
-				}
-			}
-			//if the bullets element is fire
-			else if (bullet.element == 'fire')
-			{
-				if (monster.element == 'water')
-				{
-					monster.health -= bad_dmg;
-				}
-				else if (monster.element == 'earth')
-				{
-					monster.health -= super_dmg;
-				}
-				else if (monster.element == 'fire')
-				{
-					if (monster.health < 10)
+					if (monster.element == 'water')
 					{
-						monster.health += heal;
+						monster.health -= super_dmg;
 					}
+					else if (monster.element == 'earth')
+					{
+						monster.health -= bad_dmg;
+					}
+					else if (monster.element == 'fire')
+					{
+						monster.health -= reg_dmg;
+					}
+					else 
+					{
+						if (monster.health < 10)
+						{
+							monster.health += heal;
+						}
+					}
+
 				}
-				else 
-				{
-					monster.health -= reg_dmg;
-				}
+				console.log(monster.health);
+				bullet.kill(); //get rid of the bullet on collision
 			}
-			//bullet's element is air
 			else 
-			{
-				if (monster.element == 'water')
-				{
-					monster.health -= super_dmg;
-				}
-				else if (monster.element == 'earth')
-				{
-					monster.health -= bad_dmg;
-				}
-				else if (monster.element == 'fire')
-				{
-					monster.health -= reg_dmg;
-				}
-				else 
-				{
-					if (monster.health < 10)
-					{
-						monster.health += heal;
-					}
-				}
-
-			}
-			console.log(monster.health);
-			bullet.kill(); //get rid of the bullet on collision
+				bullet.kill(); //get rid of the bullet on collision
 		}
-
-
-		right = false;
-		left = false;
-		jump = false;
-		switchNext = false;
-		switchPrev = false;
-		attack = false;
 
 		//if the W button is down and the player is touching on the ground then set jump equal to true
 		if (game.input.keyboard.isDown(Phaser.Keyboard.W) && player.body.touching.down)
@@ -320,6 +329,6 @@ EndGame.prototype ={
 
 //add states to state manager
 game.state.add('menu', menu);
-game.state.add('GamePlay', GamePlay); //this will change to the first game state instead of just gameplay
+game.state.add('Tutorial', Tutorial); //this will change to the first game state instead of just gameplay
 game.state.add('EndGame', EndGame)
 game.state.start('menu'); //start with the menu screen
