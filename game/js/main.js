@@ -21,6 +21,11 @@ var bad_dmg  =1; //value for hitting an elemental monster with not very effectiv
 var reg_dmg = 3; //value for hitting an elemental monster with neutral type projectile
 var super_dmg = 5; //value for hitting an elemental monster with super effective type projectile
 
+var repeat = false;
+
+var player;
+
+
 //state structure and state switching came from Nathan Altice's code from fourth lecture slide
 var menu = function(game){};
 menu.prototype = {
@@ -43,10 +48,22 @@ menu.prototype = {
 			game.state.start('Tutorial'); 
 		}
 	}
-}
+};
 
 var Tutorial = function(game) {}; //this will change to a different game state in separate js files
 Tutorial.prototype = {
+
+	init: function(hasElement, equippedElement, noneEquipped, currentIndex, health, notCollectedYet, fairyCount)
+	{
+		nextPlayerhasElement = hasElement;
+		nextPlayerEquippedElement = equippedElement;
+		nextPlayerNoneEquipped = noneEquipped;
+		nextPlayerCurrentIndex = currentIndex;
+		nextPlayerHealth = health;
+		nextPlayerNotCollectedYet = notCollectedYet;
+		nextPlayerFairyCount = fairyCount;
+	},
+
 	preload: function() 
 	{
 		game.load.atlas('atlas', 'assets/img/roughsheet.png', 'assets/img/roughsheet.JSON');
@@ -68,9 +85,29 @@ Tutorial.prototype = {
     	game.physics.arcade.enable(ground); // Enable physics for the ground
     	ground.body.immovable = true; // Make the ground immovable (so the player can jump on it)
 
-		player = new Player(game, 'atlas', 'playerrough', 100, game.world.height - 160, 1) //add in a player object by calling Player prefab constructor
-		game.add.existing(player); //add in to world
+    	if (repeat == false)
+    	{
+			player = new Player(game, 'atlas', 'playerrough', 100, game.world.height - 160, 1) //add in a player object by calling Player prefab constructor
+			game.add.existing(player); //add in to world
+		}
+		else 
+		{
+			//console.log(nextPlayerhasElement);
+			//console.log(nextPlayerHealth);
+			player = new Player(game, 'atlas', 'playerrough', 100, game.world.height - 160, 1)
+			game.add.existing(player);
+			player.hasElement = nextPlayerhasElement;
+			player.equippedElement = nextPlayerEquippedElement;
+			player.noneEquipped = nextPlayerNoneEquipped;
+			player.currentIndex = nextPlayerCurrentIndex;
+			player.health = nextPlayerHealth;
+			player.notCollectedYet = nextPlayerNotCollectedYet;
+			player.fairyCount = nextPlayerFairyCount;
+			//console.log(player.hasElement);
+			console.log(player); 
+		}
 		player.body.setSize(30, 52, 17, 8); //adjust player's hitbox to match sprite dimensions (width, height, offsetx, offsety)
+
 
 		monsters = game.add.group(); //make monsters a game group
 		monsters.enableBody = true;
@@ -111,7 +148,9 @@ Tutorial.prototype = {
 
 		//advances screen to level 1, this will eventually be the first screen that is loaded instead of the 'gameplay' screen
 		if(game.input.keyboard.justPressed(Phaser.Keyboard.M)) {
-			game.state.start('level1');
+			repeat = true;
+			game.state.start('Tutorial', true, false, player.hasElement, player.equippedElement, 
+				player.noneEquipped, player.currentIndex, player.health, player.notCollectedYet, player.fairyCount);
 		}
 
 		game.physics.arcade.collide(player, ground); //allows collision between player and ground
