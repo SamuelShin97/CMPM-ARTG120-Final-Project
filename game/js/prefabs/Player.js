@@ -22,7 +22,8 @@ function Player (game, key, frame, xpos, ypos, scale)
 
 	game.physics.enable(this);
 	game.physics.arcade.enable(this);
-	this.body.gravity.y = 400; //gravity value on player (how fast player falls)
+	this.body.gravity.y = 675; //gravity value on player (how fast player falls)
+	this.body.bounce.y = 0.2;
 	this.body.collideWorldBounds = true; //this might need to change for state switching so player can walk off screen
 
 	this.bullets = game.add.group(); //add a bullets group and initialize it with the four elemental projectiles off screen somewhere
@@ -43,7 +44,7 @@ Player.prototype.update = function() //player's update function
 
 	if (jump == true) //if jump is true (from main.js)
 	{
-		this.body.velocity.y = -400; //set y velocity of player to -400 (may need to change for less floatiness)
+		this.body.velocity.y = -525; //set y velocity of player to -400 (may need to change for less floatiness)
 	}
 	if (right == true) //if right is true (from main.js)
 	{
