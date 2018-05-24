@@ -21,7 +21,8 @@ var bad_dmg  =1; //value for hitting an elemental monster with not very effectiv
 var reg_dmg = 3; //value for hitting an elemental monster with neutral type projectile
 var super_dmg = 5; //value for hitting an elemental monster with super effective type projectile
 
-var repeat = false;
+var repeat = false; //if player has advanced to a new screen
+var state = 0;
 
 var player;
 
@@ -45,13 +46,13 @@ menu.prototype = {
 		//play the game once m is pressed, loading in state 'GamePlay' but we will start with level1 in the actual making of the game
 		if (game.input.keyboard.isDown(Phaser.Keyboard.M))
 		{
-			game.state.start('Tutorial'); 
+			game.state.start('GamePlay'); 
 		}
 	}
 };
 
-var Tutorial = function(game) {}; //this will change to a different game state in separate js files
-Tutorial.prototype = {
+var GamePlay = function(game) {}; //this will change to a different game state in separate js files
+GamePlay.prototype = {
 
 	init: function(hasElement, equippedElement, noneEquipped, currentIndex, health, notCollectedYet, fairyCount)
 	{
@@ -85,10 +86,26 @@ Tutorial.prototype = {
     	game.physics.arcade.enable(ground); // Enable physics for the ground
     	ground.body.immovable = true; // Make the ground immovable (so the player can jump on it)
 
+    	monsters = game.add.group(); //make monsters a game group
+		monsters.enableBody = true;
+
     	if (repeat == false)
     	{
 			player = new Player(game, 'atlas', 'playerrough', 100, game.world.height - 160, 1) //add in a player object by calling Player prefab constructor
 			game.add.existing(player); //add in to world
+			var waterMonster = monsters.add(new Monster(game, 'atlas', 'wmonster', 800, game.world.height - 100, 1, 'water', player));
+			//add in all four fairies for testing
+			waterFairy = new Fairy(game, 'atlas', 'wfairy', 300, game.world.height - 250, 1, 'water'); 
+			game.add.existing(waterFairy);
+ 	  
+			earthFairy = new Fairy(game, 'atlas', 'efairy', 400, game.world.height - 250, 1, 'earth');
+			game.add.existing(earthFairy);
+		
+			fireFairy = new Fairy(game, 'atlas', 'ffairy', 500, game.world.height - 250, 1, 'fire');
+			game.add.existing(fireFairy);
+		
+			airFairy = new Fairy(game, 'atlas', 'afairy', 600, game.world.height - 250, 1, 'air');
+			game.add.existing(airFairy);
 		}
 		else 
 		{
@@ -106,28 +123,7 @@ Tutorial.prototype = {
 			//console.log(player.hasElement);
 			console.log(player); 
 		}
-		player.body.setSize(30, 52, 17, 8); //adjust player's hitbox to match sprite dimensions (width, height, offsetx, offsety)
-
-
-		monsters = game.add.group(); //make monsters a game group
-		monsters.enableBody = true;
-
-		//adding a single water type monster to the world for testing
-		var waterMonster = monsters.add(new Monster(game, 'atlas', 'wmonster', 800, game.world.height - 100, 1, 'water', player)); 
-	    
-
-		//add in all four fairies for testing
-		waterFairy = new Fairy(game, 'atlas', 'wfairy', 300, game.world.height - 250, 1, 'water'); 
-		game.add.existing(waterFairy);
- 	  
-		earthFairy = new Fairy(game, 'atlas', 'efairy', 400, game.world.height - 250, 1, 'earth');
-		game.add.existing(earthFairy);
-		
-		fireFairy = new Fairy(game, 'atlas', 'ffairy', 500, game.world.height - 250, 1, 'fire');
-		game.add.existing(fireFairy);
-		
-		airFairy = new Fairy(game, 'atlas', 'afairy', 600, game.world.height - 250, 1, 'air');
-		game.add.existing(airFairy);
+		player.body.setSize(30, 52, 17, 8); //adjust player's hitbox to match sprite dimensions (width, height, offsetx, offsety) 
 
 		game.add.text(16, 16, 'Press M to go to the next level', { fontSize: '32px', fill: '#FFFFFF'});
 	},
@@ -149,8 +145,9 @@ Tutorial.prototype = {
 		//advances screen to level 1, this will eventually be the first screen that is loaded instead of the 'gameplay' screen
 		if(game.input.keyboard.justPressed(Phaser.Keyboard.M)) {
 			repeat = true;
-			game.state.start('Tutorial', true, false, player.hasElement, player.equippedElement, 
-				player.noneEquipped, player.currentIndex, player.health, player.notCollectedYet, player.fairyCount);
+			state += 1;
+			game.state.start('GamePlay', true, false, player.hasElement, player.equippedElement, 
+				player.noneEquipped, player.currentIndex, player.health, player.notCollectedYet, player.fairyCount, state);
 		}
 
 		game.physics.arcade.collide(player, ground); //allows collision between player and ground
@@ -368,6 +365,6 @@ EndGame.prototype ={
 
 //add states to state manager
 game.state.add('menu', menu);
-game.state.add('Tutorial', Tutorial); //this will change to the first game state instead of just gameplay
+game.state.add('GamePlay', GamePlay); //this will change to the first game state instead of just gameplay
 game.state.add('EndGame', EndGame)
 game.state.start('menu'); //start with the menu screen
