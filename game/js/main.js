@@ -80,11 +80,15 @@ GamePlay.prototype = {
 		// enables the Arcade Physics system
     	game.physics.startSystem(Phaser.Physics.ARCADE);
     	game.stage.backgroundColor = "#228b22";
-		//everything is place holder art 
+
+    	// Create platforms group
+   		platforms = game.add.group();
+    	platforms.enableBody = true; // Enable physics for any object that is created in this group
 
 		ground = game.add.tileSprite(0, game.world.height - 64, game.world.width, 64, 'atlas', 'tileBlue_22');
     	game.physics.arcade.enable(ground); // Enable physics for the ground
     	ground.body.immovable = true; // Make the ground immovable (so the player can jump on it)
+    	platforms.add(ground);
 
     	monsters = game.add.group(); //make monsters a game group
 		monsters.enableBody = true;
@@ -122,6 +126,15 @@ GamePlay.prototype = {
 			player.fairyCount = nextPlayerFairyCount;
 			//console.log(player.hasElement);
 			console.log(player); 
+
+			if (state == 1)
+			{
+				//(xpos, ypos, width, height, key, frame)
+				var ledge = game.add.tileSprite(200, 500, 300, 48, 'atlas', 'tileBlue_22'); 
+				game.physics.arcade.enable(ledge);
+				ledge.body.immovable = true;
+				platforms.add(ledge);
+			}
 		}
 		player.body.setSize(30, 52, 17, 8); //adjust player's hitbox to match sprite dimensions (width, height, offsetx, offsety) 
 
@@ -150,7 +163,7 @@ GamePlay.prototype = {
 				player.noneEquipped, player.currentIndex, player.health, player.notCollectedYet, player.fairyCount, state);
 		}
 
-		game.physics.arcade.collide(player, ground); //allows collision between player and ground
+		game.physics.arcade.collide(player, platforms); //allows collision between player and ground
 		//different cases when a player collides with each elemental fairy
 		game.physics.arcade.collide(player, waterFairy, addWaterFairy, null, this);
 		game.physics.arcade.collide(player, earthFairy, addEarthFairy, null, this);
