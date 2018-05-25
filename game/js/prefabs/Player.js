@@ -32,6 +32,10 @@ function Player (game, key, frame, xpos, ypos, scale)
 	this.bullets.create(100000, 100000, 'atlas', 'fproj');
 	this.bullets.create(100000, 100000, 'atlas', 'aproj');
 	this.bullets.enableBody = true;
+
+	this.animations.add('moveRight', Phaser.Animation.generateFrameNames('playerr', 0, 7), 30, true); 
+	this.animations.add('moveLeft', Phaser.Animation.generateFrameNames('playerl', 0, 7), 30, true); 
+
 }
 
 Player.prototype = Object.create(Phaser.Sprite.prototype);
@@ -51,12 +55,19 @@ Player.prototype.update = function() //player's update function
 		this.facingRight = true; //facingRight is set to true and facingLeft set to false
 		this.facingLeft = false;
 		this.body.velocity.x = 150; //set x velocity to 150
+		this.animations.play('moveRight');
 	}
 	else if (left == true) //vice versa for left 
 	{
 		this.facingRight = false;
 		this.facingLeft = true;
 		this.body.velocity.x = -150;
+		this.animations.play('moveLeft');
+	}
+	else
+	{
+		this.animations.stop();
+		this.frameName = ('atlas', 'playerr0');
 	}
 
 	//this next if chunk is for fairy/element switching.

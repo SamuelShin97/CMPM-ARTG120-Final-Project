@@ -67,7 +67,7 @@ GamePlay.prototype = {
 
 	preload: function() 
 	{
-		game.load.atlas('atlas', 'assets/img/roughsheet.png', 'assets/img/roughsheet.JSON');
+		game.load.atlas('atlas', 'assets/img/atlas.png', 'assets/img/atlas.JSON');
 		game.load.audio('main_music', 'assets/audio/main_music.mp3'); //made by Whitesand on Youtube
 
 		game.state.add('level1', levelState);
@@ -95,9 +95,15 @@ GamePlay.prototype = {
 
     	if (repeat == false)
     	{
-			player = new Player(game, 'atlas', 'playerrough', 100, game.world.height - 160, 1) //add in a player object by calling Player prefab constructor
+			player = new Player(game, 'atlas', 'playerr0', 100, game.world.height - 160, 0.2) //add in a player object by calling Player prefab constructor
 			game.add.existing(player); //add in to world
-			var waterMonster = monsters.add(new Monster(game, 'atlas', 'wmonster', 800, game.world.height - 100, 1, 'water', player));
+			//var waterMonster = monsters.add(new Monster(game, 'atlas', 'waterl1', 800, game.world.height - 100, 0.13, 'water', player));
+
+			var earthMonster = monsters.add(new Monster(game, 'atlas', 'earthl', 800, game.world.height - 100, 0.13, 'earth', player));
+
+			//var fireMonster = monsters.add(new Monster(game, 'atlas', 'firel1', 800, game.world.height - 100, 0.13, 'fire', player));
+
+			//var airMonster = monsters.add(new Monster(game, 'atlas', 'airl', 800, game.world.height - 100, 0.13, 'air', player));
 			//add in all four fairies for testing
 			waterFairy = new Fairy(game, 'atlas', 'wfairy', 300, game.world.height - 250, 1, 'water'); 
 			game.add.existing(waterFairy);
@@ -115,7 +121,7 @@ GamePlay.prototype = {
 		{
 			//console.log(nextPlayerhasElement);
 			//console.log(nextPlayerHealth);
-			player = new Player(game, 'atlas', 'playerrough', 100, game.world.height - 160, 1)
+			player = new Player(game, 'atlas', 'playerr0', 100, game.world.height - 160, 0.2)
 			game.add.existing(player);
 			player.hasElement = nextPlayerhasElement;
 			player.equippedElement = nextPlayerEquippedElement;
@@ -136,7 +142,7 @@ GamePlay.prototype = {
 				platforms.add(ledge);
 			}
 		}
-		player.body.setSize(30, 52, 17, 8); //adjust player's hitbox to match sprite dimensions (width, height, offsetx, offsety) 
+		//player.body.setSize(30, 52, 17, 8); //adjust player's hitbox to match sprite dimensions (width, height, offsetx, offsety) 
 
 		game.add.text(16, 16, 'Press M to go to the next level', { fontSize: '32px', fill: '#FFFFFF'});
 	},

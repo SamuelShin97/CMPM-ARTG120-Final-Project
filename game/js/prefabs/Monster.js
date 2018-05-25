@@ -24,6 +24,22 @@ function Monster (game, key, frame, xpos, ypos, scale, element, player)
 	this.bullets.create(100000, 100000, 'atlas', 'aproj');
 	this.bullets.enableBody = true;
 
+	this.animations.add('wMoveRight', Phaser.Animation.generateFrameNames('waterr', 1, 4), 12, true); 
+	this.animations.add('wMoveLeft', Phaser.Animation.generateFrameNames('waterl', 1, 4), 12, true); 
+	this.animations.add('wIdleLeft', ['atlas', 'wateridle', 'atlas', 'waterl2'], 3, true); 
+	this.animations.add('wIdleRight', ['atlas', 'wateridle2', 'atlas', 'waterr2'], 3, true); 
+
+	this.animations.add('eIdleLeft', ['atlas', 'earthidle', 'atlas', 'earthl'], 3, true); 
+	this.animations.add('eIdleRight', ['atlas', 'earthidle2', 'atlas', 'earthr'], 3, true); 
+
+	this.animations.add('fMoveRight', Phaser.Animation.generateFrameNames('firer', 1, 2), 6, true); 
+	this.animations.add('fMoveLeft', Phaser.Animation.generateFrameNames('firel', 1, 2), 6, true); 
+	this.animations.add('fIdleLeft', ['atlas', 'fireidle', 'atlas', 'firel2'], 3, true); 
+	this.animations.add('fIdleRight', ['atlas', 'fireidle2', 'atlas', 'firer2'], 3, true); 
+
+	this.animations.add('aIdleLeft', ['atlas', 'airidle', 'atlas', 'airl'], 3, true); 
+	this.animations.add('aIdleRight', ['atlas', 'airidle2', 'atlas', 'airr'], 3, true); 
+
 	game.time.events.loop(Phaser.Timer.SECOND * game.rnd.realInRange(1.8, 3.0), doAttack, this); //every 1.8-3 seconds, calls the doAttack function below
 
 	//determines what projectile to add to the bullets group based on what direction the monster is facing and what element it is.
@@ -91,7 +107,43 @@ Monster.prototype.update = function() //monster's update function
 		console.log('in damaged state');
 		game.time.events.stop();
 		this.idol = true;
-		this.rotation = -60;
+		//this.frameName = ('atlas', 'wateridle');
+		if (this.facingLeft == true && this.element == 'water')
+		{
+			this.animations.play('wIdleLeft');
+		}
+		else if (this.facingRight == true && this.element == 'water')
+		{
+			this.animations.play('wIdleRight');
+		}
+		else if (this.facingLeft == true && this.element == 'earth')
+		{
+			//this.frameName = ('atlas', 'earthidle');
+			this.animations.play('eIdleLeft');
+		}
+		else if (this.facingRight == true && this.element == 'earth')
+		{
+			//this.frameName = ('atlas', 'earthidle2');
+			this.animations.play('eIdleRight');
+		}
+		else if (this.facingLeft == true && this.element == 'fire')
+		{
+			this.animations.play('fIdleLeft');
+		}
+		else if (this.facingRight == true && this.element == 'fire')
+		{
+			this.animations.play('fIdleRight');
+		}
+		else if (this.facingLeft == true && this.element == 'air')
+		{
+			//this.frameName = ('atlas', 'airidle');
+			this.animations.play('aIdleLeft');
+		}
+		else if (this.facingRight == true && this.element == 'air')
+		{
+			//this.frameName = ('atlas', 'airidle2');
+			this.animations.play('aIdleRight');
+		}
 	}
 	else if (this.health <= 0) //if health reaches 0 or below
 	{
@@ -146,10 +198,42 @@ Monster.prototype.update = function() //monster's update function
 	if (this.facingLeft == true && this.idol == false) //if the monster is facing left, move to the left at speed -60 units
 	{
 		this.body.velocity.x = -60;
+		if (this.element == 'water')
+		{
+			this.animations.play('wMoveLeft');
+		}
+		else if (this.element == 'earth')
+		{
+			this.frameName = ('atlas', 'earthl');
+		}
+		else if (this.element == 'fire')
+		{
+			this.animations.play('fMoveLeft');
+		}
+		else if (this.element == 'air')
+		{
+			this.frameName = ('atlas', 'airl');
+		}
 	}
 	else if (this.facingRight == true && this.idol == false) //if the monster is facing right, move to the right at speed 60 units
 	{
 		this.body.velocity.x = 60;
+		if (this.element == 'water')
+		{
+			this.animations.play('wMoveRight');
+		}
+		else if (this.element == 'earth')
+		{
+			this.frameName = ('atlas', 'earthr');
+		}
+		else if (this.element == 'fire')
+		{
+			this.animations.play('fMoveRight');
+		}
+		else if (this.element == 'air')
+		{
+			this.frameName = ('atlas', 'airr');
+		}
 	}
 
 	if (this.idol == true && this.health > 2)
