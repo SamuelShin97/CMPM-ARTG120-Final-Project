@@ -1,4 +1,5 @@
-var game = new Phaser.Game(1280, 720, Phaser.CANVAS);
+var game = new Phaser.Game(1280, 720, Phaser.Auto);
+//1280 720 
 
 var right = false; //variable for if player moving right
 var left = false; //variable for if player moving left
@@ -79,13 +80,15 @@ GamePlay.prototype = {
 		gamePlayMusic.play('', 0, 1, true); //plays main game music on loop
 		// enables the Arcade Physics system
     	game.physics.startSystem(Phaser.Physics.ARCADE);
-    	game.stage.backgroundColor = "#228b22";
+    	//game.stage.backgroundColor = "#228b22";
+
+    	forest = game.add.tileSprite(0, 0, game.world.width, game.world.height, 'atlas', 'forest');
 
     	// Create platforms group
    		platforms = game.add.group();
     	platforms.enableBody = true; // Enable physics for any object that is created in this group
 
-		ground = game.add.tileSprite(0, game.world.height - 64, game.world.width, 64, 'atlas', 'tileBlue_22');
+		ground = game.add.tileSprite(0, game.world.height - 30, game.world.width, 64, 'atlas', 'ground');
     	game.physics.arcade.enable(ground); // Enable physics for the ground
     	ground.body.immovable = true; // Make the ground immovable (so the player can jump on it)
     	platforms.add(ground);
@@ -97,9 +100,9 @@ GamePlay.prototype = {
     	{
 			player = new Player(game, 'atlas', 'playerr0', 100, game.world.height - 160, 0.2) //add in a player object by calling Player prefab constructor
 			game.add.existing(player); //add in to world
-			//var waterMonster = monsters.add(new Monster(game, 'atlas', 'waterl1', 800, game.world.height - 100, 0.13, 'water', player));
+			var waterMonster = monsters.add(new Monster(game, 'atlas', 'waterl1', 800, game.world.height - 100, 0.13, 'water', player));
 
-			var earthMonster = monsters.add(new Monster(game, 'atlas', 'earthl', 800, game.world.height - 100, 0.13, 'earth', player));
+			//var earthMonster = monsters.add(new Monster(game, 'atlas', 'earthl', 800, game.world.height - 100, 0.13, 'earth', player));
 
 			//var fireMonster = monsters.add(new Monster(game, 'atlas', 'firel1', 800, game.world.height - 100, 0.13, 'fire', player));
 
@@ -136,10 +139,11 @@ GamePlay.prototype = {
 			if (state == 1)
 			{
 				//(xpos, ypos, width, height, key, frame)
-				var ledge = game.add.tileSprite(200, 500, 300, 48, 'atlas', 'tileBlue_22'); 
+				var ledge = game.add.tileSprite(200, 500, 300, 100, 'atlas', 'ground');
 				game.physics.arcade.enable(ledge);
 				ledge.body.immovable = true;
 				platforms.add(ledge);
+				ledge.body.setSize(ledge.body.width, ledge.body.height / 2 - 15, 0, 62);
 			}
 		}
 		//player.body.setSize(30, 52, 17, 8); //adjust player's hitbox to match sprite dimensions (width, height, offsetx, offsety) 
@@ -358,9 +362,10 @@ GamePlay.prototype = {
 	},
 	render: function() //this is just debug stuff
 	{
-		game.debug.body(player);
+		//game.debug.body(player);
 		game.debug.body(RightProjectile);
 		game.debug.body(monsters);
+		game.debug.physicsGroup(platforms);
 	},
 }
 

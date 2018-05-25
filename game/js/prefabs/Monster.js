@@ -238,7 +238,7 @@ Monster.prototype.update = function() //monster's update function
 
 	if (this.idol == true && this.health > 2)
 	{
-		this.rotation = 0;
+		//this.rotation = 0;
 		this.facingLeft = true;
 		this.body.velocity.x = -60;
 		this.body.collideWorldBounds = false;
