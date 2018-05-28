@@ -138,12 +138,145 @@ GamePlay.prototype = {
 
 			if (state == 1)
 			{
+				var fireMonster = monsters.add(new Monster(game, 'atlas', 'firel1', 800, game.world.height - 100, 0.13, 'fire', player));
+			}
+
+			else if (state == 2)
+			{
 				//(xpos, ypos, width, height, key, frame)
-				var ledge = game.add.tileSprite(200, 500, 300, 100, 'atlas', 'ground');
+				ledge = game.add.tileSprite(700, 450, 400, 100, 'atlas', 'ground');
 				game.physics.arcade.enable(ledge);
 				ledge.body.immovable = true;
 				platforms.add(ledge);
 				ledge.body.setSize(ledge.body.width, ledge.body.height / 2 - 15, 0, 62);
+
+				var earthMonster = monsters.add(new Monster(game, 'atlas', 'earthl', 775, 450, 0.13, 'earth', player));
+				var airMonster = monsters.add(new Monster(game, 'atlas', 'airl', 800, game.world.height - 100, 0.13, 'air', player));
+			} 
+
+			else if (state == 3)
+			{
+				//(xpos, ypos, width, height, key, frame)
+				var ledge = game.add.tileSprite(200, 475, 300, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(ledge);
+				ledge.body.immovable = true;
+				platforms.add(ledge);
+				ledge.body.setSize(ledge.body.width, ledge.body.height / 2 - 15, 0, 62);
+
+				var ledge = game.add.tileSprite(650, 350, 400, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(ledge);
+				ledge.body.immovable = true;
+				platforms.add(ledge);
+				ledge.body.setSize(ledge.body.width, ledge.body.height / 2 - 15, 0, 62);
+
+				var waterMonster = monsters.add(new Monster(game, 'atlas', 'waterl1', 300, 475, 0.13, 'water', player));
+				var fireMonster = monsters.add(new Monster(game, 'atlas', 'firel1', 800, 350, 0.13, 'fire', player));
+
+				waterFairy = new Fairy(game, 'atlas', 'wfairy', 1000, game.world.height - 100, 1, 'water'); 
+				game.add.existing(waterFairy);
+			}
+
+			else if (state == 4)
+			{
+				//(xpos, ypos, width, height, key, frame)
+				var ledge = game.add.tileSprite(850, 475, 375, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(ledge);
+				ledge.body.immovable = true;
+				platforms.add(ledge);
+				ledge.body.setSize(ledge.body.width, ledge.body.height / 2 - 15, 0, 62);
+
+				//(xpos, ypos, width, height, key, frame)
+				var ledge = game.add.tileSprite(220, 325, 500, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(ledge);
+				ledge.body.immovable = true;
+				platforms.add(ledge);
+				ledge.body.setSize(ledge.body.width, ledge.body.height / 2 - 15, 0, 62);
+
+				var earthMonster = monsters.add(new Monster(game, 'atlas', 'earthl', 900, 475, 0.13, 'earth', player));
+				var fireMonster = monsters.add(new Monster(game, 'atlas', 'firel1', 300, 325, 0.13, 'fire', player));
+			}
+
+			else if (state == 5)
+			{
+				//(xpos, ypos, width, height, key, frame)
+				var ledge = game.add.tileSprite(150, 475, 350, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(ledge);
+				ledge.body.immovable = true;
+				platforms.add(ledge);
+				ledge.body.setSize(ledge.body.width, ledge.body.height / 2 - 15, 0, 62);
+
+				var ledge = game.add.tileSprite(600, 325, 475, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(ledge);
+				ledge.body.immovable = true;
+				platforms.add(ledge);
+				ledge.body.setSize(ledge.body.width, ledge.body.height / 2 - 15, 0, 62);
+
+				var ledge = game.add.tileSprite(50, 200, 375, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(ledge);
+				ledge.body.immovable = true;
+				platforms.add(ledge);
+				ledge.body.setSize(ledge.body.width, ledge.body.height / 2 - 15, 0, 62);
+
+				var waterMonster = monsters.add(new Monster(game, 'atlas', 'waterl1', 700, 325, 0.13, 'water', player));
+				var airMonster = monsters.add(new Monster(game, 'atlas', 'airl', 100, 200, 0.13, 'air', player));
+
+				airFairy = new Fairy(game, 'atlas', 'afairy', 800, game.world.height - 75, 1, 'air');
+				game.add.existing(airFairy);
+			}
+
+			else if (state == 6)
+			{
+				//(xpos, ypos, width, height, key, frame)
+				var ledge = game.add.tileSprite(675, 475, 450, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(ledge);
+				ledge.body.immovable = true;
+				platforms.add(ledge);
+				ledge.body.setSize(ledge.body.width, ledge.body.height / 2 - 15, 0, 62);
+
+				var ledge = game.add.tileSprite(50, 325, 475, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(ledge);
+				ledge.body.immovable = true;
+				platforms.add(ledge);
+				ledge.body.setSize(ledge.body.width, ledge.body.height / 2 - 15, 0, 62);
+
+				var ledge = game.add.tileSprite(720, 225, 375, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(ledge);
+				ledge.body.immovable = true;
+				platforms.add(ledge);
+				ledge.body.setSize(ledge.body.width, ledge.body.height / 2 - 15, 0, 62);
+
+				var airMonster = monsters.add(new Monster(game, 'atlas', 'airl', 750, 225, 0.13, 'air', player));
+				var earthMonster = monsters.add(new Monster(game, 'atlas', 'earthl', 100, 325, 0.13, 'earth', player));
+				var fireMonster = monsters.add(new Monster(game, 'atlas', 'firel1', 725, 475, 0.13, 'fire', player));
+
+			}
+
+			else if (state == 7)
+			{
+				var ledge = game.add.tileSprite(50, 450, 300, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(ledge);
+				ledge.body.immovable = true;
+				platforms.add(ledge);
+				ledge.body.setSize(ledge.body.width, ledge.body.height / 2 - 15, 0, 62);
+
+				var ledge = game.add.tileSprite(900, 450, 300, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(ledge);
+				ledge.body.immovable = true;
+				platforms.add(ledge);
+				ledge.body.setSize(ledge.body.width, ledge.body.height / 2 - 15, 0, 62);
+
+				var ledge = game.add.tileSprite(425, 300, 425, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(ledge);
+				ledge.body.immovable = true;
+				platforms.add(ledge);
+				ledge.body.setSize(ledge.body.width, ledge.body.height / 2 - 15, 0, 62);
+
+				var waterMonster = monsters.add(new Monster(game, 'atlas', 'waterl1', 100, 450, 0.13, 'water', player));
+				var fireMonster = monsters.add(new Monster(game, 'atlas', 'firel1', 475, 300, 0.13, 'fire', player));
+				var earthMonster = monsters.add(new Monster(game, 'atlas', 'earthl', 950, 450, 0.13, 'earth', player));
+
+				fireFairy = new Fairy(game, 'atlas', 'ffairy', 650, game.world.height - 100, 1, 'fire');
+				game.add.existing(fireFairy);
 			}
 		}
 		//player.body.setSize(30, 52, 17, 8); //adjust player's hitbox to match sprite dimensions (width, height, offsetx, offsety) 
