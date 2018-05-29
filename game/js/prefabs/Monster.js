@@ -12,6 +12,7 @@ function Monster (game, key, frame, xpos, ypos, scale, element, player)
 	this.idol = false;
 	this.enableCollision = true;
 	this.cleared = false;
+	this.giveHealth = true;
 
 	game.physics.enable(this);
 	game.physics.arcade.enable(this);
@@ -148,6 +149,9 @@ Monster.prototype.update = function() //monster's update function
 	}
 	else if (this.health <= 0) //if health reaches 0 or below
 	{
+		bad_dmg += 1;
+		reg_dmg += 1; 
+		super_dmg += 1;
 		this.cleared = true;
 		this.kill(); //kill sprite 
 		game.time.events.remove(this.attackEvent); //stop spawning projectiles off the timer
@@ -239,7 +243,19 @@ Monster.prototype.update = function() //monster's update function
 	}
 
 	if (this.idol == true && this.health > 2)
-	{
+	{ 
+		if (this.giveHealth == true)
+		{
+			if (player.health > 14)
+			{
+				player.health = 20;
+			}
+			else
+			{
+				player.health += 5;
+			}
+			this.giveHealth = false;
+		}
 		this.cleared = true;
 		this.body.velocity.x = -150;
 		if (this.element == 'water')
