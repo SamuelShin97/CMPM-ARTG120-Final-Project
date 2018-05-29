@@ -46,6 +46,11 @@ Player.prototype.update = function() //player's update function
 	equipped = false; //sets a var equipped to false frame by frame to show we haven't found an element to equip yet
 	this.body.velocity.x = 0; //resets player's velocity to stopping if player isn't holding movement keys
 
+	if (unlock == true)
+	{
+		this.body.collideWorldBounds = false;
+	}
+
 	if (jump == true) //if jump is true (from main.js)
 	{
 		this.body.velocity.y = -525; //set y velocity of player to -400 (may need to change for less floatiness)

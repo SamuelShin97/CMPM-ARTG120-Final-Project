@@ -24,9 +24,9 @@ var super_dmg = 5; //value for hitting an elemental monster with super effective
 
 var repeat = false; //if player has advanced to a new screen
 var state = 0;
+var unlock = false;
 
 var player;
-
 
 //state structure and state switching came from Nathan Altice's code from fourth lecture slide
 var menu = function(game){};
@@ -304,6 +304,26 @@ GamePlay.prototype = {
 
 		//advances screen to level 1, this will eventually be the first screen that is loaded instead of the 'gameplay' screen
 		if(game.input.keyboard.justPressed(Phaser.Keyboard.M)) {
+			repeat = true;
+			state += 1;
+			game.state.start('GamePlay', true, false, player.hasElement, player.equippedElement, 
+				player.noneEquipped, player.currentIndex, player.health, player.notCollectedYet, player.fairyCount, state);
+		}
+
+		for (i = 0; i < monsters.length; i++)
+		{
+			if (monsters.children[i].cleared == false)
+			{
+				unlock = false;
+			}
+			else 
+			{
+				unlock = true;
+			}
+		}
+
+		if (player.body.position.x > 1280 && unlock == true)
+		{
 			repeat = true;
 			state += 1;
 			game.state.start('GamePlay', true, false, player.hasElement, player.equippedElement, 

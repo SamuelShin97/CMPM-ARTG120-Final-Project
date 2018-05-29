@@ -11,6 +11,7 @@ function Monster (game, key, frame, xpos, ypos, scale, element, player)
 	this.facing_left = false; //variable to check if monster is facing left, initially set to false
 	this.idol = false;
 	this.enableCollision = true;
+	this.cleared = false;
 
 	game.physics.enable(this);
 	game.physics.arcade.enable(this);
@@ -147,6 +148,7 @@ Monster.prototype.update = function() //monster's update function
 	}
 	else if (this.health <= 0) //if health reaches 0 or below
 	{
+		this.cleared = true;
 		this.kill(); //kill sprite 
 		game.time.events.remove(this.attackEvent); //stop spawning projectiles off the timer
 		//this is where the player loses fairy for killing, but gets damage buff (dmg buff still needs implementation)
@@ -238,9 +240,24 @@ Monster.prototype.update = function() //monster's update function
 
 	if (this.idol == true && this.health > 2)
 	{
-		//this.rotation = 0;
-		this.facingLeft = true;
-		this.body.velocity.x = -60;
+		this.cleared = true;
+		this.body.velocity.x = -150;
+		if (this.element == 'water')
+		{
+			this.animations.play('wMoveLeft');
+		}
+		else if (this.element == 'earth')
+		{
+			this.frameName = ('atlas', 'earthl');
+		}
+		else if (this.element == 'fire')
+		{
+			this.animations.play('fMoveLeft');
+		}
+		else if (this.element == 'air')
+		{
+			this.frameName = ('atlas', 'airl');
+		}
 		this.body.collideWorldBounds = false;
 		this.enableCollision = false;
 		this.outOfBoundsKill = true; //kill once reaches out of bounds
