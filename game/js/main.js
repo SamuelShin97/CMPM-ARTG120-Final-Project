@@ -17,7 +17,7 @@ var attack = false; //if player is attacking
 
 var levelState; 
 
-var heal = 1; //value for hitting an elemental monster with same type projectile
+var heal = 3; //value for hitting an elemental monster with same type projectile
 var bad_dmg  =1; //value for hitting an elemental monster with not very effective type projectile 
 var reg_dmg = 3; //value for hitting an elemental monster with neutral type projectile
 var super_dmg = 5; //value for hitting an elemental monster with super effective type projectile
@@ -77,7 +77,11 @@ GamePlay.prototype = {
 	create: function()
 	{
 		gamePlayMusic = game.add.audio('main_music');
-		gamePlayMusic.play('', 0, 1, true); //plays main game music on loop
+		if (state == 0)
+		{
+			gamePlayMusic.play('', 0, 1, true); //plays main game music on loop
+		}
+		
 		// enables the Arcade Physics system
     	game.physics.startSystem(Phaser.Physics.ARCADE);
     	//game.stage.backgroundColor = "#228b22";
@@ -498,7 +502,7 @@ GamePlay.prototype = {
 		//game.debug.body(player);
 		game.debug.body(RightProjectile);
 		game.debug.body(monsters);
-		game.debug.physicsGroup(platforms);
+		//game.debug.physicsGroup(platforms);
 	},
 }
 

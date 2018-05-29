@@ -40,7 +40,7 @@ function Monster (game, key, frame, xpos, ypos, scale, element, player)
 	this.animations.add('aIdleLeft', ['atlas', 'airidle', 'atlas', 'airl'], 3, true); 
 	this.animations.add('aIdleRight', ['atlas', 'airidle2', 'atlas', 'airr'], 3, true); 
 
-	game.time.events.loop(Phaser.Timer.SECOND * game.rnd.realInRange(1.8, 3.0), doAttack, this); //every 1.8-3 seconds, calls the doAttack function below
+	this.attackEvent = game.time.events.loop(Phaser.Timer.SECOND * game.rnd.realInRange(1.8, 3.0), doAttack, this); //every 1.8-3 seconds, calls the doAttack function below
 
 	//determines what projectile to add to the bullets group based on what direction the monster is facing and what element it is.
 	function doAttack()
@@ -105,7 +105,7 @@ Monster.prototype.update = function() //monster's update function
 	if (this.health > 0 && this.health < 3)
 	{
 		console.log('in damaged state');
-		game.time.events.stop();
+		game.time.events.remove(this.attackEvent);
 		this.idol = true;
 		//this.frameName = ('atlas', 'wateridle');
 		if (this.facingLeft == true && this.element == 'water')
@@ -148,7 +148,7 @@ Monster.prototype.update = function() //monster's update function
 	else if (this.health <= 0) //if health reaches 0 or below
 	{
 		this.kill(); //kill sprite 
-		game.time.events.stop(); //stop spawning projectiles off the timer
+		game.time.events.remove(this.attackEvent); //stop spawning projectiles off the timer
 		//this is where the player loses fairy for killing, but gets damage buff (dmg buff still needs implementation)
 		if (player.equippedElement[0] == true) //if the player has the water fairy equipped
 		{	
