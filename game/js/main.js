@@ -28,6 +28,8 @@ var unlock = false;
 
 var player;
 
+var reverse = false;
+
 //state structure and state switching came from Nathan Altice's code from fourth lecture slide
 var menu = function(game){};
 menu.prototype = {
@@ -100,11 +102,14 @@ GamePlay.prototype = {
     	monsters = game.add.group(); //make monsters a game group
 		monsters.enableBody = true;
 
+		boundary = game.add.group();
+		boundary.enableBody = true;
+
     	if (repeat == false)
     	{
 			player = new Player(game, 'atlas', 'playerr0', 100, game.world.height - 160, 0.2) //add in a player object by calling Player prefab constructor
 			game.add.existing(player); //add in to world
-			var waterMonster = monsters.add(new Monster(game, 'atlas', 'waterl1', 800, game.world.height - 100, 0.13, 'water', player));
+			var waterMonster = monsters.add(new Monster(game, 'atlas', 'waterl1', 800, game.world.height - 100, 0.13, 'water', player, boundary));
 
 			//var earthMonster = monsters.add(new Monster(game, 'atlas', 'earthl', 800, game.world.height - 100, 0.13, 'earth', player));
 
@@ -142,7 +147,7 @@ GamePlay.prototype = {
 
 			if (state == 1)
 			{
-				var fireMonster = monsters.add(new Monster(game, 'atlas', 'firel1', 800, game.world.height - 100, 0.13, 'fire', player));
+				var fireMonster = monsters.add(new Monster(game, 'atlas', 'firel1', 800, game.world.height - 100, 0.13, 'fire', player, boundary));
 			}
 
 			else if (state == 2)
@@ -154,9 +159,19 @@ GamePlay.prototype = {
 				platforms.add(ledge);
 				ledge.body.setSize(ledge.body.width, ledge.body.height / 2 - 15, 0, 62);
 
-				var earthMonster = monsters.add(new Monster(game, 'atlas', 'earthl', 775, 450, 0.13, 'earth', player));
-				var airMonster = monsters.add(new Monster(game, 'atlas', 'airl', 800, game.world.height - 100, 0.13, 'air', player));
-			} 
+				bound = game.add.tileSprite(ledge.body.position.x, ledge.body.position.y, 10, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(bound);
+				bound.body.immovable = true;
+				boundary.add(bound);
+
+				bound = game.add.tileSprite(ledge.body.position.x + ledge.body.width, ledge.body.position.y, 10, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(bound);
+				bound.body.immovable = true;
+				boundary.add(bound);
+
+				var earthMonster = monsters.add(new Monster(game, 'atlas', 'earthl', 775, 450, 0.13, 'earth', player, boundary));
+				var airMonster = monsters.add(new Monster(game, 'atlas', 'airl', 800, game.world.height - 100, 0.13, 'air', player, boundary));
+			}
 
 			else if (state == 3)
 			{
@@ -167,11 +182,31 @@ GamePlay.prototype = {
 				platforms.add(ledge);
 				ledge.body.setSize(ledge.body.width, ledge.body.height / 2 - 15, 0, 62);
 
+				bound = game.add.tileSprite(ledge.body.position.x, ledge.body.position.y, 10, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(bound);
+				bound.body.immovable = true;
+				boundary.add(bound);
+
+				bound = game.add.tileSprite(ledge.body.position.x + ledge.body.width, ledge.body.position.y, 10, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(bound);
+				bound.body.immovable = true;
+				boundary.add(bound);
+
 				var ledge = game.add.tileSprite(650, 350, 400, 100, 'atlas', 'ground');
 				game.physics.arcade.enable(ledge);
 				ledge.body.immovable = true;
 				platforms.add(ledge);
 				ledge.body.setSize(ledge.body.width, ledge.body.height / 2 - 15, 0, 62);
+
+				bound = game.add.tileSprite(ledge.body.position.x, ledge.body.position.y, 10, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(bound);
+				bound.body.immovable = true;
+				boundary.add(bound);
+
+				bound = game.add.tileSprite(ledge.body.position.x + ledge.body.width, ledge.body.position.y, 10, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(bound);
+				bound.body.immovable = true;
+				boundary.add(bound);
 
 				var waterMonster = monsters.add(new Monster(game, 'atlas', 'waterl1', 300, 475, 0.13, 'water', player));
 				var fireMonster = monsters.add(new Monster(game, 'atlas', 'firel1', 800, 350, 0.13, 'fire', player));
@@ -189,12 +224,32 @@ GamePlay.prototype = {
 				platforms.add(ledge);
 				ledge.body.setSize(ledge.body.width, ledge.body.height / 2 - 15, 0, 62);
 
+				bound = game.add.tileSprite(ledge.body.position.x, ledge.body.position.y, 10, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(bound);
+				bound.body.immovable = true;
+				boundary.add(bound);
+
+				bound = game.add.tileSprite(ledge.body.position.x + ledge.body.width, ledge.body.position.y, 10, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(bound);
+				bound.body.immovable = true;
+				boundary.add(bound);
+
 				//(xpos, ypos, width, height, key, frame)
 				var ledge = game.add.tileSprite(220, 325, 500, 100, 'atlas', 'ground');
 				game.physics.arcade.enable(ledge);
 				ledge.body.immovable = true;
 				platforms.add(ledge);
 				ledge.body.setSize(ledge.body.width, ledge.body.height / 2 - 15, 0, 62);
+
+				bound = game.add.tileSprite(ledge.body.position.x, ledge.body.position.y, 10, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(bound);
+				bound.body.immovable = true;
+				boundary.add(bound);
+
+				bound = game.add.tileSprite(ledge.body.position.x + ledge.body.width, ledge.body.position.y, 10, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(bound);
+				bound.body.immovable = true;
+				boundary.add(bound);
 
 				var earthMonster = monsters.add(new Monster(game, 'atlas', 'earthl', 900, 475, 0.13, 'earth', player));
 				var fireMonster = monsters.add(new Monster(game, 'atlas', 'firel1', 300, 325, 0.13, 'fire', player));
@@ -209,17 +264,47 @@ GamePlay.prototype = {
 				platforms.add(ledge);
 				ledge.body.setSize(ledge.body.width, ledge.body.height / 2 - 15, 0, 62);
 
+				bound = game.add.tileSprite(ledge.body.position.x, ledge.body.position.y, 10, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(bound);
+				bound.body.immovable = true;
+				boundary.add(bound);
+
+				bound = game.add.tileSprite(ledge.body.position.x + ledge.body.width, ledge.body.position.y, 10, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(bound);
+				bound.body.immovable = true;
+				boundary.add(bound);
+
 				var ledge = game.add.tileSprite(600, 325, 475, 100, 'atlas', 'ground');
 				game.physics.arcade.enable(ledge);
 				ledge.body.immovable = true;
 				platforms.add(ledge);
 				ledge.body.setSize(ledge.body.width, ledge.body.height / 2 - 15, 0, 62);
 
+				bound = game.add.tileSprite(ledge.body.position.x, ledge.body.position.y, 10, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(bound);
+				bound.body.immovable = true;
+				boundary.add(bound);
+
+				bound = game.add.tileSprite(ledge.body.position.x + ledge.body.width, ledge.body.position.y, 10, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(bound);
+				bound.body.immovable = true;
+				boundary.add(bound);
+
 				var ledge = game.add.tileSprite(50, 200, 375, 100, 'atlas', 'ground');
 				game.physics.arcade.enable(ledge);
 				ledge.body.immovable = true;
 				platforms.add(ledge);
 				ledge.body.setSize(ledge.body.width, ledge.body.height / 2 - 15, 0, 62);
+
+				bound = game.add.tileSprite(ledge.body.position.x, ledge.body.position.y, 10, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(bound);
+				bound.body.immovable = true;
+				boundary.add(bound);
+
+				bound = game.add.tileSprite(ledge.body.position.x + ledge.body.width, ledge.body.position.y, 10, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(bound);
+				bound.body.immovable = true;
+				boundary.add(bound);
 
 				var waterMonster = monsters.add(new Monster(game, 'atlas', 'waterl1', 700, 325, 0.13, 'water', player));
 				var airMonster = monsters.add(new Monster(game, 'atlas', 'airl', 100, 200, 0.13, 'air', player));
@@ -237,17 +322,47 @@ GamePlay.prototype = {
 				platforms.add(ledge);
 				ledge.body.setSize(ledge.body.width, ledge.body.height / 2 - 15, 0, 62);
 
+				bound = game.add.tileSprite(ledge.body.position.x, ledge.body.position.y, 10, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(bound);
+				bound.body.immovable = true;
+				boundary.add(bound);
+
+				bound = game.add.tileSprite(ledge.body.position.x + ledge.body.width, ledge.body.position.y, 10, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(bound);
+				bound.body.immovable = true;
+				boundary.add(bound);
+
 				var ledge = game.add.tileSprite(50, 325, 475, 100, 'atlas', 'ground');
 				game.physics.arcade.enable(ledge);
 				ledge.body.immovable = true;
 				platforms.add(ledge);
 				ledge.body.setSize(ledge.body.width, ledge.body.height / 2 - 15, 0, 62);
 
+				bound = game.add.tileSprite(ledge.body.position.x, ledge.body.position.y, 10, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(bound);
+				bound.body.immovable = true;
+				boundary.add(bound);
+
+				bound = game.add.tileSprite(ledge.body.position.x + ledge.body.width, ledge.body.position.y, 10, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(bound);
+				bound.body.immovable = true;
+				boundary.add(bound);
+
 				var ledge = game.add.tileSprite(720, 225, 375, 100, 'atlas', 'ground');
 				game.physics.arcade.enable(ledge);
 				ledge.body.immovable = true;
 				platforms.add(ledge);
 				ledge.body.setSize(ledge.body.width, ledge.body.height / 2 - 15, 0, 62);
+
+				bound = game.add.tileSprite(ledge.body.position.x, ledge.body.position.y, 10, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(bound);
+				bound.body.immovable = true;
+				boundary.add(bound);
+
+				bound = game.add.tileSprite(ledge.body.position.x + ledge.body.width, ledge.body.position.y, 10, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(bound);
+				bound.body.immovable = true;
+				boundary.add(bound);
 
 				var airMonster = monsters.add(new Monster(game, 'atlas', 'airl', 750, 225, 0.13, 'air', player));
 				var earthMonster = monsters.add(new Monster(game, 'atlas', 'earthl', 100, 325, 0.13, 'earth', player));
@@ -263,17 +378,47 @@ GamePlay.prototype = {
 				platforms.add(ledge);
 				ledge.body.setSize(ledge.body.width, ledge.body.height / 2 - 15, 0, 62);
 
+				bound = game.add.tileSprite(ledge.body.position.x, ledge.body.position.y, 10, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(bound);
+				bound.body.immovable = true;
+				boundary.add(bound);
+
+				bound = game.add.tileSprite(ledge.body.position.x + ledge.body.width, ledge.body.position.y, 10, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(bound);
+				bound.body.immovable = true;
+				boundary.add(bound);
+
 				var ledge = game.add.tileSprite(900, 450, 300, 100, 'atlas', 'ground');
 				game.physics.arcade.enable(ledge);
 				ledge.body.immovable = true;
 				platforms.add(ledge);
 				ledge.body.setSize(ledge.body.width, ledge.body.height / 2 - 15, 0, 62);
 
+				bound = game.add.tileSprite(ledge.body.position.x, ledge.body.position.y, 10, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(bound);
+				bound.body.immovable = true;
+				boundary.add(bound);
+
+				bound = game.add.tileSprite(ledge.body.position.x + ledge.body.width, ledge.body.position.y, 10, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(bound);
+				bound.body.immovable = true;
+				boundary.add(bound);
+
 				var ledge = game.add.tileSprite(425, 300, 425, 100, 'atlas', 'ground');
 				game.physics.arcade.enable(ledge);
 				ledge.body.immovable = true;
 				platforms.add(ledge);
 				ledge.body.setSize(ledge.body.width, ledge.body.height / 2 - 15, 0, 62);
+
+				bound = game.add.tileSprite(ledge.body.position.x, ledge.body.position.y, 10, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(bound);
+				bound.body.immovable = true;
+				boundary.add(bound);
+
+				bound = game.add.tileSprite(ledge.body.position.x + ledge.body.width, ledge.body.position.y, 10, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(bound);
+				bound.body.immovable = true;
+				boundary.add(bound);
 
 				var waterMonster = monsters.add(new Monster(game, 'atlas', 'waterl1', 100, 450, 0.13, 'water', player));
 				var fireMonster = monsters.add(new Monster(game, 'atlas', 'firel1', 475, 300, 0.13, 'fire', player));
@@ -291,11 +436,31 @@ GamePlay.prototype = {
 				platforms.add(ledge);
 				ledge.body.setSize(ledge.body.width, ledge.body.height / 2 - 15, 0, 62);
 
+				bound = game.add.tileSprite(ledge.body.position.x, ledge.body.position.y, 10, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(bound);
+				bound.body.immovable = true;
+				boundary.add(bound);
+
+				bound = game.add.tileSprite(ledge.body.position.x + ledge.body.width, ledge.body.position.y, 10, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(bound);
+				bound.body.immovable = true;
+				boundary.add(bound);
+
 				var ledge = game.add.tileSprite(50, 475, 300, 100, 'atlas', 'ground');
 				game.physics.arcade.enable(ledge);
 				ledge.body.immovable = true;
 				platforms.add(ledge);
 				ledge.body.setSize(ledge.body.width, ledge.body.height / 2 - 15, 0, 62);
+
+				bound = game.add.tileSprite(ledge.body.position.x, ledge.body.position.y, 10, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(bound);
+				bound.body.immovable = true;
+				boundary.add(bound);
+
+				bound = game.add.tileSprite(ledge.body.position.x + ledge.body.width, ledge.body.position.y, 10, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(bound);
+				bound.body.immovable = true;
+				boundary.add(bound);
 
 				var ledge = game.add.tileSprite(25, 175, 325, 100, 'atlas', 'ground');
 				game.physics.arcade.enable(ledge);
@@ -303,11 +468,31 @@ GamePlay.prototype = {
 				platforms.add(ledge);
 				ledge.body.setSize(ledge.body.width, ledge.body.height / 2 - 15, 0, 62);
 
+				bound = game.add.tileSprite(ledge.body.position.x, ledge.body.position.y, 10, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(bound);
+				bound.body.immovable = true;
+				boundary.add(bound);
+
+				bound = game.add.tileSprite(ledge.body.position.x + ledge.body.width, ledge.body.position.y, 10, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(bound);
+				bound.body.immovable = true;
+				boundary.add(bound);
+
 				var ledge = game.add.tileSprite(900, 175, 325, 100, 'atlas', 'ground');
 				game.physics.arcade.enable(ledge);
 				ledge.body.immovable = true;
 				platforms.add(ledge);
 				ledge.body.setSize(ledge.body.width, ledge.body.height / 2 - 15, 0, 62);
+
+				bound = game.add.tileSprite(ledge.body.position.x, ledge.body.position.y, 10, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(bound);
+				bound.body.immovable = true;
+				boundary.add(bound);
+
+				bound = game.add.tileSprite(ledge.body.position.x + ledge.body.width, ledge.body.position.y, 10, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(bound);
+				bound.body.immovable = true;
+				boundary.add(bound);
 
 				var airMonster = monsters.add(new Monster(game, 'atlas', 'airl', 100, 175, 0.13, 'air', player));
 				var waterMonster = monsters.add(new Monster(game, 'atlas', 'waterl1', 500, 325, 0.13, 'water', player));
@@ -322,11 +507,31 @@ GamePlay.prototype = {
 				platforms.add(ledge);
 				ledge.body.setSize(ledge.body.width, ledge.body.height / 2 - 15, 0, 62);
 
+				bound = game.add.tileSprite(ledge.body.position.x, ledge.body.position.y, 10, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(bound);
+				bound.body.immovable = true;
+				boundary.add(bound);
+
+				bound = game.add.tileSprite(ledge.body.position.x + ledge.body.width, ledge.body.position.y, 10, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(bound);
+				bound.body.immovable = true;
+				boundary.add(bound);
+
 				var ledge = game.add.tileSprite(825, 475, 400, 100, 'atlas', 'ground');
 				game.physics.arcade.enable(ledge);
 				ledge.body.immovable = true;
 				platforms.add(ledge);
 				ledge.body.setSize(ledge.body.width, ledge.body.height / 2 - 15, 0, 62);
+
+				bound = game.add.tileSprite(ledge.body.position.x, ledge.body.position.y, 10, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(bound);
+				bound.body.immovable = true;
+				boundary.add(bound);
+
+				bound = game.add.tileSprite(ledge.body.position.x + ledge.body.width, ledge.body.position.y, 10, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(bound);
+				bound.body.immovable = true;
+				boundary.add(bound);
 
 				var ledge = game.add.tileSprite(525, 325, 200, 100, 'atlas', 'ground');
 				game.physics.arcade.enable(ledge);
@@ -334,17 +539,47 @@ GamePlay.prototype = {
 				platforms.add(ledge);
 				ledge.body.setSize(ledge.body.width, ledge.body.height / 2 - 15, 0, 62);
 
+				bound = game.add.tileSprite(ledge.body.position.x, ledge.body.position.y, 10, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(bound);
+				bound.body.immovable = true;
+				boundary.add(bound);
+
+				bound = game.add.tileSprite(ledge.body.position.x + ledge.body.width, ledge.body.position.y, 10, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(bound);
+				bound.body.immovable = true;
+				boundary.add(bound);
+
 				var ledge = game.add.tileSprite(50, 175, 400, 100, 'atlas', 'ground');
 				game.physics.arcade.enable(ledge);
 				ledge.body.immovable = true;
 				platforms.add(ledge);
 				ledge.body.setSize(ledge.body.width, ledge.body.height / 2 - 15, 0, 62);
 
+				bound = game.add.tileSprite(ledge.body.position.x, ledge.body.position.y, 10, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(bound);
+				bound.body.immovable = true;
+				boundary.add(bound);
+
+				bound = game.add.tileSprite(ledge.body.position.x + ledge.body.width, ledge.body.position.y, 10, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(bound);
+				bound.body.immovable = true;
+				boundary.add(bound);
+
 				var ledge = game.add.tileSprite(825, 175, 400, 100, 'atlas', 'ground');
 				game.physics.arcade.enable(ledge);
 				ledge.body.immovable = true;
 				platforms.add(ledge);
 				ledge.body.setSize(ledge.body.width, ledge.body.height / 2 - 15, 0, 62);
+
+				bound = game.add.tileSprite(ledge.body.position.x, ledge.body.position.y, 10, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(bound);
+				bound.body.immovable = true;
+				boundary.add(bound);
+
+				bound = game.add.tileSprite(ledge.body.position.x + ledge.body.width, ledge.body.position.y, 10, 100, 'atlas', 'ground');
+				game.physics.arcade.enable(bound);
+				bound.body.immovable = true;
+				boundary.add(bound);
 
 				var airMonster = monsters.add(new Monster(game, 'atlas', 'airl', 900, 175, 0.13, 'air', player));
 				var fireMonster = monsters.add(new Monster(game, 'atlas', 'firel1', 125, 175, 0.13, 'fire', player));
@@ -373,6 +608,7 @@ GamePlay.prototype = {
 		switchNext = false;
 		switchPrev = false;
 		attack = false;
+		reverse = false;
 
 		//advances screen to level 1, this will eventually be the first screen that is loaded instead of the 'gameplay' screen
 		if(game.input.keyboard.justPressed(Phaser.Keyboard.M)) {
@@ -410,7 +646,7 @@ GamePlay.prototype = {
 		game.physics.arcade.collide(player, airFairy, addAirFairy, null, this);
 		//if the players bullets hit any type of monster, call the calcDmg function
 		game.physics.arcade.collide(player.bullets, monsters, calcDmg, null, this);
-		game.physics.arcade.collide(player, monsters); //allows collision between player and monsters
+		//game.physics.arcade.collide(player, monsters); //allows collision between player and monsters
 
 		function calcDmg(bullet, monster) //calculates what kind of damage the monster takes depending on type of bullet collided with type of monster.
 		{
@@ -595,6 +831,8 @@ GamePlay.prototype = {
 		game.debug.body(RightProjectile);
 		game.debug.body(monsters);
 		//game.debug.physicsGroup(platforms);
+		game.debug.physicsGroup(boundary);
+		game.debug.physicsGroup(monsters);
 	},
 }
 

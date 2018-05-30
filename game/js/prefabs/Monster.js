@@ -1,5 +1,5 @@
 //Monster prefab for monster objects, takes in a player as parameter just to be able to reference the player object
-function Monster (game, key, frame, xpos, ypos, scale, element, player)
+function Monster (game, key, frame, xpos, ypos, scale, element, player, boundary)
 {
 	Phaser.Sprite.call(this, game, xpos, ypos, key, frame);
 	this.anchor.set(0.5);
@@ -13,11 +13,11 @@ function Monster (game, key, frame, xpos, ypos, scale, element, player)
 	this.enableCollision = true;
 	this.cleared = false;
 	this.giveHealth = true;
+	this.targetPlayer = false;
 
 	game.physics.enable(this);
 	game.physics.arcade.enable(this);
 	this.body.collideWorldBounds = true;
-	this.body.immovable = true;
 
 	this.bullets = game.add.group(); //gives this monster a bullets group and initializes it with the four different projectiles off screen somewhere
 	this.bullets.create(100000, 100000, 'atlas', 'wproj');
@@ -43,6 +43,7 @@ function Monster (game, key, frame, xpos, ypos, scale, element, player)
 	this.animations.add('aIdleRight', ['atlas', 'airidle2', 'atlas', 'airr'], 3, true); 
 
 	this.attackEvent = game.time.events.loop(Phaser.Timer.SECOND * game.rnd.realInRange(1.8, 3.0), doAttack, this); //every 1.8-3 seconds, calls the doAttack function below
+	
 
 	//determines what projectile to add to the bullets group based on what direction the monster is facing and what element it is.
 	function doAttack()
@@ -103,6 +104,25 @@ Monster.prototype.constructor = Monster;
 Monster.prototype.update = function() //monster's update function
 {
 	this.body.velocity.x = 0;
+
+	if (Math.abs(this.body.position.y - player.body.position.y) <= 30)
+	{
+		this.targetPlayer = true;
+	}
+	else
+	{
+		this.targetPlayer = false;
+	}
+
+	if (this.targetPlayer == true)
+	{
+		facePlayer(this, player);
+	}
+	else if (this.targetPlayer == false)
+	{
+		roam(this);
+	}
+
 	//this will be where the damaged/idol state happens with the monster. Right now it's set between 1 and 2 health.
 	if (this.health > 0 && this.health < 3)
 	{
@@ -190,55 +210,120 @@ Monster.prototype.update = function() //monster's update function
 		this.health = 9999; //set the health to something thats greater than 0 so it will never enter this if chunck again. 
 	}
 
-	if (this.body.position.x - player.body.position.x > 0) //if this monster's x position minus the player's x position is positive
+	function facePlayer(monster, player)
 	{
-		this.facingLeft = true; //then you know that the monster should be facing to the left and not to the right
-		this.facingRight = false;
-	}
-	else if (this.body.position.x - player.body.position.x < 0) //vice versa
-	{
-		this.facingLeft = false;
-		this.facingRight = true;
+		game.time.events.resume(monster.attackEvent);
+		//console.log('calling facePlayer');
+		if (monster.body.position.x - player.body.position.x > 0) //if monster monster's x position minus the player's x position is positive
+		{
+			monster.facingLeft = true; //then you know that the monster should be facing to the left and not to the right
+			monster.facingRight = false;
+		}
+		else if (monster.body.position.x - player.body.position.x < 0) //vice versa
+		{
+			monster.facingLeft = false;
+			monster.facingRight = true;
+		}
+
+		if (monster.facingLeft == true && monster.idol == false) //if the monster is facing left, move to the left at speed -60 units
+		{
+			monster.body.velocity.x = -60;
+			if (monster.element == 'water')
+			{
+				monster.animations.play('wMoveLeft');
+			}
+			else if (monster.element == 'earth')
+			{
+				monster.frameName = ('atlas', 'earthl');
+			}
+			else if (monster.element == 'fire')
+			{
+				monster.animations.play('fMoveLeft');
+			}
+			else if (monster.element == 'air')
+			{
+				monster.frameName = ('atlas', 'airl');
+			}
+		}
+		else if (monster.facingRight == true && monster.idol == false) //if the monster is facing right, move to the right at speed 60 units
+		{
+			monster.body.velocity.x = 60;
+			if (monster.element == 'water')
+			{
+				monster.animations.play('wMoveRight');
+			}
+			else if (monster.element == 'earth')
+			{
+				monster.frameName = ('atlas', 'earthr');
+			}
+			else if (monster.element == 'fire')
+			{
+				monster.animations.play('fMoveRight');
+			}
+			else if (monster.element == 'air')
+			{
+				monster.frameName = ('atlas', 'airr');
+			}
+		}
 	}
 
-	if (this.facingLeft == true && this.idol == false) //if the monster is facing left, move to the left at speed -60 units
+	function roam(monster)
 	{
-		this.body.velocity.x = -60;
-		if (this.element == 'water')
+		game.time.events.pause(monster.attackEvent);
+		var rng = game.rnd.integerInRange(0, 100);
+		if (rng == 5)
 		{
-			this.animations.play('wMoveLeft');
+			if (monster.facingLeft == true)
+			{
+				monster.facingLeft = false;
+				monster.facingRight = true;
+			}
+			else 
+			{
+				monster.facingRight = false;
+				monster.facingLeft = true;
+			}
 		}
-		else if (this.element == 'earth')
+		
+		if (monster.facingLeft == true && monster.idol == false) //if the monster is facing left, move to the left at speed -60 units
 		{
-			this.frameName = ('atlas', 'earthl');
+			monster.body.velocity.x = -60;
+			if (monster.element == 'water')
+			{
+				monster.animations.play('wMoveLeft');
+			}
+			else if (monster.element == 'earth')
+			{
+				monster.frameName = ('atlas', 'earthl');
+			}
+			else if (monster.element == 'fire')
+			{
+				monster.animations.play('fMoveLeft');
+			}
+			else if (monster.element == 'air')
+			{
+				monster.frameName = ('atlas', 'airl');
+			}
 		}
-		else if (this.element == 'fire')
+		else if (monster.facingRight == true && monster.idol == false) //if the monster is facing right, move to the right at speed 60 units
 		{
-			this.animations.play('fMoveLeft');
-		}
-		else if (this.element == 'air')
-		{
-			this.frameName = ('atlas', 'airl');
-		}
-	}
-	else if (this.facingRight == true && this.idol == false) //if the monster is facing right, move to the right at speed 60 units
-	{
-		this.body.velocity.x = 60;
-		if (this.element == 'water')
-		{
-			this.animations.play('wMoveRight');
-		}
-		else if (this.element == 'earth')
-		{
-			this.frameName = ('atlas', 'earthr');
-		}
-		else if (this.element == 'fire')
-		{
-			this.animations.play('fMoveRight');
-		}
-		else if (this.element == 'air')
-		{
-			this.frameName = ('atlas', 'airr');
+			monster.body.velocity.x = 60;
+			if (monster.element == 'water')
+			{
+				monster.animations.play('wMoveRight');
+			}
+			else if (monster.element == 'earth')
+			{
+				monster.frameName = ('atlas', 'earthr');
+			}
+			else if (monster.element == 'fire')
+			{
+				monster.animations.play('fMoveRight');
+			}
+			else if (monster.element == 'air')
+			{
+				monster.frameName = ('atlas', 'airr');
+			}
 		}
 	}
 
@@ -281,6 +366,7 @@ Monster.prototype.update = function() //monster's update function
 
 	//if the player and monster's bullets collide, then the player takes 3 damage.
 	game.physics.arcade.collide(player, this.bullets, takeDmg, null, this); 
+	game.physics.arcade.collide(this, boundary); 
 
 	function takeDmg(player, bullet)
 	{
@@ -290,5 +376,6 @@ Monster.prototype.update = function() //monster's update function
 		bullet.kill();
 		player.health -= 3;
 	}
+
 	
 }
