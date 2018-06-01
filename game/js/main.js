@@ -110,6 +110,9 @@ GamePlay.prototype = {
 			player = new Player(game, 'atlas', 'playerr0', 100, game.world.height - 160, 0.2) //add in a player object by calling Player prefab constructor
 			game.add.existing(player); //add in to world
 			var waterMonster = monsters.add(new Monster(game, 'atlas', 'waterl1', 800, game.world.height - 100, 0.13, 'water', player, boundary));
+			waterMonster.health = 2;
+
+			game.add.text(25, 100, 'Text', {font: "15px 'Helvetica'", fill: "#FFFFFF", align: "center"});
 
 			//var earthMonster = monsters.add(new Monster(game, 'atlas', 'earthl', 800, game.world.height - 100, 0.13, 'earth', player));
 
