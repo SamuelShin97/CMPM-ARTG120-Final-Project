@@ -36,6 +36,22 @@ function Player (game, key, frame, xpos, ypos, scale)
 	this.animations.add('moveRight', Phaser.Animation.generateFrameNames('playerr', 0, 7), 30, true); 
 	this.animations.add('moveLeft', Phaser.Animation.generateFrameNames('playerl', 0, 7), 30, true); 
 
+	wFairy = new Fairy(game, 'atlas', 'wfairy', 10000, 100000, 1, 'water', this); 
+	game.add.existing(wFairy);
+	wFairy.enableCollision = false;
+
+	eFairy = new Fairy(game, 'atlas', 'efairy', 10000, 100000, 1, 'earth', this); 
+	game.add.existing(eFairy);
+	eFairy.enableCollision = false;
+
+	fFairy = new Fairy(game, 'atlas', 'ffairy', 10000, 100000, 1, 'fire', this);
+	game.add.existing(fFairy);
+	fFairy.enableCollision = false; 
+
+	aFairy = new Fairy(game, 'atlas', 'afairy', 10000, 100000, 1, 'air', this); 
+	game.add.existing(aFairy);
+	aFairy.enableCollision = false;
+
 }
 
 Player.prototype = Object.create(Phaser.Sprite.prototype);
@@ -296,6 +312,179 @@ Player.prototype.update = function() //player's update function
 			}
 		}
 		console.log(player.hasElement);
+	}
+
+	if (this.hasElement[0] == true)
+	{
+		if (this.facingRight == true)
+		{
+			wFairy.body.position.x = this.body.position.x - 50;
+			wFairy.body.position.y = this.body.position.y;
+		}
+		else if (this.facingLeft == true)
+		{
+			wFairy.body.position.x = this.body.position.x + 50;
+			wFairy.body.position.y = this.body.position.y;
+		}
+	}
+
+	if (this.hasElement[1] == true && this.fairyCount == 1)
+	{
+		if (this.facingRight == true)
+		{
+			eFairy.body.position.x = this.body.position.x - 50;
+			eFairy.body.position.y = this.body.position.y;
+		}
+		else if (this.facingLeft == true)
+		{
+			eFairy.body.position.x = this.body.position.x + 50;
+			eFairy.body.position.y = this.body.position.y;
+		}
+	}
+	else if (this.hasElement[1] == true && this.fairyCount > 1 && this.hasElement[0] == false)
+	{
+		if (this.facingRight == true)
+		{
+			eFairy.body.position.x = this.body.position.x - 50;
+			eFairy.body.position.y = this.body.position.y;
+		}
+		else if (this.facingLeft == true)
+		{
+			eFairy.body.position.x = this.body.position.x + 50;
+			eFairy.body.position.y = this.body.position.y;
+		}
+	}
+	else if (this.hasElement[1] == true && this.fairyCount > 1)
+	{
+		if (this.facingRight == true)
+		{
+			eFairy.body.position.x = this.body.position.x - 100;
+			eFairy.body.position.y = this.body.position.y;
+		}
+		else if (this.facingLeft == true)
+		{
+			eFairy.body.position.x = this.body.position.x + 100;
+			eFairy.body.position.y = this.body.position.y;
+		}
+	}
+
+	if (this.hasElement[2] == true && this.fairyCount == 1)
+	{
+		if (this.facingRight == true)
+		{
+			fFairy.body.position.x = this.body.position.x - 50;
+			fFairy.body.position.y = this.body.position.y;
+		}
+		else if (this.facingLeft == true)
+		{
+			fFairy.body.position.x = this.body.position.x + 50;
+			fFairy.body.position.y = this.body.position.y;
+		}
+	}
+	else if (this.hasElement[2] == true && this.fairyCount == 2 && this.hasElement[3] == true)
+	{
+		if (this.facingRight == true)
+		{
+			fFairy.body.position.x = this.body.position.x - 50;
+			fFairy.body.position.y = this.body.position.y;
+		}
+		else if (this.facingLeft == true)
+		{
+			fFairy.body.position.x = this.body.position.x + 50;
+			fFairy.body.position.y = this.body.position.y;
+		}
+	}
+	else if (this.hasElement[2] == true && this.fairyCount == 2)
+	{
+		if (this.facingRight == true)
+		{
+			fFairy.body.position.x = this.body.position.x - 100;
+			fFairy.body.position.y = this.body.position.y;
+		}
+		else if (this.facingLeft == true)
+		{
+			fFairy.body.position.x = this.body.position.x + 100;
+			fFairy.body.position.y = this.body.position.y;
+		}
+	}
+	else if (this.hasElement[2] == true && this.fairyCount == 3 && this.hasElement[3] == true)
+	{
+		if (this.facingRight == true)
+		{
+			fFairy.body.position.x = this.body.position.x - 100;
+			fFairy.body.position.y = this.body.position.y;
+		}
+		else if (this.facingLeft == true)
+		{
+			fFairy.body.position.x = this.body.position.x + 100;
+			fFairy.body.position.y = this.body.position.y;
+		}
+	}
+	else if (this.hasElement[2] == true && this.fairyCount > 2)
+	{
+		if (this.facingRight == true)
+		{
+			fFairy.body.position.x = this.body.position.x - 150;
+			fFairy.body.position.y = this.body.position.y;
+		}
+		else if (this.facingLeft == true)
+		{
+			fFairy.body.position.x = this.body.position.x + 150;
+			fFairy.body.position.y = this.body.position.y;
+		}
+	}
+
+	if (this.hasElement[3] == true && this.fairyCount == 1)
+	{
+		if (this.facingRight == true)
+		{
+			aFairy.body.position.x = this.body.position.x - 50;
+			aFairy.body.position.y = this.body.position.y;
+		}
+		else if (this.facingLeft == true)
+		{
+			aFairy.body.position.x = this.body.position.x + 50;
+			aFairy.body.position.y = this.body.position.y;
+		}
+	}
+	else if (this.hasElement[3] == true && this.fairyCount == 2)
+	{
+		if (this.facingRight == true)
+		{
+			aFairy.body.position.x = this.body.position.x - 100;
+			aFairy.body.position.y = this.body.position.y;
+		}
+		else if (this.facingLeft == true)
+		{
+			aFairy.body.position.x = this.body.position.x + 100;
+			aFairy.body.position.y = this.body.position.y;
+		}
+	}
+	else if (this.hasElement[3] == true && this.fairyCount == 3)
+	{
+		if (this.facingRight == true)
+		{
+			aFairy.body.position.x = this.body.position.x - 150;
+			aFairy.body.position.y = this.body.position.y;
+		}
+		else if (this.facingLeft == true)
+		{
+			aFairy.body.position.x = this.body.position.x + 150;
+			aFairy.body.position.y = this.body.position.y;
+		}
+	}
+	else if (this.hasElement[3] == true && this.fairyCount == 4)
+	{
+		if (this.facingRight == true)
+		{
+			aFairy.body.position.x = this.body.position.x - 200;
+			aFairy.body.position.y = this.body.position.y;
+		}
+		else if (this.facingLeft == true)
+		{
+			aFairy.body.position.x = this.body.position.x + 200;
+			aFairy.body.position.y = this.body.position.y;
+		}
 	}
 
 	//lose condition one, if you haven't collected a fairy yet, and your health depletes less than equal to 0 then you lose
