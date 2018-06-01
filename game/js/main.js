@@ -120,16 +120,16 @@ GamePlay.prototype = {
 
 			//var airMonster = monsters.add(new Monster(game, 'atlas', 'airl', 800, game.world.height - 100, 0.13, 'air', player));
 			//add in all four fairies for testing
-			waterFairy = new Fairy(game, 'atlas', 'wfairy', 300, game.world.height - 250, 1, 'water'); 
+			waterFairy = new Fairy(game, 'atlas', 'wfairy', 300, game.world.height - 250, 1, 'water', player); 
 			game.add.existing(waterFairy);
  	  
-			earthFairy = new Fairy(game, 'atlas', 'efairy', 400, game.world.height - 250, 1, 'earth');
+			earthFairy = new Fairy(game, 'atlas', 'efairy', 400, game.world.height - 250, 1, 'earth', player);
 			game.add.existing(earthFairy);
 		
-			fireFairy = new Fairy(game, 'atlas', 'ffairy', 500, game.world.height - 250, 1, 'fire');
+			fireFairy = new Fairy(game, 'atlas', 'ffairy', 500, game.world.height - 250, 1, 'fire', player);
 			game.add.existing(fireFairy);
 		
-			airFairy = new Fairy(game, 'atlas', 'afairy', 600, game.world.height - 250, 1, 'air');
+			airFairy = new Fairy(game, 'atlas', 'afairy', 600, game.world.height - 250, 1, 'air', player);
 			game.add.existing(airFairy);
 		}
 		else 
@@ -214,7 +214,7 @@ GamePlay.prototype = {
 				var waterMonster = monsters.add(new Monster(game, 'atlas', 'waterl1', 300, 475, 0.13, 'water', player));
 				var fireMonster = monsters.add(new Monster(game, 'atlas', 'firel1', 800, 350, 0.13, 'fire', player));
 
-				waterFairy = new Fairy(game, 'atlas', 'wfairy', 1000, game.world.height - 100, 1, 'water'); 
+				waterFairy = new Fairy(game, 'atlas', 'wfairy', 1000, game.world.height - 100, 1, 'water', player); 
 				game.add.existing(waterFairy);
 			}
 
@@ -312,7 +312,7 @@ GamePlay.prototype = {
 				var waterMonster = monsters.add(new Monster(game, 'atlas', 'waterl1', 700, 325, 0.13, 'water', player));
 				var airMonster = monsters.add(new Monster(game, 'atlas', 'airl', 100, 200, 0.13, 'air', player));
 
-				airFairy = new Fairy(game, 'atlas', 'afairy', 800, game.world.height - 75, 1, 'air');
+				airFairy = new Fairy(game, 'atlas', 'afairy', 800, game.world.height - 75, 1, 'air', player);
 				game.add.existing(airFairy);
 			}
 
@@ -427,7 +427,7 @@ GamePlay.prototype = {
 				var fireMonster = monsters.add(new Monster(game, 'atlas', 'firel1', 475, 300, 0.13, 'fire', player));
 				var earthMonster = monsters.add(new Monster(game, 'atlas', 'earthl', 950, 450, 0.13, 'earth', player));
 
-				fireFairy = new Fairy(game, 'atlas', 'ffairy', 650, game.world.height - 100, 1, 'fire');
+				fireFairy = new Fairy(game, 'atlas', 'ffairy', 650, game.world.height - 100, 1, 'fire', player);
 				game.add.existing(fireFairy);
 			}
 
@@ -589,7 +589,7 @@ GamePlay.prototype = {
 				var waterMonster = monsters.add(new Monster(game, 'atlas', 'waterl1', 900, 475, 0.13, 'water', player));
 				var earthMonster = monsters.add(new Monster(game, 'atlas', 'earthl', 135, 475, 0.13, 'earth', player));
 
-				earthFairy = new Fairy(game, 'atlas', 'efairy', 625, 325, 1, 'earth');
+				earthFairy = new Fairy(game, 'atlas', 'efairy', 625, 325, 1, 'earth', player);
 				game.add.existing(earthFairy);
 			}
 		}
