@@ -270,7 +270,7 @@ Monster.prototype.update = function() //monster's update function
 	function roam(monster)
 	{
 		game.time.events.pause(monster.attackEvent);
-		var rng = game.rnd.integerInRange(0, 100);
+		var rng = game.rnd.integerInRange(0, 75);
 		if (rng == 5)
 		{
 			if (monster.facingLeft == true)

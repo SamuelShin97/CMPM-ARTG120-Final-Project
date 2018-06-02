@@ -9,7 +9,7 @@ function Fairy (game, key, frame, xpos, ypos, scale, element, player)
 	this.scale.y = scale;
 
 	game.physics.enable(this);
-	this.body.collideWorldBounds = true;
+	this.body.collideWorldBounds = false;
 }
 
 Fairy.prototype = Object.create(Phaser.Sprite.prototype);

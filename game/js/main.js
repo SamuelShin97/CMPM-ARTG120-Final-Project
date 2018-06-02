@@ -364,7 +364,7 @@ GamePlay.prototype = {
 				bound.body.immovable = true;
 				boundary.add(bound);
 
-				var airMonster = monsters.add(new Monster(game, 'atlas', 'airl', 750, 225, 0.13, 'air', player));
+				var airMonster = monsters.add(new Monster(game, 'atlas', 'airl', 800, 225, 0.13, 'air', player));
 				var earthMonster = monsters.add(new Monster(game, 'atlas', 'earthl', 100, 325, 0.13, 'earth', player));
 				var fireMonster = monsters.add(new Monster(game, 'atlas', 'firel1', 725, 475, 0.13, 'fire', player));
 
@@ -828,9 +828,10 @@ GamePlay.prototype = {
 	render: function() //this is just debug stuff
 	{
 		//game.debug.body(player);
-		game.debug.body(RightProjectile);
-		game.debug.body(monsters);
-		//game.debug.physicsGroup(platforms);
+		//game.debug.body(RightProjectile);
+		//game.debug.body(monsters);
+		game.debug.physicsGroup(platforms);
+		//game.debug.body(wFairy);
 		game.debug.physicsGroup(boundary);
 		game.debug.physicsGroup(monsters);
 	},
