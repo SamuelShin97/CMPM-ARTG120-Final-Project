@@ -40,18 +40,23 @@ function Player (game, key, frame, xpos, ypos, scale)
 	wFairy = new Fairy(game, 'atlas', 'w0', 10000, 10000, 0.1, 'water', this);
 	game.add.existing(wFairy);
 	wFairy.body.gravity.y = 800;
+	wFairy.body.setSize(300, 1300, 120, 100);
 
 	eFairy = new Fairy(game, 'atlas', 'e0', 10000, 10000, 0.1, 'earth', this);
 	game.add.existing(eFairy);
 	eFairy.body.gravity.y = 700;
+	eFairy.body.setSize(300, 1300, 120, 100);
 
 	fFairy = new Fairy(game, 'atlas', 'f0', 10000, 10000, 0.1, 'fire', this);
 	game.add.existing(fFairy);
 	fFairy.body.gravity.y = 600;
+	fFairy.body.setSize(300, 1300, 120, 100);
 
 	aFairy = new Fairy(game, 'atlas', 'a0', 10000, 10000, 0.1, 'air', this);
 	game.add.existing(aFairy);
 	aFairy.body.gravity.y = 500;
+	aFairy.body.setSize(300, 1300, 120, 100);
+
 }
 
 Player.prototype = Object.create(Phaser.Sprite.prototype);
@@ -524,4 +529,9 @@ Player.prototype.update = function() //player's update function
 		game.state.start('EndGame');
 	}
 
+}
+
+Player.prototype.render = function()
+{
+	game.debug.body(wFairy);
 }

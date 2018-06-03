@@ -119,6 +119,7 @@ GamePlay.prototype = {
 			//add in all four fairies for testing
 			waterFairy = new Fairy(game, 'atlas', 'w0', 300, game.world.height - 250, 0.1, 'water', player); 
 			game.add.existing(waterFairy);
+			//waterFairy.body.setSize(300, 900, 120, 60); //adjust player's hitbox to match sprite dimensions (width, height, offsetx, offsety)
  	  
 			earthFairy = new Fairy(game, 'atlas', 'e0', 400, game.world.height - 250, 0.1, 'earth', player);
 			game.add.existing(earthFairy);
@@ -831,8 +832,9 @@ GamePlay.prototype = {
 		//game.debug.body(RightProjectile);
 		//game.debug.body(monsters);
 		game.debug.physicsGroup(platforms);
-		game.debug.physicsGroup(boundary);
-		game.debug.physicsGroup(monsters);
+		//game.debug.physicsGroup(boundary);
+		//game.debug.physicsGroup(monsters);
+		game.debug.body(waterFairy);
 	},
 }
 

@@ -10,10 +10,10 @@ function Fairy (game, key, frame, xpos, ypos, scale, element, player)
 	this.setSelect = false;
 
 	game.physics.enable(this);
+	game.physics.arcade.enable(this);
 	this.body.collideWorldBounds = false;
 
 	this.animations.add('wGlow', Phaser.Animation.generateFrameNames('w', 0, 5), 5, true);
-	//this.animations.add('wGlow', ['atlas', 'w0', 'atlas', 'wselect'], 12, true);
 	this.animations.add('eGlow', Phaser.Animation.generateFrameNames('e', 0, 5), 5, true);
 	this.animations.add('fGlow', Phaser.Animation.generateFrameNames('f', 0, 5), 5, true);
 	this.animations.add('aGlow', Phaser.Animation.generateFrameNames('a', 0, 5), 5, true);
@@ -81,6 +81,4 @@ Fairy.prototype.update = function()
 	{
 		this.frameName = ('atlas', 'a0');
 	}
-
-
 }
