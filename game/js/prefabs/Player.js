@@ -37,19 +37,19 @@ function Player (game, key, frame, xpos, ypos, scale)
 	this.animations.add('moveRight', Phaser.Animation.generateFrameNames('playerr', 0, 7), 30, true); 
 	this.animations.add('moveLeft', Phaser.Animation.generateFrameNames('playerl', 0, 7), 30, true); 
 
-	wFairy = new Fairy(game, 'atlas', 'wfairy', 10000, 10000, 1, 'water', this);
+	wFairy = new Fairy(game, 'atlas', 'w0', 10000, 10000, 0.1, 'water', this);
 	game.add.existing(wFairy);
 	wFairy.body.gravity.y = 800;
 
-	eFairy = new Fairy(game, 'atlas', 'efairy', 10000, 10000, 1, 'earth', this);
+	eFairy = new Fairy(game, 'atlas', 'e0', 10000, 10000, 0.1, 'earth', this);
 	game.add.existing(eFairy);
 	eFairy.body.gravity.y = 700;
 
-	fFairy = new Fairy(game, 'atlas', 'ffairy', 10000, 10000, 1, 'fire', this);
+	fFairy = new Fairy(game, 'atlas', 'f0', 10000, 10000, 0.1, 'fire', this);
 	game.add.existing(fFairy);
 	fFairy.body.gravity.y = 600;
 
-	aFairy = new Fairy(game, 'atlas', 'afairy', 10000, 10000, 1, 'air', this);
+	aFairy = new Fairy(game, 'atlas', 'a0', 10000, 10000, 0.1, 'air', this);
 	game.add.existing(aFairy);
 	aFairy.body.gravity.y = 500;
 }
@@ -156,6 +156,35 @@ Player.prototype.update = function() //player's update function
 			}
 		}
 		console.log(this.currentIndex);
+	}
+
+	if (this.equippedElement[0] == true)
+	{
+		wFairy.setSelect = true;
+		eFairy.setSelect = false;
+		fFairy.setSelect = false;
+		aFairy.setSelect = false;
+	}
+	else if (this.equippedElement[1] == true)
+	{
+		eFairy.setSelect = true;
+		wFairy.setSelect = false;
+		fFairy.setSelect = false;
+		aFairy.setSelect = false;
+	}
+	else if (this.equippedElement[2] == true)
+	{
+		fFairy.setSelect = true;
+		wFairy.setSelect = false;
+		eFairy.setSelect = false;
+		aFairy.setSelect = false;
+	}
+	else if (this.equippedElement[3] == true)
+	{
+		aFairy.setSelect = true;
+		wFairy.setSelect = false;
+		eFairy.setSelect = false;
+		fFairy.setSelect = false;
 	}
 
 	//this if chunk is for player attacking
