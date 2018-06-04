@@ -112,7 +112,36 @@ GamePlay.prototype = {
 			var waterMonster = monsters.add(new Monster(game, 'atlas', 'waterl1', 800, game.world.height - 100, 0.13, 'water', player, boundary));
 			waterMonster.health = 2;
 
-			game.add.text(25, 100, 'Text', {font: "15px 'Helvetica'", fill: "#FFFFFF", align: "center"});
+			var TutText1 = "The Fluorescent Forest can be\na very dangerous place, but luckily these\nfairies are willing to guide you through.";
+			game.add.text(25, 200, TutText1, {font: "12px 'Helvetica'", fill: "#FFFFFF", align: "left", backgroundColor: "#797D7F"});
+
+			var TutText2 = "Use WAD to move and jump.\nTouch the fairies to collect them.\nThis will imbue you with their power.";
+			game.add.text(250, 200, TutText2, {font:"12px 'Helvetica'", fill: "#FFFFFF", align: "left", backgroundColor: "#797D7F"});
+
+			var TutText3 = "Press E to change which fairy's\npower is equipped. Press SPACEBAR\nto use the equipped power.";
+			game.add.text(450, 200, TutText3, {font:"12px 'Helvetica'", fill: "#FFFFFF", align: "left", backgroundColor: "#797D7F"});
+
+			var TutText4 = "The fairies don't like enemies of the\nforest and its inhabitants, so be\ncareful when attacking them.";
+			game.add.text(660, 200, TutText4, {font:"12px 'Helvetica'", fill: "#FFFFFF", align: "left", backgroundColor: "#797D7F"});
+
+			var TutText5 = "You may attack monsters until they\ndie or fight them until they reach\ntheir idle state and then heal them.";
+			game.add.text(855, 200, TutText5, {font:"12px 'Helvetica'", fill: "#FFFFFF", align: "left", backgroundColor: "#797D7F"});
+
+			var TutText6 = "Each type of monster has an element\nthey are weaker to and are healed\nby their own element.";
+			game.add.text(1050, 200, TutText6, {font:"12px 'Helvetica'", fill: "#FFFFFF", align: "left", backgroundColor: "#797D7F"});
+
+			var TutText7 = "Killing enemies may grant you a \ndamage bonus, but the fairies will\nstart to resent you and one will leave.";
+			game.add.text(450, 300, TutText7, {font:"12px 'Helvetica'", fill: "#FFFFFF", align: "left", backgroundColor: "#797D7F"});
+
+			var TutText8 = "On the other hand, healing\nenemies keeps the fairies happy\nand grants you extra Energy.";
+			game.add.text(660, 300, TutText8, {font:"12px 'Helvetica'", fill: "#FFFFFF", align: "left", backgroundColor: "#797D7F"});
+
+			var TutText9 = "Go ahead and heal this monster\nusing the Water Fairy.";
+			game.add.text(750, 525, TutText9, {font:"12px 'Helvetica'", fill: "#FFFFFF", align: "left", backgroundColor: "#797D7F"});
+
+			if (waterMonster.health > 4) {
+				TutText1.destroy();
+			}
 
 			//var earthMonster = monsters.add(new Monster(game, 'atlas', 'earthl', 800, game.world.height - 100, 0.13, 'earth', player));
 
