@@ -1,5 +1,5 @@
 //prefab for Fairy objects
-function Fairy (game, key, frame, xpos, ypos, scale, element, player)
+function Fairy (game, key, frame, xpos, ypos, scale, element, platforms)
 {
 	Phaser.Sprite.call(this, game, xpos, ypos, key, frame);
 	this.element = element; //what kind of element is this fairy

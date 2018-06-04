@@ -25,8 +25,10 @@ var super_dmg = 5; //value for hitting an elemental monster with super effective
 var repeat = false; //if player has advanced to a new screen
 var state = 0;
 var unlock = false;
+var preUnlock = false;
 
 var player;
+var finalBoss;
 
 var reverse = false;
 
@@ -149,17 +151,16 @@ GamePlay.prototype = {
 
 			//var airMonster = monsters.add(new Monster(game, 'atlas', 'airl', 800, game.world.height - 100, 0.13, 'air', player));
 			//add in all four fairies for testing
-			waterFairy = new Fairy(game, 'atlas', 'w0', 300, game.world.height - 250, 0.1, 'water', player); 
+			waterFairy = new Fairy(game, 'atlas', 'w0', 300, game.world.height - 250, 0.1, 'water', platforms); 
 			game.add.existing(waterFairy);
-			//waterFairy.body.setSize(300, 900, 120, 60); //adjust player's hitbox to match sprite dimensions (width, height, offsetx, offsety)
  	  
-			earthFairy = new Fairy(game, 'atlas', 'e0', 400, game.world.height - 250, 0.1, 'earth', player);
+			earthFairy = new Fairy(game, 'atlas', 'e0', 400, game.world.height - 250, 0.1, 'earth', platforms);
 			game.add.existing(earthFairy);
 		
-			fireFairy = new Fairy(game, 'atlas', 'f0', 500, game.world.height - 250, 0.1, 'fire', player);
+			fireFairy = new Fairy(game, 'atlas', 'f0', 500, game.world.height - 250, 0.1, 'fire', platforms);
 			game.add.existing(fireFairy);
 		
-			airFairy = new Fairy(game, 'atlas', 'a0', 600, game.world.height - 250, 0.1, 'air', player);
+			airFairy = new Fairy(game, 'atlas', 'a0', 600, game.world.height - 250, 0.1, 'air', platforms);
 			game.add.existing(airFairy);
 		}
 		else 
@@ -176,7 +177,7 @@ GamePlay.prototype = {
 			player.notCollectedYet = nextPlayerNotCollectedYet;
 			player.fairyCount = nextPlayerFairyCount;
 			//console.log(player.hasElement);
-			console.log(player); 
+			//console.log(player); 
 
 			if (state == 1)
 			{
@@ -244,7 +245,7 @@ GamePlay.prototype = {
 				var waterMonster = monsters.add(new Monster(game, 'atlas', 'waterl1', 300, 475, 0.13, 'water', player));
 				var fireMonster = monsters.add(new Monster(game, 'atlas', 'firel1', 800, 350, 0.13, 'fire', player));
 
-				waterFairy = new Fairy(game, 'atlas', 'w0', 1000, game.world.height - 100, 0.1, 'water', player); 
+				waterFairy = new Fairy(game, 'atlas', 'w0', 1000, game.world.height - 100, 0.1, 'water', platforms); 
 				game.add.existing(waterFairy);
 			}
 
@@ -342,7 +343,7 @@ GamePlay.prototype = {
 				var waterMonster = monsters.add(new Monster(game, 'atlas', 'waterl1', 700, 325, 0.13, 'water', player));
 				var airMonster = monsters.add(new Monster(game, 'atlas', 'airl', 100, 200, 0.13, 'air', player));
 
-				airFairy = new Fairy(game, 'atlas', 'a0', 800, game.world.height - 75, 0.1, 'air', player);
+				airFairy = new Fairy(game, 'atlas', 'a0', 800, game.world.height - 75, 0.1, 'air', platforms);
 				game.add.existing(airFairy);
 			}
 
@@ -457,7 +458,7 @@ GamePlay.prototype = {
 				var fireMonster = monsters.add(new Monster(game, 'atlas', 'firel1', 475, 300, 0.13, 'fire', player));
 				var earthMonster = monsters.add(new Monster(game, 'atlas', 'earthl', 950, 450, 0.13, 'earth', player));
 
-				fireFairy = new Fairy(game, 'atlas', 'f0', 650, game.world.height - 100, 0.1, 'fire', player);
+				fireFairy = new Fairy(game, 'atlas', 'f0', 650, game.world.height - 100, 0.1, 'fire', platforms);
 				game.add.existing(fireFairy);
 			}
 
@@ -619,7 +620,10 @@ GamePlay.prototype = {
 				var waterMonster = monsters.add(new Monster(game, 'atlas', 'waterl1', 900, 475, 0.13, 'water', player));
 				var earthMonster = monsters.add(new Monster(game, 'atlas', 'earthl', 135, 475, 0.13, 'earth', player));
 
-				earthFairy = new Fairy(game, 'atlas', 'e0', 625, 325, 0.1, 'earth', player);
+				finalBoss = new Boss(game, 'atlas', 'fatherl0', 525, 325, 0.2, player);
+				game.add.existing(finalBoss);
+
+				earthFairy = new Fairy(game, 'atlas', 'e0', 625, 325, 0.1, 'earth', platforms);
 				game.add.existing(earthFairy);
 			}
 		}
@@ -651,13 +655,34 @@ GamePlay.prototype = {
 				player.noneEquipped, player.currentIndex, player.health, player.notCollectedYet, player.fairyCount, state);
 		}
 
-		for (i = 0; i < monsters.length; i++)
+		if (state != 9)
 		{
-			if (monsters.children[i].cleared == false)
+			for (i = 0; i < monsters.length; i++)
 			{
-				unlock = false;
+				if (monsters.children[i].cleared == false)
+				{
+					unlock = false;
+				}
+				else 
+				{
+					unlock = true;
+				}
 			}
-			else 
+		}
+		else if (state == 9)
+		{
+			for (i = 0; i < monsters.length; i++)
+			{
+				if (monsters.children[i].cleared == false)
+				{
+					unlock = false;
+				}
+				else 
+				{
+					preUnlock = true;
+				}
+			}
+			if (preUnlock == true && finalBoss.cleared == true)
 			{
 				unlock = true;
 			}
@@ -672,6 +697,7 @@ GamePlay.prototype = {
 		}
 
 		game.physics.arcade.collide(player, platforms); //allows collision between player and ground
+		game.physics.arcade.collide(finalBoss, platforms);
 		//different cases when a player collides with each elemental fairy
 		game.physics.arcade.collide(player, waterFairy, addWaterFairy, null, this);
 		game.physics.arcade.collide(player, earthFairy, addEarthFairy, null, this);
@@ -679,6 +705,7 @@ GamePlay.prototype = {
 		game.physics.arcade.collide(player, airFairy, addAirFairy, null, this);
 		//if the players bullets hit any type of monster, call the calcDmg function
 		game.physics.arcade.collide(player.bullets, monsters, calcDmg, null, this);
+		game.physics.arcade.collide(player.bullets, finalBoss, attackBoss, null, this);
 		//game.physics.arcade.collide(player, monsters); //allows collision between player and monsters
 
 		function calcDmg(bullet, monster) //calculates what kind of damage the monster takes depending on type of bullet collided with type of monster.
@@ -783,6 +810,12 @@ GamePlay.prototype = {
 			}
 			else 
 				bullet.kill(); //get rid of the bullet on collision
+		}
+
+		function attackBoss(bullet, finalBoss)
+		{
+			bullet.kill();
+			finalBoss.health -= reg_dmg;
 		}
 
 		//if the W button is down and the player is touching on the ground then set jump equal to true
