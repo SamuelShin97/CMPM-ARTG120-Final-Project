@@ -32,45 +32,45 @@ function Boss (game, key, frame, xpos, ypos, scale, player)
 			if (this.facingRight == true) //if facing to the right
 			{
 				//add a right projectile of type water to the bullets group
-				var waterBullet = this.bullets.add(new RightProjectile(game, 'atlas', 'wproj', this.body.position.x + 50, this.body.position.y, 1, 'water'));
+				var wBullet = this.bullets.add(new RightProjectile(game, 'atlas', 'wproj', this.body.position.x + 50, this.body.position.y, 1, 'water'));
 			}
 			else if (this.facingLeft == true) //if facing to the left
 			{
 				//add a left projectile of type water to the bullets group
-				var waterBullet = this.bullets.add(new LeftProjectile(game, 'atlas', 'wproj', this.body.position.x + 50, this.body.position.y, 1, 'water'));
+				var wBullet = this.bullets.add(new LeftProjectile(game, 'atlas', 'wproj', this.body.position.x + 50, this.body.position.y, 1, 'water'));
 			}
 		}
 		else if (rng == 2)
 		{
 			if (this.facingRight == true)
 			{
-				var earthBullet = this.bullets.add(new RightProjectile(game, 'atlas', 'eproj', this.body.position.x + 50, this.body.position.y, 1, 'earth'));
+				var eBullet = this.bullets.add(new RightProjectile(game, 'atlas', 'eproj', this.body.position.x + 50, this.body.position.y, 1, 'earth'));
 			}
 			else if (this.facingLeft == true)
 			{
-				var earthBullet = this.bullets.add(new LeftProjectile(game, 'atlas', 'eproj', this.body.position.x + 50, this.body.position.y, 1, 'earth'));
+				var eBullet = this.bullets.add(new LeftProjectile(game, 'atlas', 'eproj', this.body.position.x + 50, this.body.position.y, 1, 'earth'));
 			}
 		}
 		else if (rng == 3)
 		{
 			if (this.facingRight == true)
 			{
-				var fireBullet = this.bullets.add(new RightProjectile(game, 'atlas', 'fproj', this.body.position.x + 50, this.body.position.y, 1, 'fire'));
+				var fBullet = this.bullets.add(new RightProjectile(game, 'atlas', 'fproj', this.body.position.x + 50, this.body.position.y, 1, 'fire'));
 			}
 			else if (this.facingLeft == true)
 			{
-				var fireBullet = this.bullets.add(new LeftProjectile(game, 'atlas', 'fproj', this.body.position.x + 50, this.body.position.y, 1, 'fire'));
+				var fBullet = this.bullets.add(new LeftProjectile(game, 'atlas', 'fproj', this.body.position.x + 50, this.body.position.y, 1, 'fire'));
 			}
 		}
 		else if (rng == 4)
 		{
 			if (this.facingRight == true)
 			{
-				var airBullet = this.bullets.add(new RightProjectile(game, 'atlas', 'aproj', this.body.position.x + 50, this.body.position.y, 1, 'air'));
+				var aBullet = this.bullets.add(new RightProjectile(game, 'atlas', 'aproj', this.body.position.x + 50, this.body.position.y, 1, 'air'));
 			}
 			else if (this.facingLeft == true)
 			{
-				var airBullet = this.bullets.add(new LeftProjectile(game, 'atlas', 'aproj', this.body.position.x + 50, this.body. position.y, 1, 'air'));
+				var aBullet = this.bullets.add(new LeftProjectile(game, 'atlas', 'aproj', this.body.position.x + 50, this.body. position.y, 1, 'air'));
 			}
 		}
 	}
@@ -106,11 +106,18 @@ Boss.prototype.update = function()
 	}
 
 	game.physics.arcade.collide(player, finalBoss.bullets, takeDmg, null, this);
+	game.physics.arcade.collide(player.bullets, this, attackBoss, null, this);
 
 	function takeDmg(player, bullet)
 	{
 		bullet.kill();
 		player.health -= 3;
+	}
+
+	function attackBoss(bullet, boss)
+	{
+		bullet.kill();
+		boss.health -= 3;
 	}
 
 	if (this.body.position.y - player.body.position.y > 50 && this.body.touching.down)
@@ -123,7 +130,7 @@ Boss.prototype.update = function()
 		this.cleared = true;
 		this.kill();
 		game.time.events.remove(this.attackEvent);
-		this.health = 9999;
+		//this.health = 9999;
 	}
 
 }
