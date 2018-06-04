@@ -896,10 +896,10 @@ GamePlay.prototype = {
 		//game.debug.body(player);
 		//game.debug.body(RightProjectile);
 		//game.debug.body(monsters);
-		game.debug.physicsGroup(platforms);
+		//game.debug.physicsGroup(platforms);
 		//game.debug.physicsGroup(boundary);
 		//game.debug.physicsGroup(monsters);
-		game.debug.body(waterFairy);
+		//game.debug.body(waterFairy);
 	},
 }
 
