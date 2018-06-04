@@ -212,7 +212,7 @@ Monster.prototype.update = function() //monster's update function
 
 	function facePlayer(monster, player)
 	{
-		game.time.events.resume(monster.attackEvent);
+		//game.time.events.resume(monster.attackEvent);
 		//console.log('calling facePlayer');
 		if (monster.body.position.x - player.body.position.x > 0) //if monster monster's x position minus the player's x position is positive
 		{
@@ -269,7 +269,7 @@ Monster.prototype.update = function() //monster's update function
 
 	function roam(monster)
 	{
-		game.time.events.pause(monster.attackEvent);
+		//game.time.events.pause(monster.attackEvent);
 		var rng = game.rnd.integerInRange(0, 75);
 		if (rng == 5)
 		{

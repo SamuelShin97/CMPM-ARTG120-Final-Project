@@ -294,6 +294,8 @@ Player.prototype.update = function() //player's update function
 			this.hasElement[0] = false; //lose custody of water
 			this.fairyCount -= 1; //fairycount decrements by one
 			this.health = 20; //but you replenish your health
+			wFairy.body.position.x = 100000;
+			wFairy.body.position.y = 100000;
 		}
 		else if (this.equippedElement[1] == true) //same if you have earth equipped
 		{
@@ -302,6 +304,8 @@ Player.prototype.update = function() //player's update function
 			this.hasElement[1] = false;
 			this.fairyCount -= 1;
 			this.health = 20;
+			eFairy.body.position.x = 100000;
+			eFairy.body.position.y = 100000;
 		}
 		else if (this.equippedElement[2] == true) //same if you have fire equipped
 		{
@@ -310,6 +314,8 @@ Player.prototype.update = function() //player's update function
 			this.hasElement[2] = false;
 			this.fairyCount -= 1;
 			this.health = 20;
+			fFairy.body.position.x = 100000;
+			fFairy.body.position.y = 100000;
 		}
 		else if (this.equippedElement[3] == true) //same if you have air equipped
 		{
@@ -318,6 +324,8 @@ Player.prototype.update = function() //player's update function
 			this.hasElement[3] = false;
 			this.fairyCount -= 1;
 			this.health = 20;
+			aFairy.body.position.x = 100000;
+			aFairy.body.position.y = 100000;
 		}
 		else //if you happen to have no element equipped when you reach 0 or less health
 		{
@@ -328,6 +336,8 @@ Player.prototype.update = function() //player's update function
 				this.hasElement[0] == false;
 				this.fairyCount -= 1;
 				this.health = 20;
+				wFairy.body.position.x = 100000;
+				wFairy.body.position.y = 100000;
 			}
 			else if (this.hasElement[1] == true) //if you have a earth elemental, but not a water, then you lose this one
 			{
@@ -335,6 +345,8 @@ Player.prototype.update = function() //player's update function
 				this.hasElement[1] == false;
 				this.fairyCount -= 1;
 				this.health = 20;
+				eFairy.body.position.x = 100000;
+				eFairy.body.position.y = 100000;
 			}
 			else if (this.hasElement[2] == true) //if you have a fire elemental, but not a water or earth, then you lose this one
 			{
@@ -342,6 +354,8 @@ Player.prototype.update = function() //player's update function
 				this.hasElement[2] == false;
 				this.fairyCount -= 1;
 				this.health = 20;
+				fFairy.body.position.x = 100000;
+				fFairy.body.position.y = 100000;
 			}
 			else if (this.hasElement[3] == true) //if you have an air elemental, but none of above, then you lose this one
 			{
@@ -349,6 +363,8 @@ Player.prototype.update = function() //player's update function
 				this.hasElement[3] == false;
 				this.fairyCount -= 1;
 				this.health = 20;
+				aFairy.body.position.x = 100000;
+				aFairy.body.position.y = 100000;
 			}
 		}
 		console.log(player.hasElement);
@@ -511,6 +527,27 @@ Player.prototype.update = function() //player's update function
 		{
 			aFairy.body.position.x = this.body.position.x + 200;
 		}
+	}
+
+	if (this.hasElement[0] == false)
+	{
+		wFairy.body.position.x = 100000;
+		wFairy.body.position.y = 100000;
+	}
+	if (this.hasElement[1] == false)
+	{
+		eFairy.body.position.x = 100000;
+		eFairy.body.position.y = 100000;
+	}
+	if (this.hasElement[2] == false)
+	{
+		fFairy.body.position.x = 100000;
+		fFairy.body.position.y = 100000;
+	}
+	if (this.hasElement[3] == false)
+	{
+		aFairy.body.position.x = 100000;
+		aFairy.body.position.y = 100000;
 	}
 
 	//lose condition one, if you haven't collected a fairy yet, and your health depletes less than equal to 0 then you lose
