@@ -673,7 +673,7 @@ GamePlay.prototype = {
 		game.physics.arcade.collide(player, airFairy, addAirFairy, null, this);
 		//if the players bullets hit any type of monster, call the calcDmg function
 		game.physics.arcade.collide(player.bullets, monsters, calcDmg, null, this);
-		game.physics.arcade.collide(player.bullets, finalBoss, attackBoss, null, this);
+		//game.physics.arcade.collide(player.bullets, finalBoss, attackBoss, null, this);
 		//game.physics.arcade.collide(player, monsters); //allows collision between player and monsters
 
 		function calcDmg(bullet, monster) //calculates what kind of damage the monster takes depending on type of bullet collided with type of monster.
@@ -780,11 +780,11 @@ GamePlay.prototype = {
 				bullet.kill(); //get rid of the bullet on collision
 		}
 
-		function attackBoss(bullet, finalBoss)
+		/*function attackBoss(bullet, finalBoss)
 		{
 			bullet.kill();
 			finalBoss.health -= reg_dmg;
-		}
+		}*/
 
 		//if the W button is down and the player is touching on the ground then set jump equal to true
 		if (game.input.keyboard.isDown(Phaser.Keyboard.W) && player.body.touching.down)
@@ -862,12 +862,12 @@ GamePlay.prototype = {
 	render: function() //this is just debug stuff
 	{
 		//game.debug.body(player);
-		//game.debug.body(RightProjectile);
+		//game.debug.physicsGroup(player.bullets);
 		//game.debug.body(monsters);
-		game.debug.physicsGroup(platforms);
+		//game.debug.physicsGroup(platforms);
 		//game.debug.physicsGroup(boundary);
 		//game.debug.physicsGroup(monsters);
-		game.debug.body(waterFairy);
+		//game.debug.body(waterFairy);
 	},
 }
 

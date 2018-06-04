@@ -53,12 +53,12 @@ function Monster (game, key, frame, xpos, ypos, scale, element, player, boundary
 			if (this.facingRight == true) //if facing to the right
 			{
 				//add a right projectile of type water to the bullets group
-				var waterBullet = this.bullets.add(new RightProjectile(game, 'atlas', 'wproj', this.body.position.x + 50, this.body.position.y, 1, 'water'));
+				var waterBull = this.bullets.add(new RightProjectile(game, 'atlas', 'wproj', this.body.position.x + 50, this.body.position.y, 1, 'water'));
 			}
 			else if (this.facingLeft == true) //if facing to the left
 			{
 				//add a left projectile of type water to the bullets group
-				var waterBullet = this.bullets.add(new LeftProjectile(game, 'atlas', 'wproj', this.body.position.x + 50, this.body.position.y, 1, 'water'));
+				var waterBull = this.bullets.add(new LeftProjectile(game, 'atlas', 'wproj', this.body.position.x + 50, this.body.position.y, 1, 'water'));
 			}
 		}
 		//rinse wash repeat for the rest of the else if's
@@ -66,33 +66,33 @@ function Monster (game, key, frame, xpos, ypos, scale, element, player, boundary
 		{
 			if (this.facingRight == true)
 			{
-				var earthBullet = this.bullets.add(new RightProjectile(game, 'atlas', 'eproj', this.body.position.x + 50, this.body.position.y, 1, 'earth'));
+				var earthBull = this.bullets.add(new RightProjectile(game, 'atlas', 'eproj', this.body.position.x + 50, this.body.position.y, 1, 'earth'));
 			}
 			else if (this.facingLeft == true)
 			{
-				var earthBullet = this.bullets.add(new LeftProjectile(game, 'atlas', 'eproj', this.body.position.x + 50, this.body.position.y, 1, 'earth'));
+				var earthBull = this.bullets.add(new LeftProjectile(game, 'atlas', 'eproj', this.body.position.x + 50, this.body.position.y, 1, 'earth'));
 			}
 		}
 		else if (this.element == 'fire')
 		{
 			if (this.facingRight == true)
 			{
-				var fireBullet = this.bullets.add(new RightProjectile(game, 'atlas', 'fproj', this.body.position.x + 50, this.body.position.y, 1, 'fire'));
+				var fireBull = this.bullets.add(new RightProjectile(game, 'atlas', 'fproj', this.body.position.x + 50, this.body.position.y, 1, 'fire'));
 			}
 			else if (this.facingLeft == true)
 			{
-				var fireBullet = this.bullets.add(new LeftProjectile(game, 'atlas', 'fproj', this.body.position.x + 50, this.body.position.y, 1, 'fire'));
+				var fireBull = this.bullets.add(new LeftProjectile(game, 'atlas', 'fproj', this.body.position.x + 50, this.body.position.y, 1, 'fire'));
 			}
 		}
 		else if (this.element == 'air')
 		{
 			if (this.facingRight == true)
 			{
-				var airBullet = this.bullets.add(new RightProjectile(game, 'atlas', 'aproj', this.body.position.x + 50, this.body.position.y, 1, 'air'));
+				var airBull = this.bullets.add(new RightProjectile(game, 'atlas', 'aproj', this.body.position.x + 50, this.body.position.y, 1, 'air'));
 			}
 			else if (this.facingLeft == true)
 			{
-				var airBullet = this.bullets.add(new LeftProjectile(game, 'atlas', 'aproj', this.body.position.x + 50, this.body. position.y, 1, 'air'));
+				var airBull = this.bullets.add(new LeftProjectile(game, 'atlas', 'aproj', this.body.position.x + 50, this.body. position.y, 1, 'air'));
 			}
 		}
 	}
