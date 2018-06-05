@@ -704,7 +704,7 @@ GamePlay.prototype = {
 		game.physics.arcade.collide(player, fireFairy, addFireFairy, null, this);
 		game.physics.arcade.collide(player, airFairy, addAirFairy, null, this);
 		//if the players bullets hit any type of monster, call the calcDmg function
-		game.physics.arcade.collide(player.bullets, monsters, calcDmg, null, this);
+		game.physics.arcade.collide(player.bullets, monsters, calcDmg, null, this); 
 		//game.physics.arcade.collide(player.bullets, finalBoss, attackBoss, null, this);
 		//game.physics.arcade.collide(player, monsters); //allows collision between player and monsters
 
@@ -853,41 +853,53 @@ GamePlay.prototype = {
 		//kill fairy
 		function addWaterFairy(player, fairy) 
 		{
-			addWater = true;
-			player.notCollectedYet = false;
-			player.fairyCount += 1;
-			player.health = 20;
-			console.log(player.fairyCount);
+			if (player.hasElement[0] == false)
+			{
+				addWater = true;
+				player.notCollectedYet = false;
+				player.fairyCount += 1;
+				player.health = 20;
+				console.log(player.fairyCount);
+			}
 			fairy.kill();
 		}
 
 		function addEarthFairy(player, fairy)
 		{
-			addEarth = true;
-			player.notCollectedYet = false;
-			player.fairyCount += 1;
-			player.health = 20;
-			console.log(player.fairyCount);
+			if (player.hasElement[1] == false)
+			{
+				addEarth = true;
+				player.notCollectedYet = false;
+				player.fairyCount += 1;
+				player.health = 20;
+				console.log(player.fairyCount);
+			}
 			fairy.kill();
 		}
 
 		function addFireFairy(player, fairy)
 		{
-			addFire = true;
-			player.notCollectedYet = false;
-			player.fairyCount += 1;
-			player.health = 20;
-			console.log(player.fairyCount);
+			if (player.hasElement[2] == false)
+			{
+				addFire = true;
+				player.notCollectedYet = false;
+				player.fairyCount += 1;
+				player.health = 20;
+				console.log(player.fairyCount);
+			}
 			fairy.kill();
 		}
 
 		function addAirFairy(player, fairy)
 		{
-			addAir = true;
-			player.notCollectedYet = false;
-			player.fairyCount += 1;
-			player.health = 20;
-			console.log(player.fairyCount);
+			if (player.hasElement[3] == false)
+			{
+				addAir = true;
+				player.notCollectedYet = false;
+				player.fairyCount += 1;
+				player.health = 20;
+				console.log(player.fairyCount);
+			}
 			fairy.kill();
 		}
 	},

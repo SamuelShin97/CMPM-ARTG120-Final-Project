@@ -22,7 +22,7 @@ function Boss (game, key, frame, xpos, ypos, scale, player)
 
 	this.body.gravity.y = 675;
 
-	this.attackEvent = game.time.events.loop(Phaser.Timer.SECOND * game.rnd.realInRange(1.0, 2.0), doAttack, this);
+	this.attack = game.time.events.loop(Phaser.Timer.SECOND * game.rnd.realInRange (1.0, 2.0), doAttack, this);
 	function doAttack()
 	{
 		var rng = game.rnd.integerInRange(1, 4);
@@ -105,7 +105,7 @@ Boss.prototype.update = function()
 		this.animations.play('moveRight');
 	}
 
-	game.physics.arcade.collide(player, finalBoss.bullets, takeDmg, null, this);
+	game.physics.arcade.collide(player, this.bullets, takeDmg, null, this);
 	game.physics.arcade.collide(player.bullets, this, attackBoss, null, this);
 
 	function takeDmg(player, bullet)
@@ -114,8 +114,9 @@ Boss.prototype.update = function()
 		player.health -= 3;
 	}
 
-	function attackBoss(bullet, boss)
+	function attackBoss(boss, bullet)
 	{
+		console.log('attacking boss');
 		bullet.kill();
 		boss.health -= 3;
 	}
@@ -127,9 +128,10 @@ Boss.prototype.update = function()
 
 	if (this.health <= 0)
 	{
+		console.log('boss dead');
 		this.cleared = true;
 		this.kill();
-		game.time.events.remove(this.attackEvent);
+		game.time.events.remove(this.attack);
 		//this.health = 9999;
 	}
 

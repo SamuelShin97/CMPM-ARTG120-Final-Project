@@ -14,6 +14,7 @@ function Monster (game, key, frame, xpos, ypos, scale, element, player, boundary
 	this.cleared = false;
 	this.giveHealth = true;
 	this.targetPlayer = false;
+	this.freed = false;
 
 	game.physics.enable(this);
 	game.physics.arcade.enable(this);
@@ -118,7 +119,7 @@ Monster.prototype.update = function() //monster's update function
 	{
 		facePlayer(this, player);
 	}
-	else if (this.targetPlayer == false)
+	else if (this.targetPlayer == false && this.idol == false)
 	{
 		roam(this);
 	}
@@ -343,6 +344,7 @@ Monster.prototype.update = function() //monster's update function
 		}
 		this.cleared = true;
 		this.body.velocity.x = -150;
+		//this.body.velocity.y = -150;
 		if (this.element == 'water')
 		{
 			this.animations.play('wMoveLeft');
@@ -366,7 +368,7 @@ Monster.prototype.update = function() //monster's update function
 
 	//if the player and monster's bullets collide, then the player takes 3 damage.
 	game.physics.arcade.collide(player, this.bullets, takeDmg, null, this); 
-	game.physics.arcade.collide(this, boundary); 
+	game.physics.arcade.collide(this, boundary, destroyBoundary, null, this); 
 
 	function takeDmg(player, bullet)
 	{
@@ -377,5 +379,19 @@ Monster.prototype.update = function() //monster's update function
 		player.health -= 3;
 	}
 
+	function destroyBoundary(monster, boundary)
+	{
+		if (monster.cleared == true && monster.freed == false)
+		{
+			monster.freed = true;
+			boundary.kill();
+			monster.body.gravity.y = 675;
+		}
+	}
+
+	if (this.body.position.y > game.world.height - 120)
+	{
+		this.body.position.y = game.world.height - 120;
+	}
 	
 }

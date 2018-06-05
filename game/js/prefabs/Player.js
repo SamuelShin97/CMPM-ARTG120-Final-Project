@@ -82,6 +82,23 @@ Player.prototype.update = function() //player's update function
 		aFairy.body.velocity.y = -520;
 	}
 
+	if (wFairy.body.position.y - this.body.position.y > -20)
+	{
+		wFairy.body.position.y = this.body.position.y - 20;
+	}
+	if (eFairy.body.position.y - this.body.position.y > -20)
+	{
+		eFairy.body.position.y = this.body.position.y - 20;
+	}
+	if (fFairy.body.position.y - this.body.position.y > -20)
+	{
+		fFairy.body.position.y = this.body.position.y - 20;
+	}
+	if (aFairy.body.position.y - this.body.position.y > -20)
+	{
+		aFairy.body.position.y = this.body.position.y - 20;
+	}
+
 	if (right == true) //if right is true (from main.js)
 	{
 		this.facingRight = true; //facingRight is set to true and facingLeft set to false
