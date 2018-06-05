@@ -32,6 +32,8 @@ var finalBoss;
 
 var reverse = false;
 
+ var inPlace = false;
+
 //state structure and state switching came from Nathan Altice's code from fourth lecture slide
 var menu = function(game){};
 menu.prototype = {
@@ -115,35 +117,36 @@ GamePlay.prototype = {
 			waterMonster.health = 2;
 
 			var TutText1 = "The Fluorescent Forest can be\na very dangerous place, but luckily these\nfairies are willing to guide you through.";
-			game.add.text(25, 200, TutText1, {font: "12px 'Helvetica'", fill: "#FFFFFF", align: "left", backgroundColor: "#797D7F"});
+			Tutbox1 = game.add.text(25, 200, TutText1, {font: "12px 'Helvetica'", fill: "#FFFFFF", align: "left", backgroundColor: "#797D7F"});
 
 			var TutText2 = "Use WAD to move and jump.\nTouch the fairies to collect them.\nThis will imbue you with their power.";
-			game.add.text(250, 200, TutText2, {font:"12px 'Helvetica'", fill: "#FFFFFF", align: "left", backgroundColor: "#797D7F"});
+			Tutbox2 = game.add.text(250, 200, TutText2, {font:"12px 'Helvetica'", fill: "#FFFFFF", align: "left", backgroundColor: "#797D7F"});
 
 			var TutText3 = "Press E to change which fairy's\npower is equipped. Press SPACEBAR\nto use the equipped power.";
-			game.add.text(450, 200, TutText3, {font:"12px 'Helvetica'", fill: "#FFFFFF", align: "left", backgroundColor: "#797D7F"});
+			Tutbox3 = game.add.text(450, 200, TutText3, {font:"12px 'Helvetica'", fill: "#FFFFFF", align: "left", backgroundColor: "#797D7F"});
 
 			var TutText4 = "The fairies don't like enemies of the\nforest and its inhabitants, so be\ncareful when attacking them.";
-			game.add.text(660, 200, TutText4, {font:"12px 'Helvetica'", fill: "#FFFFFF", align: "left", backgroundColor: "#797D7F"});
+			Tutbox4 = game.add.text(660, 200, TutText4, {font:"12px 'Helvetica'", fill: "#FFFFFF", align: "left", backgroundColor: "#797D7F"});
 
 			var TutText5 = "You may attack monsters until they\ndie or fight them until they reach\ntheir idle state and then heal them.";
-			game.add.text(855, 200, TutText5, {font:"12px 'Helvetica'", fill: "#FFFFFF", align: "left", backgroundColor: "#797D7F"});
+			Tutbox5 = game.add.text(855, 200, TutText5, {font:"12px 'Helvetica'", fill: "#FFFFFF", align: "left", backgroundColor: "#797D7F"});
 
 			var TutText6 = "Each type of monster has an element\nthey are weaker to and are healed\nby their own element.";
-			game.add.text(1050, 200, TutText6, {font:"12px 'Helvetica'", fill: "#FFFFFF", align: "left", backgroundColor: "#797D7F"});
+			Tutbox6 = game.add.text(1050, 200, TutText6, {font:"12px 'Helvetica'", fill: "#FFFFFF", align: "left", backgroundColor: "#797D7F"});
 
 			var TutText7 = "Killing enemies may grant you a \ndamage bonus, but the fairies will\nstart to resent you and one will leave.";
-			game.add.text(450, 300, TutText7, {font:"12px 'Helvetica'", fill: "#FFFFFF", align: "left", backgroundColor: "#797D7F"});
+			Tutbox7 = game.add.text(450, 300, TutText7, {font:"12px 'Helvetica'", fill: "#FFFFFF", align: "left", backgroundColor: "#797D7F"});
 
 			var TutText8 = "On the other hand, healing\nenemies keeps the fairies happy\nand grants you extra Energy.";
-			game.add.text(660, 300, TutText8, {font:"12px 'Helvetica'", fill: "#FFFFFF", align: "left", backgroundColor: "#797D7F"});
+			Tutbox8 = game.add.text(660, 300, TutText8, {font:"12px 'Helvetica'", fill: "#FFFFFF", align: "left", backgroundColor: "#797D7F"});
 
 			var TutText9 = "Go ahead and heal this monster\nusing the Water Fairy.";
-			game.add.text(750, 525, TutText9, {font:"12px 'Helvetica'", fill: "#FFFFFF", align: "left", backgroundColor: "#797D7F"});
+			Tutbox9 = game.add.text(750, 525, TutText9, {font:"12px 'Helvetica'", fill: "#FFFFFF", align: "left", backgroundColor: "#797D7F"});
 
-			if (waterMonster.health > 4) {
-				TutText1.destroy();
-			}
+			spirit = game.add.sprite(1300, 400, 'atlas', 'gf0');
+			spirit.scale.setTo(0.3, 0.3);
+			game.physics.arcade.enable(spirit);
+			spirit.animations.add('walking', ['gf0', 'gf7'], 10, true);
 
 			//var earthMonster = monsters.add(new Monster(game, 'atlas', 'earthl', 800, game.world.height - 100, 0.13, 'earth', player));
 
@@ -647,6 +650,63 @@ GamePlay.prototype = {
 		attack = false;
 		reverse = false;
 
+		if (repeat == false && monsters.children[0].cleared == true && inPlace == false) {
+				Tutbox1.kill();
+				Tutbox2.kill();
+				Tutbox3.kill();
+				Tutbox4.kill();
+				Tutbox5.kill();
+				Tutbox6.kill();
+				Tutbox7.kill();
+				Tutbox8.kill();
+				Tutbox9.kill();
+				console.log("It read the thing");
+				//game.physics.arcade.moveToXY(spirit, 1000, 400, 2, 2000);
+				
+				//spirit.animations.stop('walking');
+				//game.physics.arcade.moveToXY(spirit, 1300, 400, 2, 2000);
+				//spirit.body.velocity.x = -200;
+				//waitTime = game.time.now + 2000;
+				/*if (waitTime = game.time.now) {
+					spirit.body.velocity.x = 0;
+				}
+*/
+
+				game.time.events.add(Phaser.Timer.SECOND * 0.1, walkLeft, this);
+				inPlace = true;
+			}
+
+			//spirit.body.velocity = 0;
+			function walkLeft()
+			{
+				spirit.body.velocity.x = -100;
+				spirit.animations.play('walking');
+				game.time.events.add(Phaser.Timer.SECOND * 3, stay, this);
+			}
+
+			function stay()
+			{
+				spirit.body.velocity.x = 0;
+				game.time.events.add(Phaser.Timer.SECOND * 3, walkRight, this);
+				spirit.animations.stop('walking');
+				spirit.frameName = ('atlas', 'gf0');
+			}
+			function walkRight()
+			{
+				spirit.body.velocity.x = 100;
+				spirit.animations.play('walking');
+			}
+
+
+		/*if (repeat == false && spirit.body.position.x <= 1000 && inPlace == false) {
+			spirit.body.velocity.x = 200;
+			inPlace = true;
+			//game.physics.arcade.moveToXY(spirit, 1300, 400, 2, 2000);
+			console.log("It knows where the king is");
+			//game.physics.arcade.moveToXY(spirit, 1300, 400, 2, 2000);
+		}*/
+
+//gf 0 - 7
 		//advances screen to level 1, this will eventually be the first screen that is loaded instead of the 'gameplay' screen
 		if(game.input.keyboard.justPressed(Phaser.Keyboard.M)) {
 			repeat = true;
