@@ -662,8 +662,9 @@ GamePlay.prototype = {
 				if (monsters.children[i].cleared == false)
 				{
 					unlock = false;
+					break;
 				}
-				else 
+				else
 				{
 					unlock = true;
 				}
@@ -676,6 +677,7 @@ GamePlay.prototype = {
 				if (monsters.children[i].cleared == false)
 				{
 					unlock = false;
+					break;
 				}
 				else 
 				{

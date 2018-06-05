@@ -13,6 +13,12 @@ function LeftProjectile (game, key, frame, xpos, ypos, scale, element)
 	this.body.velocity.x = -400; //speed at which the projectile moves
 	
 	this.outOfBoundsKill = true; //kill once reaches out of bounds
+
+	
+	this.animations.add('wRotate', ['atlas', 'wp3', 'atlas', 'wp2', 'atlas', 'wp1'], 25, true);
+	this.animations.add('eRotate', ['atlas', 'ep3', 'atlas', 'ep2', 'atlas', 'ep1'], 25, true);
+	this.animations.add('fRotate', ['atlas', 'fp3', 'atlas', 'fp2', 'atlas', 'fp1'], 25, true);
+	this.animations.add('aRotate', ['atlas', 'ap3', 'atlas', 'ap2', 'atlas', 'ap1'], 25, true);
 }
 
 LeftProjectile.prototype = Object.create(Phaser.Sprite.prototype);
@@ -20,5 +26,20 @@ LeftProjectile.prototype.constructor = LeftProjectile;
 
 LeftProjectile.prototype.update = function()
 {
-
+	if (this.element == 'water')
+	{
+		this.animations.play('wRotate');
+	}
+	else if (this.element == 'earth')
+	{
+		this.animations.play('eRotate');
+	}
+	else if (this.element == 'fire')
+	{
+		this.animations.play('fRotate');
+	}
+	else if (this.element == 'air')
+	{
+		this.animations.play('aRotate');
+	}
 }

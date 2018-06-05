@@ -14,10 +14,10 @@ function Boss (game, key, frame, xpos, ypos, scale, player)
 	this.body.collideWorldBounds = true;
 
 	this.bullets = game.add.group(); //gives this monster a bullets group and initializes it with the four different projectiles off screen somewhere
-	this.bullets.create(100000, 100000, 'atlas', 'wproj');
-	this.bullets.create(100000, 100000, 'atlas', 'eproj');
-	this.bullets.create(100000, 100000, 'atlas', 'fproj');
-	this.bullets.create(100000, 100000, 'atlas', 'aproj');
+	this.bullets.create(100000, 100000, 'atlas', 'wp1');
+	this.bullets.create(100000, 100000, 'atlas', 'ep1');
+	this.bullets.create(100000, 100000, 'atlas', 'fp1');
+	this.bullets.create(100000, 100000, 'atlas', 'ap1');
 	this.bullets.enableBody = true;
 
 	this.body.gravity.y = 675;
@@ -32,45 +32,45 @@ function Boss (game, key, frame, xpos, ypos, scale, player)
 			if (this.facingRight == true) //if facing to the right
 			{
 				//add a right projectile of type water to the bullets group
-				var wBullet = this.bullets.add(new RightProjectile(game, 'atlas', 'wproj', this.body.position.x + 50, this.body.position.y, 1, 'water'));
+				var wBullet = this.bullets.add(new RightProjectile(game, 'atlas', 'wp1', this.body.position.x + 50, this.body.position.y, 0.15, 'water'));
 			}
 			else if (this.facingLeft == true) //if facing to the left
 			{
 				//add a left projectile of type water to the bullets group
-				var wBullet = this.bullets.add(new LeftProjectile(game, 'atlas', 'wproj', this.body.position.x + 50, this.body.position.y, 1, 'water'));
+				var wBullet = this.bullets.add(new LeftProjectile(game, 'atlas', 'wp1', this.body.position.x + 50, this.body.position.y, 0.15, 'water'));
 			}
 		}
 		else if (rng == 2)
 		{
 			if (this.facingRight == true)
 			{
-				var eBullet = this.bullets.add(new RightProjectile(game, 'atlas', 'eproj', this.body.position.x + 50, this.body.position.y, 1, 'earth'));
+				var eBullet = this.bullets.add(new RightProjectile(game, 'atlas', 'ep1', this.body.position.x + 50, this.body.position.y, 0.15, 'earth'));
 			}
 			else if (this.facingLeft == true)
 			{
-				var eBullet = this.bullets.add(new LeftProjectile(game, 'atlas', 'eproj', this.body.position.x + 50, this.body.position.y, 1, 'earth'));
+				var eBullet = this.bullets.add(new LeftProjectile(game, 'atlas', 'ep1', this.body.position.x + 50, this.body.position.y, 0.15, 'earth'));
 			}
 		}
 		else if (rng == 3)
 		{
 			if (this.facingRight == true)
 			{
-				var fBullet = this.bullets.add(new RightProjectile(game, 'atlas', 'fproj', this.body.position.x + 50, this.body.position.y, 1, 'fire'));
+				var fBullet = this.bullets.add(new RightProjectile(game, 'atlas', 'fp1', this.body.position.x + 50, this.body.position.y, 0.15, 'fire'));
 			}
 			else if (this.facingLeft == true)
 			{
-				var fBullet = this.bullets.add(new LeftProjectile(game, 'atlas', 'fproj', this.body.position.x + 50, this.body.position.y, 1, 'fire'));
+				var fBullet = this.bullets.add(new LeftProjectile(game, 'atlas', 'fp1', this.body.position.x + 50, this.body.position.y, 0.15, 'fire'));
 			}
 		}
 		else if (rng == 4)
 		{
 			if (this.facingRight == true)
 			{
-				var aBullet = this.bullets.add(new RightProjectile(game, 'atlas', 'aproj', this.body.position.x + 50, this.body.position.y, 1, 'air'));
+				var aBullet = this.bullets.add(new RightProjectile(game, 'atlas', 'ap1', this.body.position.x + 50, this.body.position.y, 0.15, 'air'));
 			}
 			else if (this.facingLeft == true)
 			{
-				var aBullet = this.bullets.add(new LeftProjectile(game, 'atlas', 'aproj', this.body.position.x + 50, this.body. position.y, 1, 'air'));
+				var aBullet = this.bullets.add(new LeftProjectile(game, 'atlas', 'ap1', this.body.position.x + 50, this.body. position.y, 0.15, 'air'));
 			}
 		}
 	}

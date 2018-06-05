@@ -28,10 +28,10 @@ function Player (game, key, frame, xpos, ypos, scale)
 	this.body.collideWorldBounds = true; //this might need to change for state switching so player can walk off screen
 
 	this.bullets = game.add.group(); //add a bullets group and initialize it with the four elemental projectiles off screen somewhere
-	this.bullets.create(100000, 100000, 'atlas', 'wproj');
-	this.bullets.create(100000, 100000, 'atlas', 'eproj');
-	this.bullets.create(100000, 100000, 'atlas', 'fproj');
-	this.bullets.create(100000, 100000, 'atlas', 'aproj');
+	this.bullets.create(100000, 100000, 'atlas', 'wp1');
+	this.bullets.create(100000, 100000, 'atlas', 'ep1');
+	this.bullets.create(100000, 100000, 'atlas', 'fp1');
+	this.bullets.create(100000, 100000, 'atlas', 'ap1');
 	this.bullets.enableBody = true;
 
 	this.animations.add('moveRight', Phaser.Animation.generateFrameNames('playerr', 0, 7), 30, true); 
@@ -215,45 +215,45 @@ Player.prototype.update = function() //player's update function
 		if (this.facingRight == true) //if player is facing to the right
 		{
 			//add a water bullet to the bullets group that shoots to the right
-			var waterBullet = this.bullets.add(new RightProjectile(game, 'atlas', 'wproj', this.body.position.x + 50, this.body.position.y, 1, 'water'));
+			var waterBullet = this.bullets.add(new RightProjectile(game, 'atlas', 'wp1', this.body.position.x + 50, this.body.position.y, 0.15, 'water'));
 		}
 		else if (this.facingLeft == true) //if player is facing to the left 
 		{
 			//add a water bullet to the bullets group that shoots to the left
-			var waterBullet = this.bullets.add(new LeftProjectile(game, 'atlas', 'wproj', this.body.position.x + 50, this.body.position.y, 1, 'water'));
+			var waterBullet = this.bullets.add(new LeftProjectile(game, 'atlas', 'wp1', this.body.position.x + 50, this.body.position.y, 0.15, 'water'));
 		}
 	}
 	else if (attack == true && this.equippedElement[1] == true) //same logic for earth
 	{
 		if (this.facingRight == true)
 		{
-			var earthBullet = this.bullets.add(new RightProjectile(game, 'atlas', 'eproj', this.body.position.x + 50, this.body.position.y, 1, 'earth'));
+			var earthBullet = this.bullets.add(new RightProjectile(game, 'atlas', 'ep1', this.body.position.x + 50, this.body.position.y, 0.15, 'earth'));
 		}
 		else if (this.facingLeft == true)
 		{
-			var earthBullet = this.bullets.add(new LeftProjectile(game, 'atlas', 'eproj', this.body.position.x + 50, this.body.position.y, 1, 'earth'));
+			var earthBullet = this.bullets.add(new LeftProjectile(game, 'atlas', 'ep1', this.body.position.x + 50, this.body.position.y, 0.15, 'earth'));
 		}
 	}
 	else if (attack == true && this.equippedElement[2] == true) //same logic for fire
 	{
 		if (this.facingRight == true)
 		{
-			var fireBullet = this.bullets.add(new RightProjectile(game, 'atlas', 'fproj', this.body.position.x + 50, this.body.position.y, 1, 'fire'));
+			var fireBullet = this.bullets.add(new RightProjectile(game, 'atlas', 'fp1', this.body.position.x + 50, this.body.position.y, 0.15, 'fire'));
 		}
 		else if (this.facingLeft == true)
 		{
-			var fireBullet = this.bullets.add(new LeftProjectile(game, 'atlas', 'fproj', this.body.position.x + 50, this.body.position.y, 1, 'fire'));
+			var fireBullet = this.bullets.add(new LeftProjectile(game, 'atlas', 'fp1', this.body.position.x + 50, this.body.position.y, 0.15, 'fire'));
 		}
 	}
 	else if (attack == true && this.equippedElement[3] == true) //same logic for air
 	{
 		if (this.facingRight == true)
 		{
-			var airBullet = this.bullets.add(new RightProjectile(game, 'atlas', 'aproj', this.body.position.x + 50, this.body.position.y, 1, 'air'));
+			var airBullet = this.bullets.add(new RightProjectile(game, 'atlas', 'ap1', this.body.position.x + 50, this.body.position.y, 0.15, 'air'));
 		}
 		else if (this.facingLeft == true)
 		{
-			var airBullet = this.bullets.add(new LeftProjectile(game, 'atlas', 'aproj', this.body.position.x + 50, this.body. position.y, 1, 'air'));
+			var airBullet = this.bullets.add(new LeftProjectile(game, 'atlas', 'ap1', this.body.position.x + 50, this.body. position.y, 0.15, 'air'));
 		}
 	}
 

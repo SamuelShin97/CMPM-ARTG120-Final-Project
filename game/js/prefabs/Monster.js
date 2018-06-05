@@ -21,10 +21,10 @@ function Monster (game, key, frame, xpos, ypos, scale, element, player, boundary
 	this.body.collideWorldBounds = true;
 
 	this.bullets = game.add.group(); //gives this monster a bullets group and initializes it with the four different projectiles off screen somewhere
-	this.bullets.create(100000, 100000, 'atlas', 'wproj');
-	this.bullets.create(100000, 100000, 'atlas', 'eproj');
-	this.bullets.create(100000, 100000, 'atlas', 'fproj');
-	this.bullets.create(100000, 100000, 'atlas', 'aproj');
+	this.bullets.create(100000, 100000, 'atlas', 'wp1');
+	this.bullets.create(100000, 100000, 'atlas', 'ep1');
+	this.bullets.create(100000, 100000, 'atlas', 'fp1');
+	this.bullets.create(100000, 100000, 'atlas', 'ap1');
 	this.bullets.enableBody = true;
 
 	this.animations.add('wMoveRight', Phaser.Animation.generateFrameNames('waterr', 1, 4), 12, true); 
@@ -54,12 +54,12 @@ function Monster (game, key, frame, xpos, ypos, scale, element, player, boundary
 			if (this.facingRight == true) //if facing to the right
 			{
 				//add a right projectile of type water to the bullets group
-				var waterBull = this.bullets.add(new RightProjectile(game, 'atlas', 'wproj', this.body.position.x + 50, this.body.position.y, 1, 'water'));
+				var waterBull = this.bullets.add(new RightProjectile(game, 'atlas', 'wp1', this.body.position.x + 50, this.body.position.y, 0.15, 'water'));
 			}
 			else if (this.facingLeft == true) //if facing to the left
 			{
 				//add a left projectile of type water to the bullets group
-				var waterBull = this.bullets.add(new LeftProjectile(game, 'atlas', 'wproj', this.body.position.x + 50, this.body.position.y, 1, 'water'));
+				var waterBull = this.bullets.add(new LeftProjectile(game, 'atlas', 'wp1', this.body.position.x + 50, this.body.position.y, 0.15, 'water'));
 			}
 		}
 		//rinse wash repeat for the rest of the else if's
@@ -67,33 +67,33 @@ function Monster (game, key, frame, xpos, ypos, scale, element, player, boundary
 		{
 			if (this.facingRight == true)
 			{
-				var earthBull = this.bullets.add(new RightProjectile(game, 'atlas', 'eproj', this.body.position.x + 50, this.body.position.y, 1, 'earth'));
+				var earthBull = this.bullets.add(new RightProjectile(game, 'atlas', 'ep1', this.body.position.x + 50, this.body.position.y, 0.15, 'earth'));
 			}
 			else if (this.facingLeft == true)
 			{
-				var earthBull = this.bullets.add(new LeftProjectile(game, 'atlas', 'eproj', this.body.position.x + 50, this.body.position.y, 1, 'earth'));
+				var earthBull = this.bullets.add(new LeftProjectile(game, 'atlas', 'ep1', this.body.position.x + 50, this.body.position.y, 0.15, 'earth'));
 			}
 		}
 		else if (this.element == 'fire')
 		{
 			if (this.facingRight == true)
 			{
-				var fireBull = this.bullets.add(new RightProjectile(game, 'atlas', 'fproj', this.body.position.x + 50, this.body.position.y, 1, 'fire'));
+				var fireBull = this.bullets.add(new RightProjectile(game, 'atlas', 'fp1', this.body.position.x + 50, this.body.position.y, 0.15, 'fire'));
 			}
 			else if (this.facingLeft == true)
 			{
-				var fireBull = this.bullets.add(new LeftProjectile(game, 'atlas', 'fproj', this.body.position.x + 50, this.body.position.y, 1, 'fire'));
+				var fireBull = this.bullets.add(new LeftProjectile(game, 'atlas', 'fp1', this.body.position.x + 50, this.body.position.y, 0.15, 'fire'));
 			}
 		}
 		else if (this.element == 'air')
 		{
 			if (this.facingRight == true)
 			{
-				var airBull = this.bullets.add(new RightProjectile(game, 'atlas', 'aproj', this.body.position.x + 50, this.body.position.y, 1, 'air'));
+				var airBull = this.bullets.add(new RightProjectile(game, 'atlas', 'ap1', this.body.position.x + 50, this.body.position.y, 0.15, 'air'));
 			}
 			else if (this.facingLeft == true)
 			{
-				var airBull = this.bullets.add(new LeftProjectile(game, 'atlas', 'aproj', this.body.position.x + 50, this.body. position.y, 1, 'air'));
+				var airBull = this.bullets.add(new LeftProjectile(game, 'atlas', 'ap1', this.body.position.x + 50, this.body. position.y, 0.15, 'air'));
 			}
 		}
 	}
