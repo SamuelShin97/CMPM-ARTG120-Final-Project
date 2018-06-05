@@ -45,6 +45,7 @@ function Monster (game, key, frame, xpos, ypos, scale, element, player, boundary
 
 	this.attackEvent = game.time.events.loop(Phaser.Timer.SECOND * game.rnd.realInRange(1.8, 3.0), doAttack, this); //every 1.8-3 seconds, calls the doAttack function below
 	
+	
 
 	//determines what projectile to add to the bullets group based on what direction the monster is facing and what element it is.
 	function doAttack()
