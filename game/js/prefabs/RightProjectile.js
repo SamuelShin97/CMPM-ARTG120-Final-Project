@@ -16,7 +16,7 @@ function RightProjectile (game, key, frame, xpos, ypos, scale, element)
 
 	this.animations.add('wRotate', Phaser.Animation.generateFrameNames('wp', 1, 3), 25, true);
 	//this.animations.add('wRotate', ['atlas', 'wp1', 'atlas', 'wp3'], 15, true);
-	this.animations.add('eRotate', Phaser.Animation.generateFrameNames('ep', 1, 3), 25, true);
+	this.animations.add('eRotate', Phaser.Animation.generateFrameNames('ep', 1, 17), 70, true);
 	//this.animations.add('eRotate', ['atlas', 'ep1', 'atlas', 'ep3'], 15, true);
 	this.animations.add('fRotate', Phaser.Animation.generateFrameNames('fp', 1, 3), 25, true);
 	this.animations.add('aRotate', Phaser.Animation.generateFrameNames('ap', 1, 3), 25, true);

@@ -16,7 +16,9 @@ function LeftProjectile (game, key, frame, xpos, ypos, scale, element)
 
 	
 	this.animations.add('wRotate', ['atlas', 'wp3', 'atlas', 'wp2', 'atlas', 'wp1'], 25, true);
-	this.animations.add('eRotate', ['atlas', 'ep3', 'atlas', 'ep2', 'atlas', 'ep1'], 25, true);
+	this.animations.add('eRotate', ['atlas', 'ep17', 'atlas', 'ep16', 'atlas', 'ep15', 'atlas', 'ep14', 'atlas', 'ep13', 'atlas', 'ep12', 
+		'atlas', 'ep11', 'atlas', 'ep10', 'atlas', 'ep9', 'atlas', 'ep8', 'atlas', 'ep7', 'atlas', 'ep6', 
+			'atlas', 'ep5', 'atlas', 'ep4', 'atlas', 'ep3', 'atlas', 'ep2', 'atlas', 'ep1'], 70, true);
 	this.animations.add('fRotate', ['atlas', 'fp3', 'atlas', 'fp2', 'atlas', 'fp1'], 25, true);
 	this.animations.add('aRotate', ['atlas', 'ap3', 'atlas', 'ap2', 'atlas', 'ap1'], 25, true);
 }
