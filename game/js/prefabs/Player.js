@@ -569,7 +569,8 @@ Player.prototype.update = function() //player's update function
 		aFairy.body.collideWorldBounds = false;
 	}
 
-	if (wFairy.body.position.y < -30)
+	//console.log(wFairy.body.position.y);
+	if (wFairy.body.position.y < -30 && loseWaterFairy == true)
 	{
 		wFairy.body.velocity.y = 0;
 		wFairy.body.position.x = 100000;
@@ -578,8 +579,9 @@ Player.prototype.update = function() //player's update function
 		this.hasElement[0] = false; //set having the water fairy to false
 		this.fairyCount -= 1; //decrement fairy count
 		loseWaterFairy = false;
+		console.log('killing water fairy');
 	}
-	if (eFairy.body.position.y < -30)
+	if (eFairy.body.position.y < -30 && loseEarthFairy == true)
 	{
 		eFairy.body.velocity.y = 0;
 		eFairy.body.position.x = 100000;
@@ -588,8 +590,9 @@ Player.prototype.update = function() //player's update function
 		this.hasElement[1] = false; //set having the water fairy to false
 		this.fairyCount -= 1; //decrement fairy count
 		loseEarthFairy = false;
+		console.log('killing earth fairy');
 	}
-	if (fFairy.body.position.y < -30)
+	if (fFairy.body.position.y < -30 && loseFireFairy == true)
 	{
 		fFairy.body.velocity.y = 0;
 		fFairy.body.position.x = 100000;
@@ -598,8 +601,9 @@ Player.prototype.update = function() //player's update function
 		this.hasElement[2] = false; //set having the water fairy to false
 		this.fairyCount -= 1; //decrement fairy count
 		loseFireFairy = false;
+		console.log('killing fire fairy');
 	}
-	if (aFairy.body.position.y < -30)
+	if (aFairy.body.position.y < -30 && loseAirFairy == true)
 	{
 		aFairy.body.velocity.y = 0;
 		aFairy.body.position.x = 100000;
@@ -608,6 +612,7 @@ Player.prototype.update = function() //player's update function
 		this.hasElement[3] = false; //set having the water fairy to false
 		this.fairyCount -= 1; //decrement fairy count
 		loseAirFairy = false;
+		console.log('killing air fairy');
 	}
 
 

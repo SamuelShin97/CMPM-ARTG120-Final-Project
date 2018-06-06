@@ -977,10 +977,14 @@ EndGame.prototype ={
 	create: function()
 	{
 		lose = game.add.tileSprite(0, 0, game.world.width, game.world.height, 'atlas', 'loseScreen');
-		//lose.scale.setTo(0.23997000375, 0.24);
-		
-		nextMusic.stop();
-		//console.log(gamePlayMusic);
+		if (state == 0)
+		{
+			gamePlayMusic.stop();
+		}
+		else
+		{
+			nextMusic.stop();
+		}
 	},
 
 	update: function()

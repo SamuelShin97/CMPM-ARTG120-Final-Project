@@ -14,10 +14,10 @@ function Fairy (game, key, frame, xpos, ypos, scale, element, platforms)
 	this.body.collideWorldBounds = false;
 
 
-	this.animations.add('wGlow', Phaser.Animation.generateFrameNames('w', 0, 5), 30, true);
-	this.animations.add('eGlow', Phaser.Animation.generateFrameNames('e', 0, 5), 30, true);
-	this.animations.add('fGlow', Phaser.Animation.generateFrameNames('f', 0, 5), 30, true);
-	this.animations.add('aGlow', Phaser.Animation.generateFrameNames('a', 0, 5), 30, true);
+	this.animations.add('wGlow', Phaser.Animation.generateFrameNames('w', 0, 5), 5, true);
+	this.animations.add('eGlow', Phaser.Animation.generateFrameNames('e', 0, 5), 5, true);
+	this.animations.add('fGlow', Phaser.Animation.generateFrameNames('f', 0, 5), 5, true);
+	this.animations.add('aGlow', Phaser.Animation.generateFrameNames('a', 0, 5), 5, true);
 }
 
 Fairy.prototype = Object.create(Phaser.Sprite.prototype);
