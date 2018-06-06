@@ -158,15 +158,19 @@ GamePlay.prototype = {
 			//add in all four fairies for testing
 			waterFairy = new Fairy(game, 'atlas', 'w0', 300, game.world.height - 250, 0.1, 'water', platforms); 
 			game.add.existing(waterFairy);
+			waterFairy.body.setSize(260, 260, 135, 135)
  	  
 			earthFairy = new Fairy(game, 'atlas', 'e0', 400, game.world.height - 250, 0.1, 'earth', platforms);
 			game.add.existing(earthFairy);
+			earthFairy.body.setSize(260, 260, 135, 135)
 		
 			fireFairy = new Fairy(game, 'atlas', 'f0', 500, game.world.height - 250, 0.1, 'fire', platforms);
 			game.add.existing(fireFairy);
+			fireFairy.body.setSize(260, 260, 135, 135)
 		
 			airFairy = new Fairy(game, 'atlas', 'a0', 600, game.world.height - 250, 0.1, 'air', platforms);
 			game.add.existing(airFairy);
+			airFairy.body.setSize(260, 260, 135, 135)
 		}
 		else 
 		{
@@ -252,6 +256,7 @@ GamePlay.prototype = {
 
 				waterFairy = new Fairy(game, 'atlas', 'w0', 1000, game.world.height - 100, 0.1, 'water', platforms); 
 				game.add.existing(waterFairy);
+				waterFairy.body.setSize(260, 260, 135, 135)
 			}
 
 			else if (state == 4)
@@ -350,6 +355,7 @@ GamePlay.prototype = {
 
 				airFairy = new Fairy(game, 'atlas', 'a0', 800, game.world.height - 75, 0.1, 'air', platforms);
 				game.add.existing(airFairy);
+				airFairy.body.setSize(260, 260, 135, 135)
 			}
 
 			else if (state == 6)
@@ -465,6 +471,7 @@ GamePlay.prototype = {
 
 				fireFairy = new Fairy(game, 'atlas', 'f0', 650, game.world.height - 100, 0.1, 'fire', platforms);
 				game.add.existing(fireFairy);
+				fireFairy.body.setSize(260, 260, 135, 135)
 			}
 
 			else if (state == 8)
@@ -630,6 +637,7 @@ GamePlay.prototype = {
 
 				earthFairy = new Fairy(game, 'atlas', 'e0', 625, 325, 0.1, 'earth', platforms);
 				game.add.existing(earthFairy);
+				earthFairy.body.setSize(260, 260, 135, 135)
 			}
 		}
 		//player.body.setSize(30, 52, 17, 8); //adjust player's hitbox to match sprite dimensions (width, height, offsetx, offsety) 
@@ -949,11 +957,13 @@ GamePlay.prototype = {
 	{
 		//game.debug.body(player);
 		//game.debug.physicsGroup(player.bullets);
-		//game.debug.body(monsters);
 		//game.debug.physicsGroup(platforms);
 		//game.debug.physicsGroup(boundary);
 		//game.debug.physicsGroup(monsters);
 		//game.debug.body(waterFairy);
+		//game.debug.body(earthFairy);
+		//game.debug.body(fireFairy);
+		//game.debug.body(airFairy);
 	},
 }
 

@@ -17,6 +17,10 @@ function Monster (game, key, frame, xpos, ypos, scale, element, player, boundary
 	this.freed = false;
 	this.down = true;
 	this.up = false;
+	loseWaterFairy = false;
+	loseEarthFairy = false;
+	loseFireFairy = false;
+	loseAirFairy = false;
 
 	game.physics.enable(this);
 	game.physics.arcade.enable(this);
@@ -209,30 +213,22 @@ Monster.prototype.update = function() //monster's update function
 		if (player.equippedElement[0] == true) //if the player has the water fairy equipped
 		{	
 			player.currentIndex = 0;
-			player.equippedElement[0] = false; //unequip the water fairy
-			player.hasElement[0] = false; //set having the water fairy to false
-			player.fairyCount -= 1; //decrement fairy count
+			loseWaterFairy = true;
 		}
 		else if (player.equippedElement[1] == true) //if the player has the earth fairy equipped
 		{
 			player.currentIndex = 1;
-			player.equippedElement[1] = false;
-			player.hasElement[1] = false;
-			player.fairyCount -= 1;
+			loseEarthFairy = true;
 		}
 		else if (player.equippedElement[2] == true) //if the player has the fire fairy equipped
 		{
 			player.currentIndex = 2;
-			player.equippedElement[2] = false;
-			player.hasElement[2] = false;
-			player.fairyCount -= 1;
+			loseFireFairy = true;
 		}
 		else if (player.equippedElement[3] == true) //if the player has the air fairy equipped
 		{
 			player.currentIndex = 3;
-			player.equippedElement[3] = false;
-			player.hasElement[3] = false;
-			player.fairyCount -= 1;
+			loseAirFairy = true;
 		}
 		console.log(player.fairyCount);
 		console.log(player.equippedElement);

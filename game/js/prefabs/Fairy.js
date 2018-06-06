@@ -12,6 +12,7 @@ function Fairy (game, key, frame, xpos, ypos, scale, element, platforms)
 	game.physics.enable(this);
 	game.physics.arcade.enable(this);
 	this.body.collideWorldBounds = false;
+	
 
 	this.animations.add('wGlow', Phaser.Animation.generateFrameNames('w', 0, 5), 5, true);
 	this.animations.add('eGlow', Phaser.Animation.generateFrameNames('e', 0, 5), 5, true);

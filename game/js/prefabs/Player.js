@@ -16,6 +16,7 @@ function Player (game, key, frame, xpos, ypos, scale)
 	this.notCollectedYet = true; //this is used for if the player has collected a fairy or not yet
 	this.fairyCount = 0; //how many fairies the player has
 	this.actionTimeStamp = 0;
+	this.anchor.set(0.5);
 
 	//this.anchor.set(0.5);
 	this.scale.x = scale;
@@ -26,6 +27,7 @@ function Player (game, key, frame, xpos, ypos, scale)
 	this.body.gravity.y = 675; //gravity value on player (how fast player falls)
 	this.body.bounce.y = 0.2;
 	this.body.collideWorldBounds = true; //this might need to change for state switching so player can walk off screen
+	//this.body.setSize(120, 270, 18, 50);
 
 	this.bullets = game.add.group(); //add a bullets group and initialize it with the four elemental projectiles off screen somewhere
 	this.bullets.create(100000, 100000, 'atlas', 'wp1');
@@ -546,26 +548,68 @@ Player.prototype.update = function() //player's update function
 		}
 	}
 
-	if (this.hasElement[0] == false)
+	if (loseWaterFairy == true)
 	{
+		wFairy.body.velocity.y = -100;
+		wFairy.body.collideWorldBounds = false;
+	}
+	if (loseEarthFairy == true)
+	{
+		eFairy.body.velocity.y = -100;
+		eFairy.body.collideWorldBounds = false;
+	}
+	if (loseFireFairy == true)
+	{
+		fFairy.body.velocity.y = -100;
+		fFairy.body.collideWorldBounds = false;
+	}
+	if (loseAirFairy == true)
+	{
+		aFairy.body.velocity.y = -100;
+		aFairy.body.collideWorldBounds = false;
+	}
+
+	if (wFairy.body.position.y < -30)
+	{
+		wFairy.body.velocity.y = 0;
 		wFairy.body.position.x = 100000;
 		wFairy.body.position.y = 100000;
+		this.equippedElement[0] = false; //unequip the water fairy
+		this.hasElement[0] = false; //set having the water fairy to false
+		this.fairyCount -= 1; //decrement fairy count
+		loseWaterFairy = false;
 	}
-	if (this.hasElement[1] == false)
+	if (eFairy.body.position.y < -30)
 	{
+		eFairy.body.velocity.y = 0;
 		eFairy.body.position.x = 100000;
 		eFairy.body.position.y = 100000;
+		this.equippedElement[1] = false; //unequip the water fairy
+		this.hasElement[1] = false; //set having the water fairy to false
+		this.fairyCount -= 1; //decrement fairy count
+		loseEarthFairy = false;
 	}
-	if (this.hasElement[2] == false)
+	if (fFairy.body.position.y < -30)
 	{
+		fFairy.body.velocity.y = 0;
 		fFairy.body.position.x = 100000;
 		fFairy.body.position.y = 100000;
+		this.equippedElement[2] = false; //unequip the water fairy
+		this.hasElement[2] = false; //set having the water fairy to false
+		this.fairyCount -= 1; //decrement fairy count
+		loseFireFairy = false;
 	}
-	if (this.hasElement[3] == false)
+	if (aFairy.body.position.y < -30)
 	{
+		aFairy.body.velocity.y = 0;
 		aFairy.body.position.x = 100000;
 		aFairy.body.position.y = 100000;
+		this.equippedElement[3] = false; //unequip the water fairy
+		this.hasElement[3] = false; //set having the water fairy to false
+		this.fairyCount -= 1; //decrement fairy count
+		loseAirFairy = false;
 	}
+
 
 	//lose condition one, if you haven't collected a fairy yet, and your health depletes less than equal to 0 then you lose
 	if (this.notCollectedYet == true && this.health <= 0)
