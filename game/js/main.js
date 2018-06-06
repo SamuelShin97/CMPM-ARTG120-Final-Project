@@ -111,6 +111,9 @@ GamePlay.prototype = {
 		boundary = game.add.group();
 		boundary.enableBody = true;
 
+		chart = game.add.sprite(1175, 25, 'atlas', 'elementalChart');
+		chart.scale.setTo(0.1, 0.1);
+
     	if (repeat == false)
     	{
 			player = new Player(game, 'atlas', 'playerr0', 100, game.world.height - 160, 0.2) //add in a player object by calling Player prefab constructor
@@ -145,10 +148,17 @@ GamePlay.prototype = {
 			var TutText9 = "Go ahead and heal this monster\nusing the Water Fairy.";
 			Tutbox9 = game.add.text(750, 525, TutText9, {font:"12px 'Helvetica'", fill: "#FFFFFF", align: "left", backgroundColor: "#797D7F"});
 
+			var TutText10 = "This is the Elemental Strength Chart:\nElements pointing to another do more\ndamage against that type."
+			Tutbox10 = game.add.text(950, 25, TutText10, {font:"12px 'Helvetica'", fill: "#FFFFFF", align: "left", backgroundColor: "#797D7F"});
+
+			var TutText11 = "Elements being pointed at are less effective\nagainst their counterpart. Elements diagonal from\neach other do the base amount of damage."
+			Tutbox11 = game.add.text(950, 110, TutText11, {font:"12px 'Helvetica'", fill: "#FFFFFF", align: "left", backgroundColor: "#797D7F"});
+
 			spirit = game.add.sprite(1300, 400, 'atlas', 'gf0');
 			spirit.scale.setTo(0.3, 0.3);
 			game.physics.arcade.enable(spirit);
 			spirit.animations.add('walking', ['gf0', 'gf7'], 10, true);
+			spirit.animations.add('lwalking', ['gfl0', 'gfl7'], 10, true);
 
 			//var earthMonster = monsters.add(new Monster(game, 'atlas', 'earthl', 800, game.world.height - 100, 0.13, 'earth', player));
 
@@ -297,6 +307,13 @@ GamePlay.prototype = {
 
 				var earthMonster = monsters.add(new Monster(game, 'atlas', 'earthl', 900, 475, 0.13, 'earth', player));
 				var fireMonster = monsters.add(new Monster(game, 'atlas', 'firel1', 300, 325, 0.13, 'fire', player));
+
+				inPlace = false;
+				spirit = game.add.sprite(1300, 400, 'atlas', 'gf0');
+				spirit.scale.setTo(0.3, 0.3);
+				game.physics.arcade.enable(spirit);
+				spirit.animations.add('walking', ['gf0', 'gf7'], 10, true);
+				spirit.animations.add('lwalking', ['gfl0', 'gfl7'], 10, true);
 			}
 
 			else if (state == 5)
@@ -543,6 +560,13 @@ GamePlay.prototype = {
 				var airMonster = monsters.add(new Monster(game, 'atlas', 'airl', 100, 175, 0.13, 'air', player));
 				var waterMonster = monsters.add(new Monster(game, 'atlas', 'waterl1', 500, 325, 0.13, 'water', player));
 				var earthMonster = monsters.add(new Monster(game, 'atlas', 'earthl', 950, 175, 0.13, 'earth', player));
+
+				inPlace = false;
+				spirit = game.add.sprite(1300, 400, 'atlas', 'gf0');
+				spirit.scale.setTo(0.3, 0.3);
+				game.physics.arcade.enable(spirit);
+				spirit.animations.add('walking', ['gf0', 'gf7'], 10, true);
+				spirit.animations.add('lwalking', ['gfl0', 'gfl7'], 10, true);
 			}
 
 			else if (state == 9)
@@ -670,7 +694,18 @@ GamePlay.prototype = {
 			Tutbox7.kill();
 			Tutbox8.kill();
 			Tutbox9.kill();
-			console.log("It read the thing");
+			Tutbox10.kill();
+			Tutbox11.kill();
+			game.time.events.add(Phaser.Timer.SECOND * 0.1, walkLeft, this);
+			inPlace = true;
+		}
+
+		if (state == 4 && unlock == true && inPlace == false) {
+			game.time.events.add(Phaser.Timer.SECOND * 0.1, walkLeft, this);
+			inPlace = true;
+		}
+
+		if (state == 8 && unlock == true && inPlace == false) {
 			game.time.events.add(Phaser.Timer.SECOND * 0.1, walkLeft, this);
 			inPlace = true;
 		}
@@ -678,7 +713,7 @@ GamePlay.prototype = {
 		function walkLeft()
 		{
 			spirit.body.velocity.x = -100;
-			spirit.animations.play('walking');
+			spirit.animations.play('lwalking');
 			game.time.events.add(Phaser.Timer.SECOND * 3, stay, this);
 		}
 
@@ -686,8 +721,8 @@ GamePlay.prototype = {
 		{
 			spirit.body.velocity.x = 0;
 			game.time.events.add(Phaser.Timer.SECOND * 3, walkRight, this);
-			spirit.animations.stop('walking');
-			spirit.frameName = ('atlas', 'gf0');
+			spirit.animations.stop('lwalking');
+			spirit.frameName = ('atlas', 'gfl0');
 		}
 		function walkRight()
 		{
