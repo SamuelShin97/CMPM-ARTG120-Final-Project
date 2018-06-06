@@ -15,6 +15,8 @@ function Monster (game, key, frame, xpos, ypos, scale, element, player, boundary
 	this.giveHealth = true;
 	this.targetPlayer = false;
 	this.freed = false;
+	this.down = true;
+	this.up = false;
 
 	game.physics.enable(this);
 	game.physics.arcade.enable(this);
@@ -44,7 +46,7 @@ function Monster (game, key, frame, xpos, ypos, scale, element, player, boundary
 	this.animations.add('aIdleRight', ['atlas', 'airidle2', 'atlas', 'airr'], 3, true); 
 
 	this.attackEvent = game.time.events.loop(Phaser.Timer.SECOND * game.rnd.realInRange(1.8, 3.0), doAttack, this); //every 1.8-3 seconds, calls the doAttack function below
-	
+	this.setYVel = game.time.events.loop(Phaser.Timer.SECOND * game.rnd.realInRange(0.9, 1), switchYVel, this);
 	
 
 	//determines what projectile to add to the bullets group based on what direction the monster is facing and what element it is.
@@ -98,6 +100,20 @@ function Monster (game, key, frame, xpos, ypos, scale, element, player, boundary
 			}
 		}
 	}
+
+	function switchYVel()
+	{
+		if (this.down == true)
+		{
+			this.down = false;
+			this.up = true;
+		}
+		else if (this.up == true)
+		{
+			this.up = false;
+			this.down = true;
+		}
+	}
 }
 
 Monster.prototype = Object.create(Phaser.Sprite.prototype);
@@ -106,6 +122,15 @@ Monster.prototype.constructor = Monster;
 Monster.prototype.update = function() //monster's update function
 {
 	this.body.velocity.x = 0;
+
+	if (this.down == true && this.idol == false)
+	{
+		this.body.velocity.y = 25;
+	}
+	else if (this.up == true && this.idol == false)
+	{
+		this.body.velocity.y = -25;
+	}
 
 	if (Math.abs(this.body.position.y - player.body.position.y) <= 30)
 	{
@@ -131,6 +156,9 @@ Monster.prototype.update = function() //monster's update function
 		console.log('in damaged state');
 		game.time.events.remove(this.attackEvent);
 		this.idol = true;
+		//this.down = false;
+		//this.up = false;
+		this.body.velocity.y = 0;
 		//this.frameName = ('atlas', 'wateridle');
 		if (this.facingLeft == true && this.element == 'water')
 		{
@@ -343,9 +371,10 @@ Monster.prototype.update = function() //monster's update function
 			}
 			this.giveHealth = false;
 		}
+
 		this.cleared = true;
 		this.body.velocity.x = -150;
-		//this.body.velocity.y = -150;
+		
 		if (this.element == 'water')
 		{
 			this.animations.play('wMoveLeft');
@@ -362,6 +391,16 @@ Monster.prototype.update = function() //monster's update function
 		{
 			this.frameName = ('atlas', 'airl');
 		}
+
+		if (this.down == true)
+		{
+			this.body.velocity.y = 25;
+		}
+		else if (this.up == true)
+		{
+			this.body.velocity.y = -25;
+		}
+
 		this.body.collideWorldBounds = false;
 		this.enableCollision = false;
 		this.outOfBoundsKill = true; //kill once reaches out of bounds
