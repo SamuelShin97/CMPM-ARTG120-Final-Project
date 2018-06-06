@@ -15,8 +15,6 @@ var switchPrev = false; //not being used rn
 
 var attack = false; //if player is attacking
 
-var levelState; 
-
 var heal = 3; //value for hitting an elemental monster with same type projectile
 var bad_dmg  =1; //value for hitting an elemental monster with not very effective type projectile 
 var reg_dmg = 3; //value for hitting an elemental monster with neutral type projectile
@@ -32,7 +30,9 @@ var finalBoss;
 
 var reverse = false;
 
- var inPlace = false;
+var inPlace = false;
+
+var gamePlayMusic = null;
 
 //state structure and state switching came from Nathan Altice's code from fourth lecture slide
 var menu = function(game){};
@@ -61,7 +61,7 @@ menu.prototype = {
 var GamePlay = function(game) {}; //this will change to a different game state in separate js files
 GamePlay.prototype = {
 
-	init: function(hasElement, equippedElement, noneEquipped, currentIndex, health, notCollectedYet, fairyCount)
+	init: function(hasElement, equippedElement, noneEquipped, currentIndex, health, notCollectedYet, fairyCount, music)
 	{
 		nextPlayerhasElement = hasElement;
 		nextPlayerEquippedElement = equippedElement;
@@ -70,24 +70,26 @@ GamePlay.prototype = {
 		nextPlayerHealth = health;
 		nextPlayerNotCollectedYet = notCollectedYet;
 		nextPlayerFairyCount = fairyCount;
+		nextMusic = music;
 	},
 
 	preload: function() 
 	{
 		game.load.atlas('atlas', 'assets/img/atlas.png', 'assets/img/atlas.JSON');
 		game.load.audio('main_music', 'assets/audio/main_music.mp3'); //made by Whitesand on Youtube
-
-		game.state.add('level1', levelState);
 	},
 
 	create: function()
 	{
 		gamePlayMusic = game.add.audio('main_music');
+
 		if (state == 0)
 		{
 			gamePlayMusic.play('', 0, 1, true); //plays main game music on loop
+			console.log(gamePlayMusic);
 		}
 		
+		console.log(nextMusic);
 		// enables the Arcade Physics system
     	game.physics.startSystem(Phaser.Physics.ARCADE);
     	//game.stage.backgroundColor = "#228b22";
@@ -651,68 +653,46 @@ GamePlay.prototype = {
 		reverse = false;
 
 		if (repeat == false && monsters.children[0].cleared == true && inPlace == false) {
-				Tutbox1.kill();
-				Tutbox2.kill();
-				Tutbox3.kill();
-				Tutbox4.kill();
-				Tutbox5.kill();
-				Tutbox6.kill();
-				Tutbox7.kill();
-				Tutbox8.kill();
-				Tutbox9.kill();
-				console.log("It read the thing");
-				//game.physics.arcade.moveToXY(spirit, 1000, 400, 2, 2000);
-				
-				//spirit.animations.stop('walking');
-				//game.physics.arcade.moveToXY(spirit, 1300, 400, 2, 2000);
-				//spirit.body.velocity.x = -200;
-				//waitTime = game.time.now + 2000;
-				/*if (waitTime = game.time.now) {
-					spirit.body.velocity.x = 0;
-				}
-*/
-
-				game.time.events.add(Phaser.Timer.SECOND * 0.1, walkLeft, this);
-				inPlace = true;
-			}
-
-			//spirit.body.velocity = 0;
-			function walkLeft()
-			{
-				spirit.body.velocity.x = -100;
-				spirit.animations.play('walking');
-				game.time.events.add(Phaser.Timer.SECOND * 3, stay, this);
-			}
-
-			function stay()
-			{
-				spirit.body.velocity.x = 0;
-				game.time.events.add(Phaser.Timer.SECOND * 3, walkRight, this);
-				spirit.animations.stop('walking');
-				spirit.frameName = ('atlas', 'gf0');
-			}
-			function walkRight()
-			{
-				spirit.body.velocity.x = 100;
-				spirit.animations.play('walking');
-			}
-
-
-		/*if (repeat == false && spirit.body.position.x <= 1000 && inPlace == false) {
-			spirit.body.velocity.x = 200;
+			Tutbox1.kill();
+			Tutbox2.kill();
+			Tutbox3.kill();
+			Tutbox4.kill();
+			Tutbox5.kill();
+			Tutbox6.kill();
+			Tutbox7.kill();
+			Tutbox8.kill();
+			Tutbox9.kill();
+			console.log("It read the thing");
+			game.time.events.add(Phaser.Timer.SECOND * 0.1, walkLeft, this);
 			inPlace = true;
-			//game.physics.arcade.moveToXY(spirit, 1300, 400, 2, 2000);
-			console.log("It knows where the king is");
-			//game.physics.arcade.moveToXY(spirit, 1300, 400, 2, 2000);
-		}*/
+		}
 
-//gf 0 - 7
+		function walkLeft()
+		{
+			spirit.body.velocity.x = -100;
+			spirit.animations.play('walking');
+			game.time.events.add(Phaser.Timer.SECOND * 3, stay, this);
+		}
+
+		function stay()
+		{
+			spirit.body.velocity.x = 0;
+			game.time.events.add(Phaser.Timer.SECOND * 3, walkRight, this);
+			spirit.animations.stop('walking');
+			spirit.frameName = ('atlas', 'gf0');
+		}
+		function walkRight()
+		{
+			spirit.body.velocity.x = 100;
+			spirit.animations.play('walking');
+		}
+
 		//advances screen to level 1, this will eventually be the first screen that is loaded instead of the 'gameplay' screen
 		if(game.input.keyboard.justPressed(Phaser.Keyboard.M)) {
 			repeat = true;
 			state += 1;
 			game.state.start('GamePlay', true, false, player.hasElement, player.equippedElement, 
-				player.noneEquipped, player.currentIndex, player.health, player.notCollectedYet, player.fairyCount, state);
+				player.noneEquipped, player.currentIndex, player.health, player.notCollectedYet, player.fairyCount, gamePlayMusic);
 		}
 
 		if (state != 9)
@@ -755,7 +735,7 @@ GamePlay.prototype = {
 			repeat = true;
 			state += 1;
 			game.state.start('GamePlay', true, false, player.hasElement, player.equippedElement, 
-				player.noneEquipped, player.currentIndex, player.health, player.notCollectedYet, player.fairyCount, state);
+				player.noneEquipped, player.currentIndex, player.health, player.notCollectedYet, player.fairyCount, gamePlayMusic);
 		}
 
 		game.physics.arcade.collide(player, platforms); //allows collision between player and ground
@@ -986,12 +966,42 @@ EndGame.prototype ={
 
 	create: function()
 	{
+		lose = game.add.tileSprite(0, 0, game.world.width, game.world.height, 'atlas', 'loseScreen');
+		//lose.scale.setTo(0.23997000375, 0.24);
 		
+		nextMusic.stop();
+		//console.log(gamePlayMusic);
 	},
 
 	update: function()
 	{
-		
+		if(game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR))
+		{
+			right = false;
+			left = false; 
+			jump = false; 
+			addWater = false; 
+			addEarth = false; 
+			addFire = false; 
+			addAir = false; 
+			switchNext = false; 
+			switchPrev = false;
+			attack = false; 
+			heal = 3; 
+			bad_dmg  =1; 
+			reg_dmg = 3;
+			super_dmg = 5; 
+			repeat = false; 
+			state = 0;
+			unlock = false;
+			preUnlock = false;
+			player = null;
+			finalBoss = null;
+			reverse = false;
+			inPlace = false;
+			gamePlayMusic = null;
+			game.state.start('menu');
+		}
 	}
 }
 
