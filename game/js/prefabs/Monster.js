@@ -392,14 +392,14 @@ Monster.prototype.update = function() //monster's update function
 			this.frameName = ('atlas', 'airl');
 		}
 
-		if (this.down == true)
+		/*if (this.down == true)
 		{
 			this.body.velocity.y = 25;
 		}
 		else if (this.up == true)
 		{
 			this.body.velocity.y = -25;
-		}
+		}*/
 
 		this.body.collideWorldBounds = false;
 		this.enableCollision = false;
@@ -423,6 +423,7 @@ Monster.prototype.update = function() //monster's update function
 	{
 		if (monster.cleared == true && monster.freed == false)
 		{
+			console.log('freed');
 			monster.freed = true;
 			boundary.kill();
 			monster.body.gravity.y = 675;
