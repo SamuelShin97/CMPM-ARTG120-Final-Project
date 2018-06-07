@@ -139,6 +139,7 @@ Player.prototype.update = function() //player's update function
 					//turn on the element that is to be equipped which will be the next found element that the player has in order
 					this.equippedElement[this.currentIndex] = true;  
 					equipped = true; //set equipped to true indicating we found an element to equip
+					switchFairySound.play();
 					break; //since we found an element to 
 				}
 			}
@@ -152,6 +153,7 @@ Player.prototype.update = function() //player's update function
 						this.currentIndex = i; //set the current index to i (where we found the element)
 						this.equippedElement[originalIndex] = false; //set the previously equipped element to false
 						this.equippedElement[this.currentIndex] = true; //set the new element to be equipped to true
+						switchFairySound.play();
 						break; //break out of the loop since we found an element to equip
 					}
 				}
@@ -164,6 +166,7 @@ Player.prototype.update = function() //player's update function
 			{
 				this.equippedElement[originalIndex] = false;
 				this.equippedElement[this.currentIndex] = true;
+				switchFairySound.play();
 			}
 			else //if not then iterate from 0 to 2 which will check positions 1 through 3 and find an element like above to equip
 			{
@@ -174,6 +177,7 @@ Player.prototype.update = function() //player's update function
 						this.currentIndex = i + 1;
 						this.equippedElement[originalIndex] = false;
 						this.equippedElement[this.currentIndex] = true;
+						switchFairySound.play();
 						break;
 					}
 				}
@@ -224,6 +228,7 @@ Player.prototype.update = function() //player's update function
 			//add a water bullet to the bullets group that shoots to the left
 			var waterBullet = this.bullets.add(new LeftProjectile(game, 'atlas', 'wp1', this.body.position.x + 50, this.body.position.y, 0.15, 'water'));
 		}
+		waterProjSound.play();
 	}
 	else if (attack == true && this.equippedElement[1] == true) //same logic for earth
 	{
@@ -311,82 +316,38 @@ Player.prototype.update = function() //player's update function
 	{
 		if (this.equippedElement[0] == true) //if you have water equipped
 		{
-			this.currentIndex = 0;
-			this.equippedElement[0] = false; //unequip water
-			this.hasElement[0] = false; //lose custody of water
-			this.fairyCount -= 1; //fairycount decrements by one
-			this.health = 20; //but you replenish your health
-			wFairy.body.position.x = 100000;
-			wFairy.body.position.y = 100000;
+			loseWaterFairy = true;
 		}
 		else if (this.equippedElement[1] == true) //same if you have earth equipped
 		{
-			this.currentIndex = 1;
-			this.equippedElement[1] = false;
-			this.hasElement[1] = false;
-			this.fairyCount -= 1;
-			this.health = 20;
-			eFairy.body.position.x = 100000;
-			eFairy.body.position.y = 100000;
+			loseEarthFairy = true;
 		}
 		else if (this.equippedElement[2] == true) //same if you have fire equipped
 		{
-			this.currentIndex = 2;
-			this.equippedElement[2] = false;
-			this.hasElement[2] = false;
-			this.fairyCount -= 1;
-			this.health = 20;
-			fFairy.body.position.x = 100000;
-			fFairy.body.position.y = 100000;
+			loseFireFairy = true;
 		}
 		else if (this.equippedElement[3] == true) //same if you have air equipped
 		{
-			this.currentIndex = 3;
-			this.equippedElement[3] = false;
-			this.hasElement[3] = false;
-			this.fairyCount -= 1;
-			this.health = 20;
-			aFairy.body.position.x = 100000;
-			aFairy.body.position.y = 100000;
+			loseAirFairy = true;
 		}
 		else //if you happen to have no element equipped when you reach 0 or less health
 		{
 			//then it will get rid of the first element it sees starting from water 
 			if (this.hasElement[0] == true) //if you have a water elemental then you lose this one
 			{
-				this.currentIndex = 0;
-				this.hasElement[0] == false;
-				this.fairyCount -= 1;
-				this.health = 20;
-				wFairy.body.position.x = 100000;
-				wFairy.body.position.y = 100000;
+				loseWaterFairy = true;
 			}
 			else if (this.hasElement[1] == true) //if you have a earth elemental, but not a water, then you lose this one
 			{
-				this.currentIndex = 1;
-				this.hasElement[1] == false;
-				this.fairyCount -= 1;
-				this.health = 20;
-				eFairy.body.position.x = 100000;
-				eFairy.body.position.y = 100000;
+				loseEarthFairy = true;
 			}
 			else if (this.hasElement[2] == true) //if you have a fire elemental, but not a water or earth, then you lose this one
 			{
-				this.currentIndex = 2;
-				this.hasElement[2] == false;
-				this.fairyCount -= 1;
-				this.health = 20;
-				fFairy.body.position.x = 100000;
-				fFairy.body.position.y = 100000;
+				loseFireFairy = true;
 			}
 			else if (this.hasElement[3] == true) //if you have an air elemental, but none of above, then you lose this one
 			{
-				this.currentIndex = 3;
-				this.hasElement[3] == false;
-				this.fairyCount -= 1;
-				this.health = 20;
-				aFairy.body.position.x = 100000;
-				aFairy.body.position.y = 100000;
+				loseAirFairy = true;
 			}
 		}
 		console.log(player.hasElement);
