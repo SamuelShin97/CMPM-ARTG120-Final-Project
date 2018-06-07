@@ -32,7 +32,9 @@ var reverse = false;
 
 var inPlace = false;
 
+var titleMusic = null;
 var gamePlayMusic = null;
+
 
 //state structure and state switching came from Nathan Altice's code from fourth lecture slide
 var menu = function(game){};
@@ -40,18 +42,22 @@ menu.prototype = {
 	preload: function()
 	{
 		console.log('menu: preload');
+		game.load.atlas('atlas', 'assets/img/atlas.png', 'assets/img/atlas.JSON');
+		game.load.audio('title_music', 'assets/audio/title_music.wav'); //made by neolein
 	},
 
 	create: function()
 	{
-		var startLabel = game.add.text(80, game.world.height - 100, 'Press M to start...', 
-			{font: '25px', fill: '#FFFFFF'} );
+		title = game.add.tileSprite(0, 0, game.world.width, game.world.height, 'atlas', 'titleScreen');
+
+		titleMusic = game.add.audio('title_music');
+		titleMusic.play('', 0, 1, true);
 	},
 
 	update: function()
 	{
 		//play the game once m is pressed, loading in state 'GamePlay' but we will start with level1 in the actual making of the game
-		if (game.input.keyboard.isDown(Phaser.Keyboard.M))
+		if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR))
 		{
 			game.state.start('GamePlay'); 
 		}
@@ -61,7 +67,7 @@ menu.prototype = {
 var GamePlay = function(game) {}; //this will change to a different game state in separate js files
 GamePlay.prototype = {
 
-	init: function(hasElement, equippedElement, noneEquipped, currentIndex, health, notCollectedYet, fairyCount, music)
+	init: function(hasElement, equippedElement, noneEquipped, currentIndex, health, notCollectedYet, fairyCount, music, gmusic)
 	{
 		nextPlayerhasElement = hasElement;
 		nextPlayerEquippedElement = equippedElement;
@@ -71,23 +77,56 @@ GamePlay.prototype = {
 		nextPlayerNotCollectedYet = notCollectedYet;
 		nextPlayerFairyCount = fairyCount;
 		nextMusic = music;
+		nextGhostMusic = gmusic;
 	},
 
 	preload: function() 
 	{
 		game.load.atlas('atlas', 'assets/img/atlas.png', 'assets/img/atlas.JSON');
 		game.load.audio('main_music', 'assets/audio/main_music.mp3'); //made by Whitesand on Youtube
+		game.load.audio('jump', 'assets/audio/jump.wav'); //made by LloydEvans09
+		game.load.audio('waterProjectile', 'assets/audio/waterProjectile.wav'); //made by Mafon2
+		game.load.audio('earthProjectile', 'assets/audio/earthProjectile.wav'); //made by Reitanna
+		game.load.audio('fireProjectile', 'assets/audio/fireProjectile.wav'); //made by D W
+		game.load.audio('windProjectile', 'assets/audio/windProjectile.wav'); //made by potentjello
+		game.load.audio('collectFairy', 'assets/audio/collectFairy.wav'); //made by rentalmar
+		game.load.audio('equipFairy', 'assets/audio/equipFairy.wav'); //made by Blackie666
+		game.load.audio('takeDamage', 'assets/audio/takeDamage.wav'); //made by LiamG_SFX
+		//game.load.audio('heal', 'assets/audio/heal.flac'); //made by qubodup
+		game.load.audio('ghostEntry', 'assets/audio/ghostEntry.wav'); //made by Gameloops
+		var jumpSound;
+		var waterProjSound;
+		var earthProjSound;
+		var fireProjSound;
+		var windProjSound;
+		var getFairySound;
+		var switchFairySound;
+		var playerDmgSound;
+		var ghostMusic;
+		//var healSound;
 	},
 
 	create: function()
 	{
 		gamePlayMusic = game.add.audio('main_music');
+	
 
-		if (state == 0)
+		if (state == 1)
 		{
 			gamePlayMusic.play('', 0, 1, true); //plays main game music on loop
 			console.log(gamePlayMusic);
 		}
+
+		jumpSound = game.add.audio('jump');
+		waterProjSound = game.add.audio('waterProjectile');
+		earthProjSound = game.add.audio('earthProjectile');
+		fireProjSound = game.add.audio('fireProjectile');
+		windProjSound = game.add.audio('windProjectile');
+		getFairySound = game.add.audio('collectFairy');
+		switchFairySound = game.add.audio('equipFairy');
+		playerDmgSound = game.add.audio('takeDamage');
+		//healSound = game.add.audio('heal');
+		ghostMusic = game.add.audio('ghostEntry');
 		
 		console.log(nextMusic);
 		// enables the Arcade Physics system
@@ -116,7 +155,7 @@ GamePlay.prototype = {
 
     	if (repeat == false)
     	{
-			player = new Player(game, 'atlas', 'playerr0', 100, game.world.height - 160, 0.2) //add in a player object by calling Player prefab constructor
+			player = new Player(game, 'atlas', 'playerr0', 100, game.world.height - 68, 0.2) //add in a player object by calling Player prefab constructor
 			game.add.existing(player); //add in to world
 			var waterMonster = monsters.add(new Monster(game, 'atlas', 'waterl1', 800, game.world.height - 100, 0.13, 'water', player, boundary));
 			waterMonster.health = 2;
@@ -186,7 +225,7 @@ GamePlay.prototype = {
 		{
 			//console.log(nextPlayerhasElement);
 			//console.log(nextPlayerHealth);
-			player = new Player(game, 'atlas', 'playerr0', 100, game.world.height - 160, 0.2)
+			player = new Player(game, 'atlas', 'playerr0', 100, game.world.height - 68, 0.2)
 			game.add.existing(player);
 			player.hasElement = nextPlayerhasElement;
 			player.equippedElement = nextPlayerEquippedElement;
@@ -663,6 +702,7 @@ GamePlay.prototype = {
 				game.add.existing(earthFairy);
 				earthFairy.body.setSize(260, 260, 135, 135)
 			}
+
 		}
 		//player.body.setSize(30, 52, 17, 8); //adjust player's hitbox to match sprite dimensions (width, height, offsetx, offsety) 
 
@@ -698,6 +738,13 @@ GamePlay.prototype = {
 			Tutbox11.kill();
 			game.time.events.add(Phaser.Timer.SECOND * 0.1, walkLeft, this);
 			inPlace = true;
+			titleMusic.stop();
+			ghostMusic.play('', 0, 1, false);
+		}
+
+		if (state == 3 || state == 7)
+		{
+			inPlace = false;
 		}
 
 		if (state == 4 && unlock == true && inPlace == false) {
@@ -708,6 +755,11 @@ GamePlay.prototype = {
 		if (state == 8 && unlock == true && inPlace == false) {
 			game.time.events.add(Phaser.Timer.SECOND * 0.1, walkLeft, this);
 			inPlace = true;
+		}
+
+		if (state == 1)
+		{
+			nextGhostMusic.stop();
 		}
 
 		function walkLeft()
@@ -734,8 +786,21 @@ GamePlay.prototype = {
 		if(game.input.keyboard.justPressed(Phaser.Keyboard.M)) {
 			repeat = true;
 			state += 1;
-			game.state.start('GamePlay', true, false, player.hasElement, player.equippedElement, 
-				player.noneEquipped, player.currentIndex, player.health, player.notCollectedYet, player.fairyCount, gamePlayMusic);
+			if (state == 10)
+			{
+				game.state.start('WinGame');
+			}
+			else if (state > 2)
+			{
+				game.state.start('GamePlay', true, false, player.hasElement, player.equippedElement, 
+					player.noneEquipped, player.currentIndex, player.health, player.notCollectedYet, player.fairyCount, nextMusic);
+			}
+			else 
+			{
+				game.state.start('GamePlay', true, false, player.hasElement, player.equippedElement, 
+					player.noneEquipped, player.currentIndex, player.health, player.notCollectedYet, player.fairyCount, gamePlayMusic, ghostMusic);
+			}
+			
 		}
 
 		if (state != 9)
@@ -777,8 +842,21 @@ GamePlay.prototype = {
 		{
 			repeat = true;
 			state += 1;
-			game.state.start('GamePlay', true, false, player.hasElement, player.equippedElement, 
-				player.noneEquipped, player.currentIndex, player.health, player.notCollectedYet, player.fairyCount, gamePlayMusic);
+			if (state == 10)
+			{
+				game.state.start('WinGame');
+			}
+			else if (state > 2)
+			{
+				game.state.start('GamePlay', true, false, player.hasElement, player.equippedElement, 
+					player.noneEquipped, player.currentIndex, player.health, player.notCollectedYet, player.fairyCount, nextMusic);
+			}
+			else 
+			{
+				game.state.start('GamePlay', true, false, player.hasElement, player.equippedElement, 
+					player.noneEquipped, player.currentIndex, player.health, player.notCollectedYet, player.fairyCount, gamePlayMusic, ghostMusic);
+			}
+			
 		}
 
 		game.physics.arcade.collide(player, platforms); //allows collision between player and ground
@@ -806,6 +884,7 @@ GamePlay.prototype = {
 						{
 							monster.health += heal; //add the heal value to its health pool
 						}
+						//healSound.play();
 					}
 					else if (monster.element == 'earth') // if the monster's type is earth
 					{
@@ -833,6 +912,7 @@ GamePlay.prototype = {
 						{
 							monster.health += heal;
 						}
+						//healSound.play();
 					}
 					else if (monster.element == 'fire')
 					{
@@ -860,6 +940,7 @@ GamePlay.prototype = {
 						{
 							monster.health += heal;
 						}
+						//healSound.play();
 					}
 					else 
 					{
@@ -887,6 +968,7 @@ GamePlay.prototype = {
 						{
 							monster.health += heal;
 						}
+						//healSound.play();
 					}
 
 				}
@@ -907,6 +989,7 @@ GamePlay.prototype = {
 		if (game.input.keyboard.isDown(Phaser.Keyboard.W) && player.body.touching.down)
 		{
 			jump = true;
+			jumpSound.play();
 		}
 		if (game.input.keyboard.isDown(Phaser.Keyboard.D)) //if the D key is down, then set right to true
 		{
@@ -946,6 +1029,7 @@ GamePlay.prototype = {
 				player.health = 20;
 				console.log(player.fairyCount);
 			}
+			getFairySound.play();
 			fairy.kill();
 		}
 
@@ -960,6 +1044,7 @@ GamePlay.prototype = {
 				console.log(player.fairyCount);
 			}
 			fairy.kill();
+			getFairySound.play();
 		}
 
 		function addFireFairy(player, fairy)
@@ -973,6 +1058,7 @@ GamePlay.prototype = {
 				console.log(player.fairyCount);
 			}
 			fairy.kill();
+			getFairySound.play();
 		}
 
 		function addAirFairy(player, fairy)
@@ -986,6 +1072,7 @@ GamePlay.prototype = {
 				console.log(player.fairyCount);
 			}
 			fairy.kill();
+			getFairySound.play();
 		}
 	},
 	render: function() //this is just debug stuff
@@ -1014,9 +1101,13 @@ EndGame.prototype ={
 		lose = game.add.tileSprite(0, 0, game.world.width, game.world.height, 'atlas', 'loseScreen');
 		if (state == 0)
 		{
+			titleMusic.stop();
+		}
+		else if (state == 1)
+		{
 			gamePlayMusic.stop();
 		}
-		else
+		else 
 		{
 			nextMusic.stop();
 		}
@@ -1054,8 +1145,54 @@ EndGame.prototype ={
 	}
 }
 
+var WinGame = function(game) {};
+WinGame.prototype ={
+	preload: function()
+	{
+		console.log('WinGame: preload');
+	},
+
+	create: function()
+	{
+		win = game.add.tileSprite(0, 0, game.world.width, game.world.height, 'atlas', 'winScreen');
+		nextMusic.stop();
+	},
+
+	update: function()
+	{
+		if(game.input.keyboard.justPressed(Phaser.Keyboard.SPACEBAR))
+		{
+			right = false;
+			left = false; 
+			jump = false; 
+			addWater = false; 
+			addEarth = false; 
+			addFire = false; 
+			addAir = false; 
+			switchNext = false; 
+			switchPrev = false;
+			attack = false; 
+			heal = 3; 
+			bad_dmg  =1; 
+			reg_dmg = 3;
+			super_dmg = 5; 
+			repeat = false; 
+			state = 0;
+			unlock = false;
+			preUnlock = false;
+			player = null;
+			finalBoss = null;
+			reverse = false;
+			inPlace = false;
+			gamePlayMusic = null;
+			game.state.start('menu');
+		}
+	}
+}
+
 //add states to state manager
 game.state.add('menu', menu);
 game.state.add('GamePlay', GamePlay); //this will change to the first game state instead of just gameplay
-game.state.add('EndGame', EndGame)
+game.state.add('EndGame', EndGame);
+game.state.add('WinGame', WinGame);
 game.state.start('menu'); //start with the menu screen

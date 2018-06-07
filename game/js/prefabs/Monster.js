@@ -412,6 +412,7 @@ Monster.prototype.update = function() //monster's update function
 		console.log('player health: ', player.health);
 		console.log('player fairyCount', player.fairyCount);
 		bullet.kill();
+		playerDmgSound.play();
 		player.health -= 3;
 	}
 
