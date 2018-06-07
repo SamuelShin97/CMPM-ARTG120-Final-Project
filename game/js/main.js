@@ -1,6 +1,6 @@
 var game = new Phaser.Game(1280, 720, Phaser.Auto);
 //1280 720 
-
+//ay
 var right = false; //variable for if player moving right
 var left = false; //variable for if player moving left
 var jump = false; //variable for if player can jump
