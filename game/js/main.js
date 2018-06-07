@@ -32,7 +32,9 @@ var reverse = false;
 
 var inPlace = false;
 
+var titleMusic = null;
 var gamePlayMusic = null;
+
 
 //state structure and state switching came from Nathan Altice's code from fourth lecture slide
 var menu = function(game){};
@@ -40,12 +42,16 @@ menu.prototype = {
 	preload: function()
 	{
 		console.log('menu: preload');
+		game.load.audio('title_music', 'assets/audio/title_music.wav'); //made by neolein
 	},
 
 	create: function()
 	{
 		var startLabel = game.add.text(80, game.world.height - 100, 'Press M to start...', 
 			{font: '25px', fill: '#FFFFFF'} );
+
+		titleMusic = game.add.audio('title_music');
+		titleMusic.play('', 0, 1, true);
 	},
 
 	update: function()
@@ -77,17 +83,32 @@ GamePlay.prototype = {
 	{
 		game.load.atlas('atlas', 'assets/img/atlas.png', 'assets/img/atlas.JSON');
 		game.load.audio('main_music', 'assets/audio/main_music.mp3'); //made by Whitesand on Youtube
+		game.load.audio('jump', 'assets/audio/jump.wav'); //made by LloydEvans09
+		game.load.audio('earthProjectile', 'assets/audio/earthProjectile.wav'); //made by Reitanna
+		game.load.audio('fireProjectile', 'assets/audio/fireProjectile.wav'); //made by D W
+		game.load.audio('windProjectile', 'assets/audio/windProjectile.wav'); //made by potentjello
+
+		var jumpSound;
+		var earthProjSound;
+		var fireProjSound;
+		var windProjSound;
 	},
 
 	create: function()
 	{
 		gamePlayMusic = game.add.audio('main_music');
+	
 
-		if (state == 0)
+		if (state == 1)
 		{
 			gamePlayMusic.play('', 0, 1, true); //plays main game music on loop
 			console.log(gamePlayMusic);
 		}
+
+		jumpSound = game.add.audio('jump');
+		earthProjSound = game.add.audio('earthProjectile');
+		fireProjSound = game.add.audio('fireProjectile');
+		windProjSound = game.add.audio('windProjectile');
 		
 		console.log(nextMusic);
 		// enables the Arcade Physics system
@@ -698,6 +719,12 @@ GamePlay.prototype = {
 			Tutbox11.kill();
 			game.time.events.add(Phaser.Timer.SECOND * 0.1, walkLeft, this);
 			inPlace = true;
+			titleMusic.stop();
+		}
+
+		if (state == 2 || state == 6)
+		{
+			inPlace = false;
 		}
 
 		if (state == 4 && unlock == true && inPlace == false) {
@@ -734,8 +761,16 @@ GamePlay.prototype = {
 		if(game.input.keyboard.justPressed(Phaser.Keyboard.M)) {
 			repeat = true;
 			state += 1;
-			game.state.start('GamePlay', true, false, player.hasElement, player.equippedElement, 
-				player.noneEquipped, player.currentIndex, player.health, player.notCollectedYet, player.fairyCount, gamePlayMusic);
+			if (state > 2)
+			{
+				game.state.start('GamePlay', true, false, player.hasElement, player.equippedElement, 
+					player.noneEquipped, player.currentIndex, player.health, player.notCollectedYet, player.fairyCount, nextMusic);
+			}
+			else 
+			{
+				game.state.start('GamePlay', true, false, player.hasElement, player.equippedElement, 
+					player.noneEquipped, player.currentIndex, player.health, player.notCollectedYet, player.fairyCount, gamePlayMusic);
+			}
 		}
 
 		if (state != 9)
@@ -777,8 +812,17 @@ GamePlay.prototype = {
 		{
 			repeat = true;
 			state += 1;
-			game.state.start('GamePlay', true, false, player.hasElement, player.equippedElement, 
-				player.noneEquipped, player.currentIndex, player.health, player.notCollectedYet, player.fairyCount, gamePlayMusic);
+			if (state > 2)
+			{
+				game.state.start('GamePlay', true, false, player.hasElement, player.equippedElement, 
+					player.noneEquipped, player.currentIndex, player.health, player.notCollectedYet, player.fairyCount, nextMusic);
+			}
+			else 
+			{
+				game.state.start('GamePlay', true, false, player.hasElement, player.equippedElement, 
+					player.noneEquipped, player.currentIndex, player.health, player.notCollectedYet, player.fairyCount, gamePlayMusic);
+			}
+			
 		}
 
 		game.physics.arcade.collide(player, platforms); //allows collision between player and ground
@@ -907,6 +951,7 @@ GamePlay.prototype = {
 		if (game.input.keyboard.isDown(Phaser.Keyboard.W) && player.body.touching.down)
 		{
 			jump = true;
+			jumpSound.play();
 		}
 		if (game.input.keyboard.isDown(Phaser.Keyboard.D)) //if the D key is down, then set right to true
 		{
@@ -1014,9 +1059,13 @@ EndGame.prototype ={
 		lose = game.add.tileSprite(0, 0, game.world.width, game.world.height, 'atlas', 'loseScreen');
 		if (state == 0)
 		{
+			titleMusic.stop();
+		}
+		else if (state == 1)
+		{
 			gamePlayMusic.stop();
 		}
-		else
+		else 
 		{
 			nextMusic.stop();
 		}

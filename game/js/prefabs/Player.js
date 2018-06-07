@@ -235,6 +235,7 @@ Player.prototype.update = function() //player's update function
 		{
 			var earthBullet = this.bullets.add(new LeftProjectile(game, 'atlas', 'ep1', this.body.position.x + 50, this.body.position.y, 0.15, 'earth'));
 		}
+		earthProjSound.play();
 	}
 	else if (attack == true && this.equippedElement[2] == true) //same logic for fire
 	{
@@ -246,6 +247,7 @@ Player.prototype.update = function() //player's update function
 		{
 			var fireBullet = this.bullets.add(new LeftProjectile(game, 'atlas', 'fp1', this.body.position.x + 50, this.body.position.y, 0.15, 'fire'));
 		}
+		fireProjSound.play();
 	}
 	else if (attack == true && this.equippedElement[3] == true) //same logic for air
 	{
@@ -257,6 +259,7 @@ Player.prototype.update = function() //player's update function
 		{
 			var airBullet = this.bullets.add(new LeftProjectile(game, 'atlas', 'ap1', this.body.position.x + 50, this.body. position.y, 0.15, 'air'));
 		}
+		windProjSound.play();
 	}
 
 	//if collided with water fairy is true, and this is your first time getting an element
