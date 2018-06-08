@@ -168,10 +168,10 @@ GamePlay.prototype = {
 		var bitmd = game.add.bitmapData(200, 40);
 		bitmd.ctx.beginPath();
 		bitmd.ctx.rect(0, 0, 180, 30);
-		bitmd.ctx.fillStyle = '#00685e';
+		bitmd.ctx.fillStyle = '#f2ef88';
 		bitmd.ctx.fill();
 
-		energyBar = game.add.sprite(25, 25, bitmd);
+		energyBar = game.add.sprite(25, 40, bitmd);
 		energyBar.anchor.y = 0.5;
 
     	if (repeat == false)
@@ -733,7 +733,6 @@ GamePlay.prototype = {
 		}
 		//player.body.setSize(30, 52, 17, 8); //adjust player's hitbox to match sprite dimensions (width, height, offsetx, offsety) 
 
-		game.add.text(16, 16, 'Press M to go to the next level', { fontSize: '32px', fill: '#FFFFFF'});
 	},
 
 	update: function()
@@ -753,7 +752,7 @@ GamePlay.prototype = {
 
 		barWidth = energyBar.width;
 		Life = player.health;
-		energyBar.width = Life;
+		energyBar.width = Life * 10;
 		/*if (state >= 1 && player.health < 20 && lowBar == false) {
 			lowBar == true;
 			energyBar.width = Life;
