@@ -158,6 +158,11 @@ Monster.prototype.update = function() //monster's update function
 	if (this.health > 0 && this.health < 3)
 	{
 		console.log('in damaged state');
+		if (this.idol == false)
+		{
+			idleSound.play();
+		}
+		
 		game.time.events.remove(this.attackEvent);
 		this.idol = true;
 		//this.down = false;
@@ -214,21 +219,45 @@ Monster.prototype.update = function() //monster's update function
 		{	
 			player.currentIndex = 0;
 			loseWaterFairy = true;
+			player.health = 20;
+			if (playOnce == false)
+			{
+				loseFairySound.play();
+				playOnce = true;
+			}
 		}
 		else if (player.equippedElement[1] == true) //if the player has the earth fairy equipped
 		{
 			player.currentIndex = 1;
 			loseEarthFairy = true;
+			player.health = 20;
+			if (playOnce == false)
+			{
+				loseFairySound.play();
+				playOnce = true;
+			}
 		}
 		else if (player.equippedElement[2] == true) //if the player has the fire fairy equipped
 		{
 			player.currentIndex = 2;
 			loseFireFairy = true;
+			player.health = 20;
+			if (playOnce == false)
+			{
+				loseFairySound.play();
+				playOnce = true;
+			}
 		}
 		else if (player.equippedElement[3] == true) //if the player has the air fairy equipped
 		{
 			player.currentIndex = 3;
 			loseAirFairy = true;
+			player.health = 20;
+			if (playOnce == false)
+			{
+				loseFairySound.play();
+				playOnce = true;
+			}
 		}
 		console.log(player.fairyCount);
 		console.log(player.equippedElement);

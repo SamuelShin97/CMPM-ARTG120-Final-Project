@@ -35,6 +35,7 @@ var lowBar = false;
 
 var titleMusic = null;
 var gamePlayMusic = null;
+var bossMusic = null;
 
 
 //state structure and state switching came from Nathan Altice's code from fourth lecture slide
@@ -85,6 +86,7 @@ GamePlay.prototype = {
 	{
 		game.load.atlas('atlas', 'assets/img/atlas.png', 'assets/img/atlas.JSON');
 		game.load.audio('main_music', 'assets/audio/main_music.mp3'); //made by Whitesand on Youtube
+		game.load.audio('boss_music', 'assets/audio/boss_music.mp3'); //made by jobromedia
 		game.load.audio('jump', 'assets/audio/jump.wav'); //made by LloydEvans09
 		game.load.audio('waterProjectile', 'assets/audio/waterProjectile.wav'); //made by Mafon2
 		game.load.audio('earthProjectile', 'assets/audio/earthProjectile.wav'); //made by Reitanna
@@ -93,8 +95,13 @@ GamePlay.prototype = {
 		game.load.audio('collectFairy', 'assets/audio/collectFairy.wav'); //made by rentalmar
 		game.load.audio('equipFairy', 'assets/audio/equipFairy.wav'); //made by Blackie666
 		game.load.audio('takeDamage', 'assets/audio/takeDamage.wav'); //made by LiamG_SFX
-		//game.load.audio('heal', 'assets/audio/heal.flac'); //made by qubodup
+		game.load.audio('heal', 'assets/audio/heal.ogg'); //made by billengholm@yahoo.com
 		game.load.audio('ghostEntry', 'assets/audio/ghostEntry.wav'); //made by Gameloops
+		game.load.audio('notEffective', 'assets/audio/notEffective.wav'); //made by Matvey
+		game.load.audio('effective', 'assets/audio/effective.mp3'); //made by CGEffex
+		game.load.audio('superEffective', 'assets/audio/superEffective.wav'); //made by Robinhood76
+		game.load.audio('idleState', 'assets/audio/idleState.wav'); //made by alonsotm
+		game.load.audio('loseFairy', 'assets/audio/loseFairy.ogg'); //made by FlechBr
 		var jumpSound;
 		var waterProjSound;
 		var earthProjSound;
@@ -104,20 +111,18 @@ GamePlay.prototype = {
 		var switchFairySound;
 		var playerDmgSound;
 		var ghostMusic;
-		//var healSound;
+		var notEffectiveSound;
+		var effectiveSound;
+		var superEffectiveSound;
+		var idleSound;
+		var healSound;
+		var loseFairySound;
 	},
 
 	create: function()
 	{
 		gamePlayMusic = game.add.audio('main_music');
-
-	
-
-		if (state == 1)
-		{
-			gamePlayMusic.play('', 0, 1, true); //plays main game music on loop
-			console.log(gamePlayMusic);
-		}
+		bossMusic = game.add.audio('boss_music');
 
 		jumpSound = game.add.audio('jump');
 		waterProjSound = game.add.audio('waterProjectile');
@@ -127,8 +132,13 @@ GamePlay.prototype = {
 		getFairySound = game.add.audio('collectFairy');
 		switchFairySound = game.add.audio('equipFairy');
 		playerDmgSound = game.add.audio('takeDamage');
-		//healSound = game.add.audio('heal');
+		healSound = game.add.audio('heal');
 		ghostMusic = game.add.audio('ghostEntry');
+		notEffectiveSound = game.add.audio('notEffective');
+		effectiveSound = game.add.audio('effective');
+		superEffectiveSound = game.add.audio('superEffective');
+		idleSound = game.add.audio('idleState');
+		loseFairySound = game.add.audio('loseFairy');
 		
 		console.log(nextMusic);
 		// enables the Arcade Physics system
@@ -251,7 +261,8 @@ GamePlay.prototype = {
 			if (state == 1)
 			{
 				var fireMonster = monsters.add(new Monster(game, 'atlas', 'firel1', 800, game.world.height - 100, 0.13, 'fire', player, boundary));
-
+				gamePlayMusic.play('', 0, 1, true); //plays main game music on loop
+				console.log(gamePlayMusic);
 			}
 
 			else if (state == 2)
@@ -622,6 +633,10 @@ GamePlay.prototype = {
 
 			else if (state == 9)
 			{
+				nextMusic.stop();
+				bossMusic.play('', 0, 1, true);
+
+			
 				var ledge = game.add.tileSprite(50, 475, 400, 100, 'atlas', 'ground');
 				game.physics.arcade.enable(ledge);
 				ledge.body.immovable = true;
@@ -905,19 +920,45 @@ GamePlay.prototype = {
 						{
 							monster.health += heal; //add the heal value to its health pool
 						}
-						//healSound.play();
+						var healText = game.add.text(monster.body.position.x, monster.body.position.y - 25, heal, 
+							{font: '30px', fill: '#00FF00'});
+						game.physics.arcade.enable(healText);
+						healText.enbableBody = true;
+						healText.body.velocity.y = -50;
+						healText.lifespan = 1500;
+
+						healSound.play();
 					}
 					else if (monster.element == 'earth') // if the monster's type is earth
 					{
 						monster.health -= reg_dmg; //the monster takes regular damage
+
+						var regText = game.add.text(monster.body.position.x, monster.body.position.y - 25, reg_dmg, 
+							{font: '30px', fill: '#FF0000'});
+						game.physics.arcade.enable(regText);
+						regText.enbableBody = true;
+						regText.body.velocity.y = -50;
+						regText.lifespan = 1500;
+
+						effectiveSound.play();
 					}
 					else if (monster.element == 'fire') //if the monster's type is fire
 					{
 						monster.health -= super_dmg; //the monster takes super effective damage
+
+						var superText = game.add.text(monster.body.position.x, monster.body.position.y - 25, super_dmg, 
+							{font: '45px', fill: '#FF0000'});
+						game.physics.arcade.enable(superText);
+						superText.enbableBody = true;
+						superText.body.velocity.y = -50;
+						superText.lifespan = 1500;
+
+						superEffectiveSound.play();
 					}
 					else //then the monster's type must be air
 					{
 						monster.health -= bad_dmg; //monster takes not very effective damage
+						notEffectiveSound.play();
 					}
 				}
 				//if the bullet's element is earth
@@ -926,6 +967,15 @@ GamePlay.prototype = {
 					if (monster.element == 'water')
 					{
 						monster.health -= reg_dmg;
+
+						var regText = game.add.text(monster.body.position.x, monster.body.position.y - 25, reg_dmg, 
+							{font: '30px', fill: '#FF0000'});
+						game.physics.arcade.enable(regText);
+						regText.enbableBody = true;
+						regText.body.velocity.y = -50;
+						regText.lifespan = 1500;
+
+						effectiveSound.play();
 					}
 					else if (monster.element == 'earth')
 					{
@@ -933,15 +983,32 @@ GamePlay.prototype = {
 						{
 							monster.health += heal;
 						}
-						//healSound.play();
+						var healText = game.add.text(monster.body.position.x, monster.body.position.y - 25, heal, 
+							{font: '30px', fill: '#00FF00'});
+						game.physics.arcade.enable(healText);
+						healText.enbableBody = true;
+						healText.body.velocity.y = -50;
+						healText.lifespan = 1500;
+
+						healSound.play();
 					}
 					else if (monster.element == 'fire')
 					{
 						monster.health -= bad_dmg;
+						notEffectiveSound.play();
 					}
 					else 
 					{
 						monster.health -= super_dmg;
+
+						var superText = game.add.text(monster.body.position.x, monster.body.position.y - 25, super_dmg, 
+							{font: '45px', fill: '#FF0000'});
+						game.physics.arcade.enable(superText);
+						superText.enbableBody = true;
+						superText.body.velocity.y = -50;
+						superText.lifespan = 1500;
+
+						superEffectiveSound.play();
 					}
 				}
 				//if the bullets element is fire
@@ -950,10 +1017,20 @@ GamePlay.prototype = {
 					if (monster.element == 'water')
 					{
 						monster.health -= bad_dmg;
+						notEffectiveSound.play();
 					}
 					else if (monster.element == 'earth')
 					{
 						monster.health -= super_dmg;
+
+						var superText = game.add.text(monster.body.position.x, monster.body.position.y - 25, super_dmg, 
+							{font: '45px', fill: '#FF0000'});
+						game.physics.arcade.enable(superText);
+						superText.enbableBody = true;
+						superText.body.velocity.y = -50;
+						superText.lifespan = 1500;
+
+						superEffectiveSound.play();
 					}
 					else if (monster.element == 'fire')
 					{
@@ -961,11 +1038,27 @@ GamePlay.prototype = {
 						{
 							monster.health += heal;
 						}
-						//healSound.play();
+						var healText = game.add.text(monster.body.position.x, monster.body.position.y - 25, heal, 
+							{font: '30px', fill: '#00FF00'});
+						game.physics.arcade.enable(healText);
+						healText.enbableBody = true;
+						healText.body.velocity.y = -50;
+						healText.lifespan = 1500;
+
+						healSound.play();
 					}
 					else 
 					{
 						monster.health -= reg_dmg;
+
+						var regText = game.add.text(monster.body.position.x, monster.body.position.y - 25, reg_dmg, 
+							{font: '30px', fill: '#FF0000'});
+						game.physics.arcade.enable(regText);
+						regText.enbableBody = true;
+						regText.body.velocity.y = -50;
+						regText.lifespan = 1500;
+
+						effectiveSound.play();
 					}
 				}
 				//bullet's element is air
@@ -974,14 +1067,33 @@ GamePlay.prototype = {
 					if (monster.element == 'water')
 					{
 						monster.health -= super_dmg;
+
+						var superText = game.add.text(monster.body.position.x, monster.body.position.y - 25, super_dmg, 
+							{font: '45px', fill: '#FF0000'});
+						game.physics.arcade.enable(superText);
+						superText.enbableBody = true;
+						superText.body.velocity.y = -50;
+						superText.lifespan = 1500;
+
+						superEffectiveSound.play();
 					}
 					else if (monster.element == 'earth')
 					{
 						monster.health -= bad_dmg;
+						notEffectiveSound.play();
 					}
 					else if (monster.element == 'fire')
 					{
 						monster.health -= reg_dmg;
+
+						var regText = game.add.text(monster.body.position.x, monster.body.position.y - 25, reg_dmg, 
+							{font: '30px', fill: '#FF0000'});
+						game.physics.arcade.enable(regText);
+						regText.enbableBody = true;
+						regText.body.velocity.y = -50;
+						regText.lifespan = 1500;
+
+						effectiveSound.play();
 					}
 					else 
 					{
@@ -989,7 +1101,14 @@ GamePlay.prototype = {
 						{
 							monster.health += heal;
 						}
-						//healSound.play();
+						var healText = game.add.text(monster.body.position.x, monster.body.position.y - 25, heal, 
+							{font: '30px', fill: '#00FF00'});
+						game.physics.arcade.enable(healText);
+						healText.enbableBody = true;
+						healText.body.velocity.y = -50;
+						healText.lifespan = 1500;
+
+						healSound.play();
 					}
 
 				}
@@ -999,12 +1118,6 @@ GamePlay.prototype = {
 			else 
 				bullet.kill(); //get rid of the bullet on collision
 		}
-
-		/*function attackBoss(bullet, finalBoss)
-		{
-			bullet.kill();
-			finalBoss.health -= reg_dmg;
-		}*/
 
 		//if the W button is down and the player is touching on the ground then set jump equal to true
 		if (game.input.keyboard.isDown(Phaser.Keyboard.W) && player.body.touching.down)
@@ -1128,6 +1241,10 @@ EndGame.prototype ={
 		{
 			gamePlayMusic.stop();
 		}
+		else if (state == 9)
+		{
+			bossMusic.stop();
+		}
 		else 
 		{
 			nextMusic.stop();
@@ -1176,7 +1293,7 @@ WinGame.prototype ={
 	create: function()
 	{
 		win = game.add.tileSprite(0, 0, game.world.width, game.world.height, 'atlas', 'winScreen');
-		nextMusic.stop();
+		bossMusic.stop();
 	},
 
 	update: function()

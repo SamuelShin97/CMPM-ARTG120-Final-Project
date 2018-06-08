@@ -83,12 +83,12 @@ Boss.prototype.constructor = Boss;
 
 Boss.prototype.update = function()
 {
-	if (this.body.position.x - player.body.position.x > 0) //if this this's x position minus the player's x position is positive
+	if (this.body.position.x - player.body.position.x > 10) //if this this's x position minus the player's x position is positive
 	{
 		this.facingLeft = true; //then you know that the this should be facing to the left and not to the right
 		this.facingRight = false;
 	}
-	else if (this.body.position.x - player.body.position.x < 0) //vice versa
+	else if (this.body.position.x - player.body.position.x < -10) //vice versa
 	{
 		this.facingLeft = false;
 		this.facingRight = true;
