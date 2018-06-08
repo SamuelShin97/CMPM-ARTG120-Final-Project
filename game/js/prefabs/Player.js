@@ -27,6 +27,8 @@ function Player (game, key, frame, xpos, ypos, scale)
 	this.body.gravity.y = 675; //gravity value on player (how fast player falls)
 	this.body.bounce.y = 0.2;
 	this.body.collideWorldBounds = true; //this might need to change for state switching so player can walk off screen
+
+	playOnce = false;
 	//this.body.setSize(120, 270, 18, 50);
 
 	this.bullets = game.add.group(); //add a bullets group and initialize it with the four elemental projectiles off screen somewhere
@@ -317,37 +319,45 @@ Player.prototype.update = function() //player's update function
 		if (this.equippedElement[0] == true) //if you have water equipped
 		{
 			loseWaterFairy = true;
+			this.health = 20;
 		}
 		else if (this.equippedElement[1] == true) //same if you have earth equipped
 		{
 			loseEarthFairy = true;
+			this.health = 20;
 		}
 		else if (this.equippedElement[2] == true) //same if you have fire equipped
 		{
 			loseFireFairy = true;
+			this.health = 20;
 		}
 		else if (this.equippedElement[3] == true) //same if you have air equipped
 		{
 			loseAirFairy = true;
+			this.health = 20;
 		}
 		else //if you happen to have no element equipped when you reach 0 or less health
 		{
 			//then it will get rid of the first element it sees starting from water 
-			if (this.hasElement[0] == true) //if you have a water elemental then you lose this one
+			if (this.hasElement[0] == true ) //if you have a water elemental then you lose this one
 			{
 				loseWaterFairy = true;
+				this.health = 20;
 			}
 			else if (this.hasElement[1] == true) //if you have a earth elemental, but not a water, then you lose this one
 			{
 				loseEarthFairy = true;
+				this.health = 20;
 			}
 			else if (this.hasElement[2] == true) //if you have a fire elemental, but not a water or earth, then you lose this one
 			{
 				loseFireFairy = true;
+				this.health = 20;
 			}
 			else if (this.hasElement[3] == true) //if you have an air elemental, but none of above, then you lose this one
 			{
 				loseAirFairy = true;
+				this.health = 20;
 			}
 		}
 		console.log(player.hasElement);
@@ -516,21 +526,42 @@ Player.prototype.update = function() //player's update function
 	{
 		wFairy.body.velocity.y = -100;
 		wFairy.body.collideWorldBounds = false;
+		if (playOnce == false)
+		{
+			loseFairySound.play();
+			playOnce = true;
+		}
+		
 	}
 	if (loseEarthFairy == true)
 	{
 		eFairy.body.velocity.y = -100;
 		eFairy.body.collideWorldBounds = false;
+		if (playOnce == false)
+		{
+			loseFairySound.play();
+			playOnce = true;
+		}
 	}
 	if (loseFireFairy == true)
 	{
 		fFairy.body.velocity.y = -100;
 		fFairy.body.collideWorldBounds = false;
+		if (playOnce == false)
+		{
+			loseFairySound.play();
+			playOnce = true;
+		}
 	}
 	if (loseAirFairy == true)
 	{
 		aFairy.body.velocity.y = -100;
 		aFairy.body.collideWorldBounds = false;
+		if (playOnce == false)
+		{
+			loseFairySound.play();
+			playOnce = true;
+		}
 	}
 
 	//console.log(wFairy.body.position.y);
@@ -543,6 +574,7 @@ Player.prototype.update = function() //player's update function
 		this.hasElement[0] = false; //set having the water fairy to false
 		this.fairyCount -= 1; //decrement fairy count
 		loseWaterFairy = false;
+		playOnce = false;
 		console.log('killing water fairy');
 	}
 	if (eFairy.body.position.y < -30 && loseEarthFairy == true)
@@ -554,6 +586,7 @@ Player.prototype.update = function() //player's update function
 		this.hasElement[1] = false; //set having the water fairy to false
 		this.fairyCount -= 1; //decrement fairy count
 		loseEarthFairy = false;
+		playOnce = false;
 		console.log('killing earth fairy');
 	}
 	if (fFairy.body.position.y < -30 && loseFireFairy == true)
@@ -565,6 +598,7 @@ Player.prototype.update = function() //player's update function
 		this.hasElement[2] = false; //set having the water fairy to false
 		this.fairyCount -= 1; //decrement fairy count
 		loseFireFairy = false;
+		playOnce = false;
 		console.log('killing fire fairy');
 	}
 	if (aFairy.body.position.y < -30 && loseAirFairy == true)
@@ -576,6 +610,7 @@ Player.prototype.update = function() //player's update function
 		this.hasElement[3] = false; //set having the water fairy to false
 		this.fairyCount -= 1; //decrement fairy count
 		loseAirFairy = false;
+		playOnce = false;
 		console.log('killing air fairy');
 	}
 
