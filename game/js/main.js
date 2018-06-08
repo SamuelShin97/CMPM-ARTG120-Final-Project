@@ -171,8 +171,10 @@ GamePlay.prototype = {
 		bitmd.ctx.fillStyle = '#f2ef88';
 		bitmd.ctx.fill();
 
-		energyBar = game.add.sprite(25, 40, bitmd);
+		energyBar = game.add.sprite(25, 60, bitmd);
 		energyBar.anchor.y = 0.5;
+
+		energy = game.add.text(25, 5, "Energy", {font: "24px 'Segoe Script'", fill: "#FFFFFF", align: "left"});
 
     	if (repeat == false)
     	{
@@ -182,37 +184,43 @@ GamePlay.prototype = {
 			waterMonster.health = 2;
 
 			var TutText1 = "The Fluorescent Forest can be\na very dangerous place, but luckily these\nfairies are willing to guide you through.";
-			Tutbox1 = game.add.text(25, 200, TutText1, {font: "12px 'Helvetica'", fill: "#FFFFFF", align: "left", backgroundColor: "#797D7F"});
+			Tutbox1 = game.add.text(17, 200, TutText1, {font: "12px 'Helvetica'", fill: "#FFFFFF", align: "left", backgroundColor: "#797D7F"});
 
 			var TutText2 = "Use WAD to move and jump.\nTouch the fairies to collect them.\nThis will imbue you with their power.";
-			Tutbox2 = game.add.text(250, 200, TutText2, {font:"12px 'Helvetica'", fill: "#FFFFFF", align: "left", backgroundColor: "#797D7F"});
+			Tutbox2 = game.add.text(242, 200, TutText2, {font:"12px 'Helvetica'", fill: "#FFFFFF", align: "left", backgroundColor: "#797D7F"});
 
 			var TutText3 = "Press E to change which fairy's\npower is equipped. Press SPACEBAR\nto use the equipped power.";
-			Tutbox3 = game.add.text(450, 200, TutText3, {font:"12px 'Helvetica'", fill: "#FFFFFF", align: "left", backgroundColor: "#797D7F"});
+			Tutbox3 = game.add.text(442, 200, TutText3, {font:"12px 'Helvetica'", fill: "#FFFFFF", align: "left", backgroundColor: "#797D7F"});
 
-			var TutText4 = "The fairies don't like enemies of the\nforest and its inhabitants, so be\ncareful when attacking them.";
-			Tutbox4 = game.add.text(660, 200, TutText4, {font:"12px 'Helvetica'", fill: "#FFFFFF", align: "left", backgroundColor: "#797D7F"});
+			var TutText4 = "The fairies don't like those who wish\nto do harm to the forest's inhabitants,\nso be careful when attacking.";
+			Tutbox4 = game.add.text(652, 200, TutText4, {font:"12px 'Helvetica'", fill: "#FFFFFF", align: "left", backgroundColor: "#797D7F"});
 
-			var TutText5 = "You may attack monsters until they\ndie or fight them until they reach\ntheir idle state and then heal them.";
-			Tutbox5 = game.add.text(855, 200, TutText5, {font:"12px 'Helvetica'", fill: "#FFFFFF", align: "left", backgroundColor: "#797D7F"});
+			var TutText5 = "You may attack monsters until they\ndie or fight them until they reach their\ndamaged state and then heal them.";
+			Tutbox5 = game.add.text(857, 200, TutText5, {font:"12px 'Helvetica'", fill: "#FFFFFF", align: "left", backgroundColor: "#797D7F"});
 
 			var TutText6 = "Each type of monster has an element\nthey are weaker to and are healed\nby their own element.";
-			Tutbox6 = game.add.text(1050, 200, TutText6, {font:"12px 'Helvetica'", fill: "#FFFFFF", align: "left", backgroundColor: "#797D7F"});
+			Tutbox6 = game.add.text(1062, 200, TutText6, {font:"12px 'Helvetica'", fill: "#FFFFFF", align: "left", backgroundColor: "#797D7F"});
 
-			var TutText7 = "Killing enemies may grant you a \ndamage bonus, but the fairies will\nstart to resent you and one will leave.";
+			var TutText7 = "Killing monsters will grant you a \ndamage bonus, but the fairies will\nstart to resent you and one will leave.";
 			Tutbox7 = game.add.text(450, 300, TutText7, {font:"12px 'Helvetica'", fill: "#FFFFFF", align: "left", backgroundColor: "#797D7F"});
 
-			var TutText8 = "On the other hand, healing\nenemies keeps the fairies happy\nand grants you extra Energy.";
+			var TutText8 = "On the other hand, healing\nmonsters keeps the fairies happy\nand grants you extra Energy.";
 			Tutbox8 = game.add.text(660, 300, TutText8, {font:"12px 'Helvetica'", fill: "#FFFFFF", align: "left", backgroundColor: "#797D7F"});
 
-			var TutText9 = "Go ahead and heal this monster\nusing the Water Fairy.";
-			Tutbox9 = game.add.text(750, 525, TutText9, {font:"12px 'Helvetica'", fill: "#FFFFFF", align: "left", backgroundColor: "#797D7F"});
+			var TutText9 = "Monsters have 10 hp and die when it is 0, but\nenter their damaged state at 2 or below.";
+			Tutbox9 = game.add.text(825, 550, TutText9, {font:"12px 'Helvetica'", fill: "#FFFFFF", align: "left", backgroundColor: "#797D7F"});
 
-			var TutText10 = "This is the Elemental Strength Chart:\nElements pointing to another do more\ndamage against that type."
-			Tutbox10 = game.add.text(950, 25, TutText10, {font:"12px 'Helvetica'", fill: "#FFFFFF", align: "left", backgroundColor: "#797D7F"});
+			var TutText10 = "Go ahead and heal this damaged\nmonster using the Water Fairy."
+			Tutbox10 = game.add.text(825, 600, TutText10, {font:"12px 'Helvetica'", fill: "#FFFFFF", align: "left", backgroundColor: "#797D7F"});
 
-			var TutText11 = "Elements being pointed at are less effective\nagainst their counterpart. Elements diagonal from\neach other do the base amount of damage."
-			Tutbox11 = game.add.text(950, 110, TutText11, {font:"12px 'Helvetica'", fill: "#FFFFFF", align: "left", backgroundColor: "#797D7F"});
+			var TutText11 = "This is the Elemental Strength Chart:\nElements pointing to another do more\ndamage against that type."
+			Tutbox11 = game.add.text(950, 25, TutText11, {font:"12px 'Helvetica'", fill: "#FFFFFF", align: "left", backgroundColor: "#797D7F"});
+
+			var TutText12 = "Elements being pointed at are less effective\nagainst their counterpart. Elements diagonal from\neach other do the base amount of damage."
+			Tutbox12 = game.add.text(950, 110, TutText12, {font:"12px 'Helvetica'", fill: "#FFFFFF", align: "left", backgroundColor: "#797D7F"});
+
+			var TutText13 = "This is the Energy Bar, if you run out\nof energy a fairy will leave and if\nthere are no fairies left, it's game over."
+			Tutbox13 = game.add.text(225, 15, TutText13, {font:"12px 'Helvetica'", fill: "#FFFFFF", align: "left", backgroundColor: "#797D7F"});
 
 			spirit = game.add.sprite(1300, 400, 'atlas', 'gf0');
 			spirit.scale.setTo(0.3, 0.3);
@@ -753,11 +761,6 @@ GamePlay.prototype = {
 		barWidth = energyBar.width;
 		Life = player.health;
 		energyBar.width = Life * 10;
-		/*if (state >= 1 && player.health < 20 && lowBar == false) {
-			lowBar == true;
-			energyBar.width = Life;
-			console.log("im hit");
-		}*/
 
 		if (repeat == false && monsters.children[0].cleared == true && inPlace == false) {
 			Tutbox1.kill();
@@ -771,6 +774,8 @@ GamePlay.prototype = {
 			Tutbox9.kill();
 			Tutbox10.kill();
 			Tutbox11.kill();
+			Tutbox12.kill();
+			Tutbox13.kill();
 			game.time.events.add(Phaser.Timer.SECOND * 0.1, walkLeft, this);
 			inPlace = true;
 			titleMusic.stop();
