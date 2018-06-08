@@ -1,6 +1,6 @@
 var game = new Phaser.Game(1280, 720, Phaser.Auto);
 //1280 720 
-//ay
+
 var right = false; //variable for if player moving right
 var left = false; //variable for if player moving left
 var jump = false; //variable for if player can jump
@@ -31,6 +31,7 @@ var finalBoss;
 var reverse = false;
 
 var inPlace = false;
+var lowBar = false;
 
 var titleMusic = null;
 var gamePlayMusic = null;
@@ -109,6 +110,7 @@ GamePlay.prototype = {
 	create: function()
 	{
 		gamePlayMusic = game.add.audio('main_music');
+
 	
 
 		if (state == 1)
@@ -152,6 +154,15 @@ GamePlay.prototype = {
 
 		chart = game.add.sprite(1175, 25, 'atlas', 'elementalChart');
 		chart.scale.setTo(0.1, 0.1);
+
+		var bitmd = game.add.bitmapData(200, 40);
+		bitmd.ctx.beginPath();
+		bitmd.ctx.rect(0, 0, 180, 30);
+		bitmd.ctx.fillStyle = '#00685e';
+		bitmd.ctx.fill();
+
+		energyBar = game.add.sprite(25, 25, bitmd);
+		energyBar.anchor.y = 0.5;
 
     	if (repeat == false)
     	{
@@ -240,6 +251,7 @@ GamePlay.prototype = {
 			if (state == 1)
 			{
 				var fireMonster = monsters.add(new Monster(game, 'atlas', 'firel1', 800, game.world.height - 100, 0.13, 'fire', player, boundary));
+
 			}
 
 			else if (state == 2)
@@ -723,6 +735,15 @@ GamePlay.prototype = {
 		switchPrev = false;
 		attack = false;
 		reverse = false;
+
+		barWidth = energyBar.width;
+		Life = player.health;
+		energyBar.width = Life;
+		/*if (state >= 1 && player.health < 20 && lowBar == false) {
+			lowBar == true;
+			energyBar.width = Life;
+			console.log("im hit");
+		}*/
 
 		if (repeat == false && monsters.children[0].cleared == true && inPlace == false) {
 			Tutbox1.kill();
