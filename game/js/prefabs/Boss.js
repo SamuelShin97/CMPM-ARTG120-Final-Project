@@ -119,6 +119,7 @@ Boss.prototype.update = function()
 	{
 		console.log('attacking boss');
 		bullet.kill();
+		playerDmgSound.play();
 		boss.health -= 3;
 	}
 

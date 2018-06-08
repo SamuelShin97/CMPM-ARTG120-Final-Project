@@ -54,7 +54,7 @@ menu.prototype = {
 	{
 		title = game.add.tileSprite(0, 0, game.world.width, game.world.height, 'atlas', 'titleScreen');
 		title.alpha = 0;
-		game.add.tween(title).to( { alpha: 1 }, 10000, Phaser.Easing.Linear.None, true, 0, 0, false);
+		game.add.tween(title).to( { alpha: 1 }, 2000, Phaser.Easing.Linear.None, true, 0, 0, false);
 
 		titleMusic = game.add.audio('title_music');
 		titleMusic.play('', 0, 1, true);
@@ -904,7 +904,11 @@ GamePlay.prototype = {
 				game.state.start('GamePlay', true, false, player.hasElement, player.equippedElement, 
 					player.noneEquipped, player.currentIndex, player.health, player.notCollectedYet, player.fairyCount, gamePlayMusic, ghostMusic);
 			}
-			
+		}
+
+		if (player.body.position.x < 0 && unlock == true)
+		{
+			player.body.position.x = 0;
 		}
 
 		game.physics.arcade.collide(player, platforms); //allows collision between player and ground
