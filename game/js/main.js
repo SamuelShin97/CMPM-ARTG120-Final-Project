@@ -35,6 +35,8 @@ var inPlace = false;
 var titleMusic = null;
 var gamePlayMusic = null;
 var bossMusic = null;
+var winMusic = null;
+var loseMusic = null;
 
 
 //state structure and state switching came from Nathan Altice's code from fourth lecture slide
@@ -50,6 +52,8 @@ menu.prototype = {
 	create: function()
 	{
 		title = game.add.tileSprite(0, 0, game.world.width, game.world.height, 'atlas', 'titleScreen');
+		title.alpha = 0;
+		game.add.tween(title).to( { alpha: 1 }, 10000, Phaser.Easing.Linear.None, true, 0, 0, false);
 
 		titleMusic = game.add.audio('title_music');
 		titleMusic.play('', 0, 1, true);
@@ -86,6 +90,8 @@ GamePlay.prototype = {
 		game.load.atlas('atlas', 'assets/img/atlas.png', 'assets/img/atlas.JSON');
 		game.load.audio('main_music', 'assets/audio/main_music.mp3'); //made by Whitesand on Youtube
 		game.load.audio('boss_music', 'assets/audio/boss_music.mp3'); //made by jobromedia
+		game.load.audio('win_music', 'assets/audio/win_music.wav'); //made by FunWithSound
+		game.load.audio('lose_music', 'assets/audio/lose_music.mp3'); //made by SoundFlakes
 		game.load.audio('jump', 'assets/audio/jump.wav'); //made by LloydEvans09
 		game.load.audio('waterProjectile', 'assets/audio/waterProjectile.wav'); //made by Mafon2
 		game.load.audio('earthProjectile', 'assets/audio/earthProjectile.wav'); //made by Reitanna
@@ -122,6 +128,8 @@ GamePlay.prototype = {
 	{
 		gamePlayMusic = game.add.audio('main_music');
 		bossMusic = game.add.audio('boss_music');
+		winMusic = game.add.audio('win_music');
+		loseMusic = game.add.audio('lose_music');
 
 		jumpSound = game.add.audio('jump');
 		waterProjSound = game.add.audio('waterProjectile');
@@ -1246,6 +1254,9 @@ EndGame.prototype ={
 	create: function()
 	{
 		lose = game.add.tileSprite(0, 0, game.world.width, game.world.height, 'atlas', 'loseScreen');
+		lose.alpha = 0;
+  	 	game.add.tween(lose).to( { alpha: 1 }, 30000, Phaser.Easing.Linear.None, true, 0, 0, false);
+
 		if (state == 0)
 		{
 			titleMusic.stop();
@@ -1262,6 +1273,7 @@ EndGame.prototype ={
 		{
 			nextMusic.stop();
 		}
+		loseMusic.play('', 0, 1, false);
 	},
 
 	update: function()
@@ -1291,6 +1303,7 @@ EndGame.prototype ={
 			reverse = false;
 			inPlace = false;
 			gamePlayMusic = null;
+			loseMusic.stop();
 			game.state.start('menu');
 		}
 	}
@@ -1306,7 +1319,10 @@ WinGame.prototype ={
 	create: function()
 	{
 		win = game.add.tileSprite(0, 0, game.world.width, game.world.height, 'atlas', 'winScreen');
+		win.alpha = 0;
+		game.add.tween(win).to( { alpha: 1 }, 11000, Phaser.Easing.Linear.None, true, 0, 0, false);
 		bossMusic.stop();
+		winMusic.play('', 0, 1, false);
 	},
 
 	update: function()
@@ -1336,6 +1352,7 @@ WinGame.prototype ={
 			reverse = false;
 			inPlace = false;
 			gamePlayMusic = null;
+			winMusic.stop();
 			game.state.start('menu');
 		}
 	}
