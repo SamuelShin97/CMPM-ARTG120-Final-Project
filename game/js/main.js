@@ -957,6 +957,14 @@ GamePlay.prototype = {
 					else //then the monster's type must be air
 					{
 						monster.health -= bad_dmg; //monster takes not very effective damage
+
+						var badText = game.add.text(monster.body.position.x, monster.body.position.y - 25, bad_dmg, 
+							{font: '20px', fill: '#FF0000'});
+						game.physics.arcade.enable(badText);
+						badText.enbableBody = true;
+						badText.body.velocity.y = -50;
+						badText.lifespan = 1500;
+
 						notEffectiveSound.play();
 					}
 				}
@@ -994,6 +1002,14 @@ GamePlay.prototype = {
 					else if (monster.element == 'fire')
 					{
 						monster.health -= bad_dmg;
+
+						var badText = game.add.text(monster.body.position.x, monster.body.position.y - 25, bad_dmg, 
+							{font: '20px', fill: '#FF0000'});
+						game.physics.arcade.enable(badText);
+						badText.enbableBody = true;
+						badText.body.velocity.y = -50;
+						badText.lifespan = 1500;
+
 						notEffectiveSound.play();
 					}
 					else 
@@ -1016,6 +1032,14 @@ GamePlay.prototype = {
 					if (monster.element == 'water')
 					{
 						monster.health -= bad_dmg;
+
+						var badText = game.add.text(monster.body.position.x, monster.body.position.y - 25, bad_dmg, 
+							{font: '20px', fill: '#FF0000'});
+						game.physics.arcade.enable(badText);
+						badText.enbableBody = true;
+						badText.body.velocity.y = -50;
+						badText.lifespan = 1500;
+
 						notEffectiveSound.play();
 					}
 					else if (monster.element == 'earth')
@@ -1079,6 +1103,14 @@ GamePlay.prototype = {
 					else if (monster.element == 'earth')
 					{
 						monster.health -= bad_dmg;
+
+						var badText = game.add.text(monster.body.position.x, monster.body.position.y - 25, bad_dmg, 
+							{font: '20px', fill: '#FF0000'});
+						game.physics.arcade.enable(badText);
+						badText.enbableBody = true;
+						badText.body.velocity.y = -50;
+						badText.lifespan = 1500;
+
 						notEffectiveSound.play();
 					}
 					else if (monster.element == 'fire')
