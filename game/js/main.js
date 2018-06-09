@@ -37,7 +37,7 @@ var gamePlayMusic = null;
 var bossMusic = null;
 var winMusic = null;
 var loseMusic = null;
-var dontPlayTitleMusic = false;
+var resume = false;
 
 
 //state structure and state switching came from Nathan Altice's code from fourth lecture slide
@@ -62,10 +62,10 @@ menu.prototype = {
 		game.add.tween(title).to( { alpha: 1 }, 2000, Phaser.Easing.Linear.None, true, 0, 0, false);
 
 		titleMusic = game.add.audio('title_music');
-		if (dontPlayTitleMusic == false)
-		{
-			titleMusic.play('', 0, 1, true);
-		}
+
+		
+		titleMusic.play('', 0, 1, true);
+		
 	},
 
 	update: function()
@@ -78,8 +78,8 @@ menu.prototype = {
 
 		if(game.input.keyboard.justPressed(Phaser.Keyboard.BACKSPACE))
 		{
+			titleMusic.stop();
 			game.state.start('Credits');
-			dontPlayTitleMusic = true;
 		}
 	}
 };
@@ -802,6 +802,7 @@ GamePlay.prototype = {
 			Tutbox13.kill();
 			game.time.events.add(Phaser.Timer.SECOND * 0.1, walkLeft, this);
 			inPlace = true;
+			console.log('in update: ', titleMusic);
 			titleMusic.stop();
 			ghostMusic.play('', 0, 1, false);
 		}
@@ -1346,7 +1347,7 @@ EndGame.prototype ={
 			reverse = false;
 			inPlace = false;
 			gamePlayMusic = null;
-			dontPlayTitleMusic = false;
+			resume = false;
 			loseMusic.stop();
 			game.state.start('menu');
 		}
@@ -1396,7 +1397,7 @@ WinGame.prototype ={
 			reverse = false;
 			inPlace = false;
 			gamePlayMusic = null;
-			dontPlayTitleMusic = false;
+			resume = false;
 			winMusic.stop();
 			game.state.start('menu');
 		}
@@ -1420,6 +1421,7 @@ Credits.prototype ={
 	{
 		if(game.input.keyboard.justPressed(Phaser.Keyboard.BACKSPACE))
 		{
+			resume = true;
 			game.state.start('menu');
 		}
 	},
