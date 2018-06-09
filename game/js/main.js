@@ -37,6 +37,7 @@ var gamePlayMusic = null;
 var bossMusic = null;
 var winMusic = null;
 var loseMusic = null;
+var dontPlayTitleMusic = false;
 
 
 //state structure and state switching came from Nathan Altice's code from fourth lecture slide
@@ -61,7 +62,10 @@ menu.prototype = {
 		game.add.tween(title).to( { alpha: 1 }, 2000, Phaser.Easing.Linear.None, true, 0, 0, false);
 
 		titleMusic = game.add.audio('title_music');
-		titleMusic.play('', 0, 1, true);
+		if (dontPlayTitleMusic == false)
+		{
+			titleMusic.play('', 0, 1, true);
+		}
 	},
 
 	update: function()
@@ -70,6 +74,12 @@ menu.prototype = {
 		if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR))
 		{
 			game.state.start('GamePlay'); 
+		}
+
+		if(game.input.keyboard.justPressed(Phaser.Keyboard.BACKSPACE))
+		{
+			game.state.start('Credits');
+			dontPlayTitleMusic = true;
 		}
 	}
 };
@@ -1336,6 +1346,7 @@ EndGame.prototype ={
 			reverse = false;
 			inPlace = false;
 			gamePlayMusic = null;
+			dontPlayTitleMusic = false;
 			loseMusic.stop();
 			game.state.start('menu');
 		}
@@ -1385,10 +1396,33 @@ WinGame.prototype ={
 			reverse = false;
 			inPlace = false;
 			gamePlayMusic = null;
+			dontPlayTitleMusic = false;
 			winMusic.stop();
 			game.state.start('menu');
 		}
 	}
+}
+
+var Credits = function(game) {};
+Credits.prototype ={
+
+	preload: function()
+	{
+
+	},
+
+	create: function()
+	{
+		cred = game.add.tileSprite(0, 0, game.world.width, game.world.height, 'atlas', 'Credits');
+	},
+
+	update: function()
+	{
+		if(game.input.keyboard.justPressed(Phaser.Keyboard.BACKSPACE))
+		{
+			game.state.start('menu');
+		}
+	},
 }
 
 //add states to state manager
@@ -1396,4 +1430,5 @@ game.state.add('menu', menu);
 game.state.add('GamePlay', GamePlay); //this will change to the first game state instead of just gameplay
 game.state.add('EndGame', EndGame);
 game.state.add('WinGame', WinGame);
+game.state.add('Credits', Credits);
 game.state.start('menu'); //start with the menu screen
