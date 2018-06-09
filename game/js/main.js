@@ -31,7 +31,6 @@ var finalBoss;
 var reverse = false;
 
 var inPlace = false;
-var lowBar = false;
 
 var titleMusic = null;
 var gamePlayMusic = null;
@@ -43,6 +42,11 @@ var loseMusic = null;
 //state structure and state switching came from Nathan Altice's code from fourth lecture slide
 var menu = function(game){};
 menu.prototype = {
+	init: function() 
+	{
+		this.scale.pageAlignHorizontally = true;
+        this.scale.pageAlignVertically = true;
+	},
 	preload: function()
 	{
 		console.log('menu: preload');
@@ -173,7 +177,8 @@ GamePlay.prototype = {
 		chart = game.add.sprite(1175, 25, 'atlas', 'elementalChart');
 		chart.scale.setTo(0.1, 0.1);
 
-		var bitmd = game.add.bitmapData(200, 40);
+		//Used an example from Shohan at http://naivedev.blogspot.com/2016/06/phaser-experiment-making-health-bar.html
+		var bitmd = game.add.bitmapData(200, 40); // Creates the energy bar for the UI
 		bitmd.ctx.beginPath();
 		bitmd.ctx.rect(0, 0, 180, 30);
 		bitmd.ctx.fillStyle = '#f2ef88';
@@ -766,6 +771,7 @@ GamePlay.prototype = {
 		attack = false;
 		reverse = false;
 
+		// Size of the Energy Bar depends on the Player's health
 		barWidth = energyBar.width;
 		Life = player.health;
 		energyBar.width = Life * 10;
