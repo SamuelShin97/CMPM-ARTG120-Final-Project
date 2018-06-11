@@ -24,6 +24,7 @@ function Player (game, key, frame, xpos, ypos, scale)
 
 	game.physics.enable(this);
 	game.physics.arcade.enable(this);
+
 	this.body.gravity.y = 675; //gravity value on player (how fast player falls)
 	this.body.bounce.y = 0.2;
 	this.body.collideWorldBounds = true; //this might need to change for state switching so player can walk off screen
@@ -41,6 +42,8 @@ function Player (game, key, frame, xpos, ypos, scale)
 	this.animations.add('moveRight', Phaser.Animation.generateFrameNames('playerr', 0, 7), 30, true); 
 	this.animations.add('moveLeft', Phaser.Animation.generateFrameNames('playerl', 0, 7), 30, true); 
 
+
+	//these are the fairires that follow you
 	wFairy = new Fairy(game, 'atlas', 'w0', 10000, 10000, 0.1, 'water', this);
 	game.add.existing(wFairy);
 	wFairy.body.gravity.y = 800;
@@ -127,8 +130,6 @@ Player.prototype.update = function() //player's update function
 	//if switchNext (from main.js meaning that player pushed E key, and this isn't the first time equipping an element)
 	if (switchNext == true && this.noneEquipped == false) 
 	{
-		console.log('in switch');
-		console.log(this.hasElement);
 		originalIndex = this.currentIndex; //save the original index of where you are in the hasElement array 
 		if (this.currentIndex != 3) //if the current index is not at the end of the array
 		{
@@ -185,7 +186,6 @@ Player.prototype.update = function() //player's update function
 				}
 			}
 		}
-		console.log(this.currentIndex);
 	}
 
 	if (this.equippedElement[0] == true)
@@ -360,7 +360,6 @@ Player.prototype.update = function() //player's update function
 				this.health = 20;
 			}
 		}
-		console.log(player.hasElement);
 	}
 	if (this.hasElement[0] == true)
 	{
@@ -564,7 +563,6 @@ Player.prototype.update = function() //player's update function
 		}
 	}
 
-	//console.log(wFairy.body.position.y);
 	if (wFairy.body.position.y < -30 && loseWaterFairy == true)
 	{
 		wFairy.body.velocity.y = 0;
@@ -575,7 +573,6 @@ Player.prototype.update = function() //player's update function
 		this.fairyCount -= 1; //decrement fairy count
 		loseWaterFairy = false;
 		playOnce = false;
-		console.log('killing water fairy');
 	}
 	if (eFairy.body.position.y < -30 && loseEarthFairy == true)
 	{
@@ -587,7 +584,6 @@ Player.prototype.update = function() //player's update function
 		this.fairyCount -= 1; //decrement fairy count
 		loseEarthFairy = false;
 		playOnce = false;
-		console.log('killing earth fairy');
 	}
 	if (fFairy.body.position.y < -30 && loseFireFairy == true)
 	{
@@ -599,7 +595,6 @@ Player.prototype.update = function() //player's update function
 		this.fairyCount -= 1; //decrement fairy count
 		loseFireFairy = false;
 		playOnce = false;
-		console.log('killing fire fairy');
 	}
 	if (aFairy.body.position.y < -30 && loseAirFairy == true)
 	{
@@ -611,7 +606,6 @@ Player.prototype.update = function() //player's update function
 		this.fairyCount -= 1; //decrement fairy count
 		loseAirFairy = false;
 		playOnce = false;
-		console.log('killing air fairy');
 	}
 
 
@@ -619,7 +613,6 @@ Player.prototype.update = function() //player's update function
 	if (this.notCollectedYet == true && this.health <= 0)
 	{
 		this.kill();
-		console.log('first lose');
 		game.state.start('EndGame');
 	}
 
@@ -627,7 +620,6 @@ Player.prototype.update = function() //player's update function
 	if (this.fairyCount == 0 && this.notCollectedYet == false)
 	{
 		this.kill();
-		console.log('second lose');
 		game.state.start('EndGame');
 	}
 

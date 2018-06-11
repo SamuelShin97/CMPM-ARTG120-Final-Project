@@ -157,7 +157,6 @@ Monster.prototype.update = function() //monster's update function
 	//this will be where the damaged/idol state happens with the monster. Right now it's set between 1 and 2 health.
 	if (this.health > 0 && this.health < 3)
 	{
-		console.log('in damaged state');
 		if (this.idol == false)
 		{
 			idleSound.play();
@@ -259,16 +258,11 @@ Monster.prototype.update = function() //monster's update function
 				playOnce = true;
 			}
 		}
-		console.log(player.fairyCount);
-		console.log(player.equippedElement);
-		console.log(player.hasElement);
 		this.health = 9999; //set the health to something thats greater than 0 so it will never enter this if chunck again. 
 	}
 
 	function facePlayer(monster, player)
 	{
-		//game.time.events.resume(monster.attackEvent);
-		//console.log('calling facePlayer');
 		if (monster.body.position.x - player.body.position.x > 0) //if monster monster's x position minus the player's x position is positive
 		{
 			monster.facingLeft = true; //then you know that the monster should be facing to the left and not to the right
@@ -437,9 +431,6 @@ Monster.prototype.update = function() //monster's update function
 
 	function takeDmg(player, bullet)
 	{
-		console.log('hit');
-		console.log('player health: ', player.health);
-		console.log('player fairyCount', player.fairyCount);
 		bullet.kill();
 		playerDmgSound.play();
 		player.health -= 3;
@@ -449,7 +440,6 @@ Monster.prototype.update = function() //monster's update function
 	{
 		if (monster.cleared == true && monster.freed == false)
 		{
-			console.log('freed');
 			monster.freed = true;
 			boundary.kill();
 			monster.body.gravity.y = 675;

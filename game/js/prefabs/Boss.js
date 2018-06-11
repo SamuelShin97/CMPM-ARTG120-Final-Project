@@ -117,7 +117,6 @@ Boss.prototype.update = function()
 
 	function attackBoss(boss, bullet)
 	{
-		console.log('attacking boss');
 		bullet.kill();
 		playerDmgSound.play();
 		boss.health -= 3;
@@ -130,11 +129,9 @@ Boss.prototype.update = function()
 
 	if (this.health <= 0)
 	{
-		console.log('boss dead');
 		this.cleared = true;
 		this.kill();
 		game.time.events.remove(this.attack);
-		//this.health = 9999;
 	}
 
 }

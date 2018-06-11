@@ -21,23 +21,21 @@ var reg_dmg = 3; //value for hitting an elemental monster with neutral type proj
 var super_dmg = 5; //value for hitting an elemental monster with super effective type projectile
 
 var repeat = false; //if player has advanced to a new screen
-var state = 0;
-var unlock = false;
-var preUnlock = false;
+var state = 0; //what level you are on
+var unlock = false; //for when player can move onto the next stage
+var preUnlock = false; //check for final boss mission
 
 var player;
 var finalBoss;
 
-var reverse = false;
-
-var inPlace = false;
+var inPlace = false; //switch for when ghost father comes in
 
 var titleMusic = null;
 var gamePlayMusic = null;
 var bossMusic = null;
 var winMusic = null;
 var loseMusic = null;
-var resume = false;
+
 
 
 //state structure and state switching came from Nathan Altice's code from fourth lecture slide
@@ -50,9 +48,8 @@ menu.prototype = {
 	},
 	preload: function()
 	{
-		console.log('menu: preload');
-		game.load.atlas('atlas', 'assets/img/atlas.png', 'assets/img/atlas.JSON');
-		game.load.audio('title_music', 'assets/audio/title_music.wav'); //made by neolein
+		game.load.atlas('atlas', 'game/assets/img/atlas.png', 'game/assets/img/atlas.JSON');
+		game.load.audio('title_music', 'game/assets/audio/title_music.wav'); //made by neolein
 	},
 
 	create: function()
@@ -89,6 +86,7 @@ GamePlay.prototype = {
 
 	init: function(hasElement, equippedElement, noneEquipped, currentIndex, health, notCollectedYet, fairyCount, music, gmusic)
 	{
+		//save player data across different states
 		nextPlayerhasElement = hasElement;
 		nextPlayerEquippedElement = equippedElement;
 		nextPlayerNoneEquipped = noneEquipped;
@@ -96,32 +94,35 @@ GamePlay.prototype = {
 		nextPlayerHealth = health;
 		nextPlayerNotCollectedYet = notCollectedYet;
 		nextPlayerFairyCount = fairyCount;
+		//save music references across different states
 		nextMusic = music;
 		nextGhostMusic = gmusic;
 	},
 
 	preload: function() 
 	{
-		game.load.atlas('atlas', 'assets/img/atlas.png', 'assets/img/atlas.JSON');
-		game.load.audio('main_music', 'assets/audio/main_music.mp3'); //made by Whitesand on Youtube
-		game.load.audio('boss_music', 'assets/audio/boss_music.mp3'); //made by jobromedia
-		game.load.audio('win_music', 'assets/audio/win_music.wav'); //made by FunWithSound
-		game.load.audio('lose_music', 'assets/audio/lose_music.mp3'); //made by SoundFlakes
-		game.load.audio('jump', 'assets/audio/jump.wav'); //made by LloydEvans09
-		game.load.audio('waterProjectile', 'assets/audio/waterProjectile.wav'); //made by Mafon2
-		game.load.audio('earthProjectile', 'assets/audio/earthProjectile.wav'); //made by Reitanna
-		game.load.audio('fireProjectile', 'assets/audio/fireProjectile.wav'); //made by D W
-		game.load.audio('windProjectile', 'assets/audio/windProjectile.wav'); //made by potentjello
-		game.load.audio('collectFairy', 'assets/audio/collectFairy.wav'); //made by rentalmar
-		game.load.audio('equipFairy', 'assets/audio/equipFairy.wav'); //made by Blackie666
-		game.load.audio('takeDamage', 'assets/audio/takeDamage.wav'); //made by LiamG_SFX
-		game.load.audio('heal', 'assets/audio/heal.ogg'); //made by billengholm@yahoo.com
-		game.load.audio('ghostEntry', 'assets/audio/ghostEntry.wav'); //made by Gameloops
-		game.load.audio('notEffective', 'assets/audio/notEffective.wav'); //made by Matvey
-		game.load.audio('effective', 'assets/audio/effective.mp3'); //made by CGEffex
-		game.load.audio('superEffective', 'assets/audio/superEffective.wav'); //made by Robinhood76
-		game.load.audio('idleState', 'assets/audio/idleState.wav'); //made by alonsotm
-		game.load.audio('loseFairy', 'assets/audio/loseFairy.ogg'); //made by FlechBr
+		game.load.atlas('atlas', 'game/assets/img/atlas.png', 'game/assets/img/atlas.JSON');
+		game.load.audio('main_music', 'game/assets/audio/main_music.mp3'); //made by Whitesand on Youtube
+		game.load.audio('boss_music', 'game/assets/audio/boss_music.mp3'); //made by jobromedia
+		game.load.audio('win_music', 'game/assets/audio/win_music.wav'); //made by FunWithSound
+		game.load.audio('lose_music', 'game/assets/audio/lose_music.mp3'); //made by SoundFlakes
+		game.load.audio('jump', 'game/assets/audio/jump.wav'); //made by LloydEvans09
+		game.load.audio('waterProjectile', 'game/assets/audio/waterProjectile.wav'); //made by Mafon2
+		game.load.audio('earthProjectile', 'game/assets/audio/earthProjectile.wav'); //made by Reitanna
+		game.load.audio('fireProjectile', 'game/assets/audio/fireProjectile.wav'); //made by D W
+		game.load.audio('windProjectile', 'game/assets/audio/windProjectile.wav'); //made by potentjello
+		game.load.audio('collectFairy', 'game/assets/audio/collectFairy.wav'); //made by rentalmar
+		game.load.audio('equipFairy', 'game/assets/audio/equipFairy.wav'); //made by Blackie666
+		game.load.audio('takeDamage', 'game/assets/audio/takeDamage.wav'); //made by LiamG_SFX
+		game.load.audio('heal', 'game/assets/audio/heal.ogg'); //made by billengholm@yahoo.com
+		game.load.audio('ghostEntry', 'game/assets/audio/ghostEntry.wav'); //made by Gameloops
+		game.load.audio('notEffective', 'game/assets/audio/notEffective.wav'); //made by Matvey
+		game.load.audio('effective', 'game/assets/audio/effective.mp3'); //made by CGEffex
+		game.load.audio('superEffective', 'game/assets/audio/superEffective.wav'); //made by Robinhood76
+		game.load.audio('idleState', 'game/assets/audio/idleState.wav'); //made by alonsotm
+		game.load.audio('loseFairy', 'game/assets/audio/loseFairy.ogg'); //made by FlechBr
+
+		//sound effect variables
 		var jumpSound;
 		var waterProjSound;
 		var earthProjSound;
@@ -141,11 +142,13 @@ GamePlay.prototype = {
 
 	create: function()
 	{
+		//music
 		gamePlayMusic = game.add.audio('main_music');
 		bossMusic = game.add.audio('boss_music');
 		winMusic = game.add.audio('win_music');
 		loseMusic = game.add.audio('lose_music');
 
+		//sound effects
 		jumpSound = game.add.audio('jump');
 		waterProjSound = game.add.audio('waterProjectile');
 		earthProjSound = game.add.audio('earthProjectile');
@@ -162,11 +165,10 @@ GamePlay.prototype = {
 		idleSound = game.add.audio('idleState');
 		loseFairySound = game.add.audio('loseFairy');
 		
-		console.log(nextMusic);
 		// enables the Arcade Physics system
     	game.physics.startSystem(Phaser.Physics.ARCADE);
-    	//game.stage.backgroundColor = "#228b22";
 
+    	//loads in background
     	forest = game.add.tileSprite(0, 0, game.world.width, game.world.height, 'atlas', 'forest');
 
     	// Create platforms group
@@ -181,7 +183,7 @@ GamePlay.prototype = {
     	monsters = game.add.group(); //make monsters a game group
 		monsters.enableBody = true;
 
-		boundary = game.add.group();
+		boundary = game.add.group(); //these are the invisible boundaries that keep monsters on platforms
 		boundary.enableBody = true;
 
 		chart = game.add.sprite(1175, 25, 'atlas', 'elementalChart');
@@ -199,7 +201,7 @@ GamePlay.prototype = {
 
 		energy = game.add.text(25, 5, "Energy", {font: "24px 'Segoe Script'", fill: "#FFFFFF", align: "left"});
 
-    	if (repeat == false)
+    	if (repeat == false) //tutorial stage
     	{
 			player = new Player(game, 'atlas', 'playerr0', 100, game.world.height - 68, 0.2) //add in a player object by calling Player prefab constructor
 			game.add.existing(player); //add in to world
@@ -251,12 +253,6 @@ GamePlay.prototype = {
 			spirit.animations.add('walking', ['gf0', 'gf7'], 10, true);
 			spirit.animations.add('lwalking', ['gfl0', 'gfl7'], 10, true);
 
-			//var earthMonster = monsters.add(new Monster(game, 'atlas', 'earthl', 800, game.world.height - 100, 0.13, 'earth', player));
-
-			//var fireMonster = monsters.add(new Monster(game, 'atlas', 'firel1', 800, game.world.height - 100, 0.13, 'fire', player));
-
-			//var airMonster = monsters.add(new Monster(game, 'atlas', 'airl', 800, game.world.height - 100, 0.13, 'air', player));
-			//add in all four fairies for testing
 			waterFairy = new Fairy(game, 'atlas', 'w0', 300, game.world.height - 250, 0.1, 'water', platforms); 
 			game.add.existing(waterFairy);
 			waterFairy.body.setSize(260, 260, 135, 135)
@@ -273,12 +269,12 @@ GamePlay.prototype = {
 			game.add.existing(airFairy);
 			airFairy.body.setSize(260, 260, 135, 135)
 		}
-		else 
+		else //if not in the tutorial
 		{
-			//console.log(nextPlayerhasElement);
-			//console.log(nextPlayerHealth);
-			player = new Player(game, 'atlas', 'playerr0', 100, game.world.height - 68, 0.2)
+			player = new Player(game, 'atlas', 'playerr0', 100, game.world.height - 68, 0.2) //create a new player object
 			game.add.existing(player);
+
+			//set the new player's data from the previous player state
 			player.hasElement = nextPlayerhasElement;
 			player.equippedElement = nextPlayerEquippedElement;
 			player.noneEquipped = nextPlayerNoneEquipped;
@@ -286,17 +282,14 @@ GamePlay.prototype = {
 			player.health = nextPlayerHealth;
 			player.notCollectedYet = nextPlayerNotCollectedYet;
 			player.fairyCount = nextPlayerFairyCount;
-			//console.log(player.hasElement);
-			//console.log(player); 
 
-			if (state == 1)
+			if (state == 1) //level 1
 			{
 				var fireMonster = monsters.add(new Monster(game, 'atlas', 'firel1', 800, game.world.height - 100, 0.13, 'fire', player, boundary));
 				gamePlayMusic.play('', 0, 1, true); //plays main game music on loop
-				console.log(gamePlayMusic);
 			}
 
-			else if (state == 2)
+			else if (state == 2) //level 2
 			{
 				//(xpos, ypos, width, height, key, frame)
 				ledge = game.add.tileSprite(700, 450, 400, 100, 'atlas', 'ground');
@@ -319,7 +312,7 @@ GamePlay.prototype = {
 				var airMonster = monsters.add(new Monster(game, 'atlas', 'airl', 800, game.world.height - 100, 0.13, 'air', player, boundary));
 			}
 
-			else if (state == 3)
+			else if (state == 3) //level 3
 			{
 				//(xpos, ypos, width, height, key, frame)
 				var ledge = game.add.tileSprite(200, 475, 300, 100, 'atlas', 'ground');
@@ -362,7 +355,7 @@ GamePlay.prototype = {
 				waterFairy.body.setSize(260, 260, 135, 135)
 			}
 
-			else if (state == 4)
+			else if (state == 4) //level 4
 			{
 				//(xpos, ypos, width, height, key, frame)
 				var ledge = game.add.tileSprite(850, 475, 375, 100, 'atlas', 'ground');
@@ -409,7 +402,7 @@ GamePlay.prototype = {
 				spirit.animations.add('lwalking', ['gfl0', 'gfl7'], 10, true);
 			}
 
-			else if (state == 5)
+			else if (state == 5) //level 5
 			{
 				//(xpos, ypos, width, height, key, frame)
 				var ledge = game.add.tileSprite(150, 475, 350, 100, 'atlas', 'ground');
@@ -468,7 +461,7 @@ GamePlay.prototype = {
 				airFairy.body.setSize(260, 260, 135, 135)
 			}
 
-			else if (state == 6)
+			else if (state == 6) //level 6
 			{
 				//(xpos, ypos, width, height, key, frame)
 				var ledge = game.add.tileSprite(675, 475, 450, 100, 'atlas', 'ground');
@@ -525,7 +518,7 @@ GamePlay.prototype = {
 
 			}
 
-			else if (state == 7)
+			else if (state == 7) //level 7
 			{
 				var ledge = game.add.tileSprite(50, 450, 300, 100, 'atlas', 'ground');
 				game.physics.arcade.enable(ledge);
@@ -584,7 +577,7 @@ GamePlay.prototype = {
 				fireFairy.body.setSize(260, 260, 135, 135)
 			}
 
-			else if (state == 8)
+			else if (state == 8) // level 8
 			{
 				var ledge = game.add.tileSprite(425, 325, 425, 100, 'atlas', 'ground');
 				game.physics.arcade.enable(ledge);
@@ -662,7 +655,7 @@ GamePlay.prototype = {
 				spirit.animations.add('lwalking', ['gfl0', 'gfl7'], 10, true);
 			}
 
-			else if (state == 9)
+			else if (state == 9) // level 9, boss level
 			{
 				nextMusic.stop();
 				bossMusic.play('', 0, 1, true);
@@ -761,14 +754,11 @@ GamePlay.prototype = {
 				earthFairy.body.setSize(260, 260, 135, 135)
 			}
 
-		}
-		//player.body.setSize(30, 52, 17, 8); //adjust player's hitbox to match sprite dimensions (width, height, offsetx, offsety) 
-
+		} 
 	},
 
 	update: function()
 	{
-
 		right = false;
 		left = false;
 		jump = false;
@@ -779,7 +769,6 @@ GamePlay.prototype = {
 		switchNext = false;
 		switchPrev = false;
 		attack = false;
-		reverse = false;
 
 		// Size of the Energy Bar depends on the Player's health
 		barWidth = energyBar.width;
@@ -802,7 +791,6 @@ GamePlay.prototype = {
 			Tutbox13.kill();
 			game.time.events.add(Phaser.Timer.SECOND * 0.1, walkLeft, this);
 			inPlace = true;
-			console.log('in update: ', titleMusic);
 			titleMusic.stop();
 			ghostMusic.play('', 0, 1, false);
 		}
@@ -847,28 +835,7 @@ GamePlay.prototype = {
 			spirit.animations.play('walking');
 		}
 
-		//advances screen to level 1, this will eventually be the first screen that is loaded instead of the 'gameplay' screen
-		if(game.input.keyboard.justPressed(Phaser.Keyboard.M)) {
-			repeat = true;
-			state += 1;
-			if (state == 10)
-			{
-				game.state.start('WinGame');
-			}
-			else if (state > 2)
-			{
-				game.state.start('GamePlay', true, false, player.hasElement, player.equippedElement, 
-					player.noneEquipped, player.currentIndex, player.health, player.notCollectedYet, player.fairyCount, nextMusic);
-			}
-			else 
-			{
-				game.state.start('GamePlay', true, false, player.hasElement, player.equippedElement, 
-					player.noneEquipped, player.currentIndex, player.health, player.notCollectedYet, player.fairyCount, gamePlayMusic, ghostMusic);
-			}
-			
-		}
-
-		if (state != 9)
+		if (state != 9) //logic for unlocking next level
 		{
 			for (i = 0; i < monsters.length; i++)
 			{
@@ -883,7 +850,7 @@ GamePlay.prototype = {
 				}
 			}
 		}
-		else if (state == 9)
+		else if (state == 9) //logic for unlocking boss level
 		{
 			for (i = 0; i < monsters.length; i++)
 			{
@@ -903,7 +870,7 @@ GamePlay.prototype = {
 			}
 		}
 
-		if (player.body.position.x > 1280 && unlock == true)
+		if (player.body.position.x > 1280 && unlock == true) //when the player advances to the next stage
 		{
 			repeat = true;
 			state += 1;
@@ -937,8 +904,6 @@ GamePlay.prototype = {
 		game.physics.arcade.collide(player, airFairy, addAirFairy, null, this);
 		//if the players bullets hit any type of monster, call the calcDmg function
 		game.physics.arcade.collide(player.bullets, monsters, calcDmg, null, this); 
-		//game.physics.arcade.collide(player.bullets, finalBoss, attackBoss, null, this);
-		//game.physics.arcade.collide(player, monsters); //allows collision between player and monsters
 
 		function calcDmg(bullet, monster) //calculates what kind of damage the monster takes depending on type of bullet collided with type of monster.
 		{
@@ -1177,7 +1142,6 @@ GamePlay.prototype = {
 					}
 
 				}
-				console.log(monster.health);
 				bullet.kill(); //get rid of the bullet on collision
 			}
 			else 
@@ -1226,7 +1190,6 @@ GamePlay.prototype = {
 				player.notCollectedYet = false;
 				player.fairyCount += 1;
 				player.health = 20;
-				console.log(player.fairyCount);
 			}
 			getFairySound.play();
 			fairy.kill();
@@ -1240,7 +1203,6 @@ GamePlay.prototype = {
 				player.notCollectedYet = false;
 				player.fairyCount += 1;
 				player.health = 20;
-				console.log(player.fairyCount);
 			}
 			fairy.kill();
 			getFairySound.play();
@@ -1254,7 +1216,6 @@ GamePlay.prototype = {
 				player.notCollectedYet = false;
 				player.fairyCount += 1;
 				player.health = 20;
-				console.log(player.fairyCount);
 			}
 			fairy.kill();
 			getFairySound.play();
@@ -1268,7 +1229,6 @@ GamePlay.prototype = {
 				player.notCollectedYet = false;
 				player.fairyCount += 1;
 				player.health = 20;
-				console.log(player.fairyCount);
 			}
 			fairy.kill();
 			getFairySound.play();
@@ -1292,7 +1252,6 @@ var EndGame = function(game) {};
 EndGame.prototype ={
 	preload: function()
 	{
-		console.log('EndGame: preload');
 	},
 
 	create: function()
@@ -1344,10 +1303,8 @@ EndGame.prototype ={
 			preUnlock = false;
 			player = null;
 			finalBoss = null;
-			reverse = false;
 			inPlace = false;
 			gamePlayMusic = null;
-			resume = false;
 			loseMusic.stop();
 			game.state.start('menu');
 		}
@@ -1358,7 +1315,6 @@ var WinGame = function(game) {};
 WinGame.prototype ={
 	preload: function()
 	{
-		console.log('WinGame: preload');
 	},
 
 	create: function()
@@ -1394,10 +1350,8 @@ WinGame.prototype ={
 			preUnlock = false;
 			player = null;
 			finalBoss = null;
-			reverse = false;
 			inPlace = false;
 			gamePlayMusic = null;
-			resume = false;
 			winMusic.stop();
 			game.state.start('menu');
 		}
@@ -1421,7 +1375,6 @@ Credits.prototype ={
 	{
 		if(game.input.keyboard.justPressed(Phaser.Keyboard.BACKSPACE))
 		{
-			resume = true;
 			game.state.start('menu');
 		}
 	},
