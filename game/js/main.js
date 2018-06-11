@@ -48,7 +48,7 @@ menu.prototype = {
 	},
 	preload: function()
 	{
-		game.load.atlas('atlas', 'game/assets/img/atlas.png', 'game/assets/img/atlas.JSON');
+		game.load.atlas('atlas', 'game/assets/img/atlas.png', 'game/assets/img/atlas.json');
 		game.load.audio('title_music', 'game/assets/audio/title_music.wav'); //made by neolein
 	},
 
@@ -101,10 +101,10 @@ GamePlay.prototype = {
 
 	preload: function() 
 	{
-		game.load.atlas('atlas', 'game/assets/img/atlas.png', 'game/assets/img/atlas.JSON');
+		game.load.atlas('atlas', 'game/assets/img/atlas.png', 'game/assets/img/atlas.json');
 		game.load.audio('main_music', 'game/assets/audio/main_music.mp3'); //made by Whitesand on Youtube
 		game.load.audio('boss_music', 'game/assets/audio/boss_music.mp3'); //made by jobromedia
-		game.load.audio('win_music', 'game/assets/audio/win_music.wav'); //made by FunWithSound
+		game.load.audio('win_music', 'game/assets/audio/win_Music.wav'); //made by FunWithSound
 		game.load.audio('lose_music', 'game/assets/audio/lose_music.mp3'); //made by SoundFlakes
 		game.load.audio('jump', 'game/assets/audio/jump.wav'); //made by LloydEvans09
 		game.load.audio('waterProjectile', 'game/assets/audio/waterProjectile.wav'); //made by Mafon2
@@ -752,6 +752,43 @@ GamePlay.prototype = {
 				earthFairy = new Fairy(game, 'atlas', 'e0', 625, 325, 0.1, 'earth', platforms);
 				game.add.existing(earthFairy);
 				earthFairy.body.setSize(260, 260, 135, 135)
+
+				
+				//fairies trapped in a cage
+				fairy1 = game.add.sprite(580, game.world.height - 200, 'atlas', 'wselect');
+				fairy1.scale.setTo(0.1, 0.1);
+				game.physics.arcade.enable(fairy1);
+
+				fairy2 = game.add.sprite(600, game.world.height - 150, 'atlas', 'a3');
+				fairy2.scale.setTo(0.1, 0.1);
+				game.physics.arcade.enable(fairy2);
+
+				fairy3 = game.add.sprite(555, game.world.height - 120, 'atlas', 'fselect');
+				fairy3.scale.setTo(0.1, 0.1);
+				game.physics.arcade.enable(fairy3);
+
+				fairy4 = game.add.sprite(610, game.world.height - 100, 'atlas', 'e0');
+				fairy4.scale.setTo(0.1, 0.1);
+				game.physics.arcade.enable(fairy4);
+
+				fairy5 = game.add.sprite(630, game.world.height - 140, 'atlas', 'w0');
+				fairy5.scale.setTo(0.1, 0.1);
+				game.physics.arcade.enable(fairy5);
+
+				fairy6 = game.add.sprite(640, game.world.height - 180, 'atlas', 'eselect');
+				fairy6.scale.setTo(0.1, 0.1);
+				game.physics.arcade.enable(fairy6);
+
+				fairy7 = game.add.sprite(655, game.world.height - 115, 'atlas', 'aselect');
+				fairy7.scale.setTo(0.1, 0.1);
+				game.physics.arcade.enable(fairy7);
+
+				fairy8 = game.add.sprite(550, game.world.height - 180, 'atlas', 'f2');
+				fairy8.scale.setTo(0.1, 0.1);
+				game.physics.arcade.enable(fairy8);
+
+				cage = game.add.sprite(560, game.world.height - 192, 'atlas', 'cage');
+				cage.scale.setTo(0.15, 0.15);
 			}
 
 		} 
@@ -852,25 +889,47 @@ GamePlay.prototype = {
 		}
 		else if (state == 9) //logic for unlocking boss level
 		{
-			for (i = 0; i < monsters.length; i++)
+			if (monsters.children[0].cleared == true && monsters.children[1].cleared == true && 
+				monsters.children[2].cleared == true && monsters.children[3].cleared == true)
 			{
-				if (monsters.children[i].cleared == false)
-				{
-					unlock = false;
-					break;
-				}
-				else 
-				{
-					preUnlock = true;
-				}
+				preUnlock = true;
 			}
 			if (preUnlock == true && finalBoss.cleared == true)
 			{
 				unlock = true;
+
+				fairy1.body.velocity.y = -100;
+				fairy2.body.velocity.y = -100;
+				fairy3.body.velocity.y = -100;
+				fairy4.body.velocity.y = -100;
+				fairy5.body.velocity.y = -100;
+				fairy6.body.velocity.y = -100;
+				fairy7.body.velocity.y = -100;
+				fairy8.body.velocity.y = -100;
 			}
 		}
 
 		if (player.body.position.x > 1280 && unlock == true) //when the player advances to the next stage
+		{
+			repeat = true;
+			state += 1;
+			if (state == 10)
+			{
+				game.state.start('WinGame');
+			}
+			else if (state > 2)
+			{
+				game.state.start('GamePlay', true, false, player.hasElement, player.equippedElement, 
+					player.noneEquipped, player.currentIndex, player.health, player.notCollectedYet, player.fairyCount, nextMusic);
+			}
+			else 
+			{
+				game.state.start('GamePlay', true, false, player.hasElement, player.equippedElement, 
+					player.noneEquipped, player.currentIndex, player.health, player.notCollectedYet, player.fairyCount, gamePlayMusic, ghostMusic);
+			}
+		}
+
+		if (game.input.keyboard.justPressed(Phaser.Keyboard.M)) //when the player advances to the next stage
 		{
 			repeat = true;
 			state += 1;
