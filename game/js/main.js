@@ -929,26 +929,6 @@ GamePlay.prototype = {
 			}
 		}
 
-		if (game.input.keyboard.justPressed(Phaser.Keyboard.M)) //when the player advances to the next stage
-		{
-			repeat = true;
-			state += 1;
-			if (state == 10)
-			{
-				game.state.start('WinGame');
-			}
-			else if (state > 2)
-			{
-				game.state.start('GamePlay', true, false, player.hasElement, player.equippedElement, 
-					player.noneEquipped, player.currentIndex, player.health, player.notCollectedYet, player.fairyCount, nextMusic);
-			}
-			else 
-			{
-				game.state.start('GamePlay', true, false, player.hasElement, player.equippedElement, 
-					player.noneEquipped, player.currentIndex, player.health, player.notCollectedYet, player.fairyCount, gamePlayMusic, ghostMusic);
-			}
-		}
-
 		if (player.body.position.x < 0 && unlock == true)
 		{
 			player.body.position.x = 0;
